@@ -1,6 +1,5 @@
 const ws281x = require('rpi-ws281x-native');
-//const pixels = require('./simplerainbow');
-const pixels = require('./marios');
+const getImage = require('./getImage');
 
 
 const NUM_LEDS = 8;
@@ -15,16 +14,16 @@ process.on('SIGINT', () => {
 
 
 const FPS = 30;
-
+const pixels = getImage('assets/mario.png');
 
 // ---- animation-loop
-var offset = 0;
+let offset = 0;
 setInterval(() => {
-  for (var i = 0; i < NUM_LEDS; i++) {
+  for (let i = 0; i < NUM_LEDS; i++) {
 
     // for 'simplerainbow'
     // pixelData[i] = pixels[(i + offset) % pixels.length];
-    
+
     // por 'marios'
     pixelData[i] = pixels[offset][i];
   }
