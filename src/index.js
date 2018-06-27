@@ -14,7 +14,7 @@ process.on('SIGINT', () => {
 
 
 const FPS = 30;
-const pixels = getImage('assets/mario.png');
+const pixels = getImage('assets/x8lems.png');
 
 // ---- animation-loop
 let offset = 0;
