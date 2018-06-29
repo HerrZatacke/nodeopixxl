@@ -4,6 +4,7 @@
   "description": "Addressing neopixels on a raspberry pi via nodejs",
   "main": "src/index.js",
   "scripts": {
+    "service": "node src/service.js",
     "start": "node src/index.js"
   },
   "author": "Herr Zatacke",
@@ -12,6 +13,7 @@
     "rpi-ws281x-native": "^0.8.2"
   },
   "dependencies": {
+    "node-ipc": "^9.1.1",
     "png-img": "^2.1.1"
   }
 }
