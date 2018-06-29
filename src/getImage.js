@@ -3,12 +3,11 @@ const path = require('path');
 const PngImg = require('png-img');
 const rgb2int = require('./rgb2int');
 
-const getImage = (filename) => {
+const getImage = (brightness, filename) => {
   const buf = fs.readFileSync(path.join(process.cwd(), filename));
   const img = new PngImg(buf);
   const { width, height } = img.size();
 
-  const BRIGHTNESS = 0.2;
   const pixels = [];
 
   for (let x = 0; x < width; x++) {
@@ -18,9 +17,9 @@ const getImage = (filename) => {
 
       let { r, g, b } = img.get(x, y);
 
-      r = parseInt(r * BRIGHTNESS, 10);
-      g = parseInt(g * BRIGHTNESS, 10);
-      b = parseInt(b * BRIGHTNESS, 10);
+      r = parseInt(r * brightness, 10);
+      g = parseInt(g * brightness, 10);
+      b = parseInt(b * brightness, 10);
 
       col.push(rgb2int(r, g, b));
     }
