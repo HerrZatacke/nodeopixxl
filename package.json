@@ -8,7 +8,7 @@
     "start": "node src/index.js"
   },
   "author": "Herr Zatacke",
-  "license": "ISC",
+  "private": true,
   "devDependencies": {
     "rpi-ws281x-native": "^0.8.2"
   },
