@@ -95,7 +95,9 @@ class Service {
     }
     this.renderTimeout = global.setTimeout(() => {
 
-      process.stdout.write(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}\r`);
+      // process.stdout.write(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}\r`);
+      console.log(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}`);
+
       ws281x.render(new Uint32Array(this.pixels[this.offset]));
 
       this.offset = (this.offset + 1) % this.pixels.length;
