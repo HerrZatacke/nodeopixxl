@@ -43,8 +43,11 @@ class Writer {
       }
       this.socket.emit('nodeopixxl-stop');
       global.setTimeout(() => {
-        this.socket.emit('nodeopixxl-imagedata', pixels);
+        this.socket.emit('nodeopixxl-imagedata', [[]]);
       }, 50);
+      global.setTimeout(() => {
+        this.socket.emit('nodeopixxl-imagedata', pixels);
+      }, 100);
     }
   }
 
