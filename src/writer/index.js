@@ -41,7 +41,10 @@ class Writer {
       if (pixels[0].length !== 160) {
         return;
       }
-      this.socket.emit('nodeopixxl-imagedata', pixels);
+      this.socket.emit('nodeopixxl-stop');
+      global.setTimeout(() => {
+        this.socket.emit('nodeopixxl-imagedata', pixels);
+      }, 50);
     }
   }
 
