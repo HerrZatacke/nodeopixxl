@@ -24,6 +24,7 @@ class Service {
   constructor() {
     this.socket = null;
     this.renderTimeout = null;
+    this.loadTimeout = null;
     this.fps = 30;
     this.pixels = [[]];
     this.offset = 0;
@@ -34,9 +35,11 @@ class Service {
 
       ipc.server.on('nodeopixxl-imagefile', (imagePath) => {
         this.stopAnimation();
+        console.log(`loading file ${imagePath}`);
 
         // read a file after a 2 frame delay
-        setTimeout(() => {
+        global.clearTimeout(this.loadTimeout);
+        this.loadTimeout = global.setTimeout(() => {
           Jimp.read(imagePath)
             .then((image) => {
               this.pixels = getPixels(image.bitmap);
@@ -83,7 +86,6 @@ class Service {
     global.clearTimeout(this.renderTimeout);
     this.renderTimeout = null;
     this.offset = 0;
-    process.stdout.write('\r\n');
     ws281x.render(new Uint32Array(NUM_LEDS));
   }
 
