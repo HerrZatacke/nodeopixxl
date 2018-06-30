@@ -31,7 +31,13 @@ class Writer {
   }
 
   setImageFile(imagePath) {
+    if (!this.canStart) {
+      console.log('running');
+      return;
+    }
+
     this.stopAnimation();
+
     if (!this.canAcceptNewImage) {
       console.log('busy loading');
       return;
