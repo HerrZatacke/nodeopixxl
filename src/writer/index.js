@@ -93,9 +93,15 @@ class Writer {
 
       const column = this.pixels[this.offset];
 
-      const textRow = column.map((color) => (
-        !color ? ' ' : chalk.hex(`#${`00000${color.toString(16)}`.slice(-6)}`)('▒') // ░▒▓█
-      ));
+      const textRow = column.map((color, index) => {
+        if (index > 7) {
+          return '';
+        }
+        if (color === 0) {
+          return ' ';
+        }
+        return chalk.hex(`#${`00000${color.toString(16)}`.slice(-6)}`)('▓▓') // ░▒▓█
+      });
       console.log(textRow.join(''));
 
       ws281x.render(new Uint32Array(column));
