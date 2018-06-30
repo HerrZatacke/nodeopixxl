@@ -1,52 +1,62 @@
 const ipc = require('node-ipc');
-const getImage = require('./getPixels');
+const getPixels = require('./getPixels');
 const ipcConfig = require('./ipcConfig');
 
 Object.assign(ipc.config, ipcConfig);
 
-const BRIGHTNESS = 1;
-const pixels = getImage(BRIGHTNESS, 'assets/woggle.png');
-
-ipc.connectToNet('nodeopixxl', () => {
-  const npx = ipc.of.nodeopixxl;
-
-  if (!npx) {
-    process.exit(1);
+class Writer {
+  constructor() {
+    this.socket = null;
   }
 
-  npx.on('connect', () => {
-    console.log('## connected ##');
-    npx.emit('nodeopixxl-imagedata', pixels);
+  init() {
+    ipc.connectToNet('nodeopixxl', () => {
+      this.socket = ipc.of.nodeopixxl;
+      this.addIPCBindings();
+    });
+  }
 
-    global.setTimeout(() => {
-      npx.emit('nodeopixxl-start');
-    }, 2000);
+  addIPCBindings() {
+    this.socket.on('connect', () => {
+      console.log('## connected ##');
+      this.socket.emit('nodeopixxl-imagedata', [[]]);
+    });
 
-    global.setTimeout(() => {
-      npx.emit('nodeopixxl-fps', 10);
-    }, 4000);
+    this.socket.on('disconnect', () => {
+      console.log('i miss da serverz');
+    });
 
-    global.setTimeout(() => {
-      npx.emit('nodeopixxl-fps', 100);
-    }, 9000);
+    this.socket.on('nodeopixxl-wrap', () => {
+      console.log('wrap!');
+    });
+    // too much?
+    // this.socket.on('nodeopixxl-index', data => {
+    //   console.log(`@${data}`);
+    // });
+  }
 
-    global.setTimeout(() => {
-      npx.emit('nodeopixxl-stop');
-    }, 16000);
+  setPixels(bitmap) {
+    if (bitmap) {
+      this.socket.emit('nodeopixxl-imagedata', getPixels(bitmap));
+    }
+  }
 
-  });
+  start() {
+    this.socket.emit('nodeopixxl-start');
+  }
 
-  npx.on('disconnect', () => {
-    console.log('i miss da serverz');
-  });
+  stop() {
+    this.socket.emit('nodeopixxl-stop');
+  }
 
-  npx.on('nodeopixxl-wrap', () => {
-    console.log('wrap!');
-  });
+  setFPS(fps = 30) {
+    this.socket.emit('nodeopixxl-fps', fps);
+  }
+}
 
-  // too much?
-  // npx.on('nodeopixxl-index', data => {
-  //   console.log(`@${data}`);
-  // });
+let writer;
+const getWriter = () => {
+  return writer || new Writer();
+};
 
-});
+module.exports = getWriter();

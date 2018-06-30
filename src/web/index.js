@@ -1,4 +1,5 @@
 const express = require('express');
+const writer = require('../writer');
 
 const multer = require('multer');
 const mwParseImage = require('./mw/parseImage');
@@ -7,6 +8,7 @@ const mwStatic = require('./mw/static');
 const mwError = require('./mw/error');
 
 const server = express();
+writer.init();
 
 server.post('/newfile', multer({ dest: '.tmp/' }).single('image'));
 server.post('/newfile', mwParseImage);

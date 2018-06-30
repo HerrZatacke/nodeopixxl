@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const Jimp = require('jimp');
 
-const getPixels = require('../../writer/getPixels');
+const writer = require('../../writer');
 
 const mwParseImage = (req, res, next) => {
 
@@ -11,7 +11,7 @@ const mwParseImage = (req, res, next) => {
   Jimp.read(imagePath)
     .then((image) => {
 
-      const pixels = getPixels(image.bitmap);
+      writer.setPixels(image.bitmap);
 
       res.json({
         width: image.bitmap.width,
