@@ -18,11 +18,11 @@ class Writer {
   }
 
   init() {
+    ws281x.init(NUM_LEDS);
+
 // trap the SIGINT and reset before exit
     process.on('SIGINT', () => {
-      try {
-        ws281x.reset();
-      } catch (err) { /* */ }
+      ws281x.reset();
       process.nextTick(() => {
         process.exit(0);
       });
@@ -59,7 +59,6 @@ class Writer {
 
   start() {
     console.log('start');
-    ws281x.init(NUM_LEDS);
     this.startAnimation();
   }
 
@@ -78,10 +77,7 @@ class Writer {
     global.clearTimeout(this.renderTimeout);
     this.renderTimeout = null;
     this.offset = 0;
-    try {
-      ws281x.reset();
-    } catch (err) { /* */  }
-    // ws281x.render(new Uint32Array(NUM_LEDS));
+    ws281x.render(new Uint32Array(NUM_LEDS));
   }
 
   startAnimation() {
