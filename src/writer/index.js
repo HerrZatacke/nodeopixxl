@@ -1,5 +1,6 @@
 const fs = require('fs');
 const ws281x = require('rpi-ws281x-native');
+const chalk = require('chalk');
 const Jimp = require('jimp');
 const getPixels = require('./getPixels');
 
@@ -88,9 +89,16 @@ class Writer {
     this.renderTimeout = global.setTimeout(() => {
 
       // process.stdout.write(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}\r`);
-      console.log(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}`);
+      // console.log(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}`);
 
-      ws281x.render(new Uint32Array(this.pixels[this.offset]));
+      const column = this.pixels[this.offset];
+
+      const textRow = column.map((color) => (
+        !color ? ' ' : chalk.hex(`#${`00000${color.toString(16)}`.slice(-6)}`)('▒') // ░▒▓█
+      ));
+      console.log(textRow.join(''));
+
+      ws281x.render(new Uint32Array(column));
 
       this.offset = (this.offset + 1) % this.pixels.length;
 
