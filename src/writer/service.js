@@ -28,6 +28,7 @@ class Service {
     this.fps = 30;
     this.pixels = [[]];
     this.offset = 0;
+    this.canAcceptNewImage = true;
   }
 
   start() {
@@ -35,7 +36,13 @@ class Service {
 
       ipc.server.on('nodeopixxl-imagefile', (imagePath) => {
         this.stopAnimation();
+        if (!this.canAcceptNewImage) {
+          console.log('busy loading');
+          return;
+        }
+
         console.log(`loading file ${imagePath}`);
+        this.canAcceptNewImage = false;
 
         // read a file after a second
         global.clearTimeout(this.loadTimeout);
@@ -50,6 +57,7 @@ class Service {
             })
             .then((image) => {
               fs.unlinkSync(imagePath);
+              this.canAcceptNewImage = true;
             });
         }, 1000);
 
