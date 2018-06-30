@@ -1,5 +1,6 @@
 const ipc = require('node-ipc');
 const ws281x = require('rpi-ws281x-native');
+const ipcConfig = require('./ipcConfig');
 
 const NUM_LEDS = 160;
 
@@ -19,12 +20,7 @@ let pixels = [[]];
 let offset = 0;
 let renderInterval = null;
 
-ipc.config.id = 'nodeopixxl';
-ipc.config.retry = 1500;
-ipc.config.silent = true;
-ipc.config.tls = {
-  rejectUnauthorized: false
-};
+Object.assign(ipc.config, ipcConfig);
 
 ipc.serveNet(() => {
   ipc.server.on('nodeopixxl-imagedata', (data) => {

@@ -1,15 +1,11 @@
-const ipc=require('node-ipc');
+const ipc = require('node-ipc');
 const getImage = require('./getImage');
+const ipcConfig = require('./ipcConfig');
+
+Object.assign(ipc.config, ipcConfig);
 
 const BRIGHTNESS = 1;
 const pixels = getImage(BRIGHTNESS, 'assets/woggle.png');
-
-ipc.config.id = 'nodeopixxl';
-ipc.config.retry = 5000;
-ipc.config.silent = true;
-ipc.config.tls = {
-  rejectUnauthorized:false
-};
 
 ipc.connectToNet('nodeopixxl', () => {
   const npx = ipc.of.nodeopixxl;
