@@ -56,8 +56,10 @@
         method: 'POST',
         body: form,
       })
-        .then((data) => {
-          console.log(data);
+        .then(data => data.text())
+        .then(body => console.log(body))
+        .catch(err => {
+          console.error(err)
         })
     });
 
