@@ -22,7 +22,6 @@
     const startButton = document.querySelector('#start-image');
     const stopButton = document.querySelector('#stop-image');
     const img = new Image();
-    const reader = new FileReader();
     const ctx = canvas.getContext('2d');
 
     const out = (res) => {
@@ -33,11 +32,30 @@
         });
     };
 
+    const getScaledImageBlob = () => {
+      return new Promise((resolve, reject) => {
+        try {
+          const filename = fileInput.files[0].name.toLowerCase().replace(/[\W]*/gi, '');
+          if (canvas.toBlob) {
+            canvas.toBlob(blob => resolve(blob), 'image/png');
+          } else {
+            resolve(canvas.msToBlob());
+          }
+        } catch (error) {
+          reject(error);
+        }
+      });
+    };
+
     fileInput.addEventListener('change', (ev) => {
       ev.preventDefault();
       useImageButton.disabled = true;
       startButton.disabled = true;
       stopButton.disabled = true;
+
+      ctx.fillRect(0,0, canvas.width, canvas.height);
+
+      const reader = new FileReader();
 
       reader.onload = (ev) => {
         if(ev.target.readyState === FileReader.DONE) {
@@ -57,16 +75,19 @@
         }
       };
 
-      reader.readAsDataURL(fileInput.files[0]);
+      if (fileInput.files && fileInput.files[0]) {
+        reader.readAsDataURL(fileInput.files[0]);
+      }
     });
 
-
     useImageButton.addEventListener('click', () => {
-      const form = new FormData();
-      form.append('image', fileInput.files[0]);
-      fetch('/newfile', {
-        method: 'POST',
-        body: form,
+      getScaledImageBlob().then(blob => {
+        const form = new FormData();
+        form.append('image', blob);
+        return fetch('/newfile', {
+          method: 'POST',
+          body: form,
+        })
       })
         .then(out);
     });
