@@ -18,8 +18,6 @@ class Writer {
   }
 
   init() {
-    ws281x.init(NUM_LEDS);
-
 // trap the SIGINT and reset before exit
     process.on('SIGINT', () => {
       ws281x.reset();
@@ -59,6 +57,7 @@ class Writer {
 
   start() {
     console.log('start');
+    ws281x.init(NUM_LEDS);
     this.startAnimation();
   }
 
@@ -77,7 +76,8 @@ class Writer {
     global.clearTimeout(this.renderTimeout);
     this.renderTimeout = null;
     this.offset = 0;
-    ws281x.render(new Uint32Array(NUM_LEDS));
+    ws281x.reset();
+    // ws281x.render(new Uint32Array(NUM_LEDS));
   }
 
   startAnimation() {
