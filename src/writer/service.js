@@ -24,6 +24,7 @@ Object.assign(ipc.config, ipcConfig);
 
 ipc.serveNet(() => {
   ipc.server.on('nodeopixxl-imagedata', (data) => {
+    stopAnimation();
     pixels = data;
     console.log(`received pixels ${data.length}x${data[0].length}`);
   });
@@ -43,18 +44,21 @@ ipc.serveNet(() => {
 
   ipc.server.on('nodeopixxl-stop', () => {
     console.log('stahpp!!');
-    global.clearInterval(renderInterval);
-    renderInterval = null;
-    ws281x.render(new Uint32Array(NUM_LEDS));
+    stopAnimation();
   });
 
   ipc.server.on('socket.disconnected', () => {
     console.log('disco!');
-    global.clearInterval(renderInterval);
-    renderInterval = null;
-    ws281x.render(new Uint32Array(NUM_LEDS));
+    stopAnimation();
   });
 });
+
+const stopAnimation = () => {
+  global.clearInterval(renderInterval);
+  renderInterval = null;
+  offset = 0;
+  ws281x.render(new Uint32Array(NUM_LEDS));
+};
 
 const startAnimation = (socket) => {
   global.clearInterval(renderInterval);
