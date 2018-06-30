@@ -37,7 +37,7 @@ class Service {
         this.stopAnimation();
         console.log(`loading file ${imagePath}`);
 
-        // read a file after a 2 frame delay
+        // read a file after a second
         global.clearTimeout(this.loadTimeout);
         this.loadTimeout = global.setTimeout(() => {
           Jimp.read(imagePath)
@@ -51,7 +51,7 @@ class Service {
             .then((image) => {
               fs.unlinkSync(imagePath);
             });
-        }, 500 / this.fps);
+        }, 1000);
 
       });
 
