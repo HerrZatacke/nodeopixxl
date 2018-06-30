@@ -15,6 +15,7 @@ class Writer {
     this.pixels = [[]];
     this.offset = 0;
     this.canAcceptNewImage = true;
+    this.canStart = true;
   }
 
   init() {
@@ -58,8 +59,14 @@ class Writer {
   }
 
   start() {
+    if (!this.canStart) {
+      return;
+    }
+    this.canStart = false;
     console.log('start');
-    this.startAnimation();
+    global.setTimeout(() => {
+      this.startAnimation();
+    }, 1000)
   }
 
   stop() {
@@ -76,6 +83,7 @@ class Writer {
   stopAnimation() {
     global.clearTimeout(this.renderTimeout);
     this.renderTimeout = null;
+    this.canStart = true;
     this.offset = 0;
     ws281x.render(new Uint32Array(NUM_LEDS));
   }
@@ -113,6 +121,12 @@ class Writer {
         this.startAnimation();
       } else {
         this.stopAnimation();
+        this.canStart = false;
+        ws281x.reset();
+        global.setTimeout(() => {
+          this.canStart = true;
+          ws281x.init(NUM_LEDS);
+        }, 1000);
       }
 
     }, 1000 / this.fps);
