@@ -4,7 +4,7 @@ const express = require('express');
 const multer = require('multer');
 const Jimp = require('jimp');
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: '.tmp/' });
 
 const server = express();
 
