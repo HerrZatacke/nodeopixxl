@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const multer = require('multer');
 const Jimp = require('jimp');
@@ -13,18 +14,19 @@ server.post('/newfile', upload.single('image'), (req, res, next) => {
   const imagePath = path.join(process.cwd(), req.file.path);
 
   Jimp.read(imagePath)
-    .then(function (image) {
-      console.log(image);
-      console.log(2);
+    .then((image) => {
       console.log(new Uint8ClampedArray(image.bitmap.data));
       res.json({
         width: image.bitmap.width,
         height: image.bitmap.height,
       });
     })
-    .catch(function (err) {
+    .catch((err) => {
       console.log(err.message);
       next(err);
+    })
+    .then((image) => {
+      fs.unlinkSync(imagePath);
     });
 
 
