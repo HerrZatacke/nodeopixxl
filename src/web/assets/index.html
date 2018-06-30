@@ -7,28 +7,41 @@
   </head>
   <body>
     <input type="file" />
-    <button>Lös</button>
     <br />
     <canvas></canvas>
+    <br />
+    <button disabled id="use-image">Bild verwenden</button>
+    <button disabled id="start-image">Start</button>
+    <button disabled id="stop-image">Stop</button>
   </body>
   <script>
 
     const fileInput = document.querySelector('input[type=file]');
     const canvas = document.querySelector('canvas');
-    const button = document.querySelector('button');
+    const useImageButton = document.querySelector('#use-image');
+    const startButton = document.querySelector('#start-image');
+    const stopButton = document.querySelector('#stop-image');
     const img = new Image();
     const reader = new FileReader();
     const ctx = canvas.getContext('2d');
 
+    const out = (res) => {
+      res.text()
+        .then(body => console.log(body))
+        .catch(err => {
+          console.error(err)
+        });
+    };
+
     fileInput.addEventListener('change', (ev) => {
       ev.preventDefault();
+      useImageButton.disabled = true;
+      startButton.disabled = true;
+      stopButton.disabled = true;
 
       reader.onload = (ev) => {
         if(ev.target.readyState === FileReader.DONE) {
-          console.log(7);
           img.onload = () => {
-
-
             canvas.width = img.naturalWidth / img.naturalHeight * 160;
             canvas.height = 160;
 
@@ -36,6 +49,9 @@
             canvas.style.height = `${canvas.height}px`;
 
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            useImageButton.disabled = false;
+            startButton.disabled = false;
+            stopButton.disabled = false;
           };
           img.src = ev.target.result;
         }
@@ -45,22 +61,22 @@
     });
 
 
-    button.addEventListener('click', () => {
-
-      // const ida = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
+    useImageButton.addEventListener('click', () => {
       const form = new FormData();
       form.append('image', fileInput.files[0]);
-
       fetch('/newfile', {
         method: 'POST',
         body: form,
       })
-        .then(data => data.text())
-        .then(body => console.log(body))
-        .catch(err => {
-          console.error(err)
-        })
+        .then(out);
+    });
+
+    startButton.addEventListener('click', () => {
+      fetch('/control/start').then(out);
+    });
+
+    stopButton.addEventListener('click', () => {
+      fetch('/control/stop').then(out);
     });
 
   </script>
