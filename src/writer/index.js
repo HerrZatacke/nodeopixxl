@@ -1,5 +1,5 @@
 const ipc = require('node-ipc');
-const getImage = require('./getImage');
+const getImage = require('./getPixels');
 const ipcConfig = require('./ipcConfig');
 
 Object.assign(ipc.config, ipcConfig);
