@@ -37,7 +37,11 @@ class Writer {
 
   setPixels(bitmap) {
     if (bitmap) {
-      this.socket.emit('nodeopixxl-imagedata', getPixels(bitmap));
+      const pixels = getPixels(bitmap);
+      if (pixels[0].length !== 160) {
+        return;
+      }
+      this.socket.emit('nodeopixxl-imagedata', pixels);
     }
   }
 
