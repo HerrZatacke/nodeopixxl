@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <title>Nodeopixxl</title>
+  </head>
+  <body>
+    <input type="file" />
+    <button>Lös</button>
+    <br />
+    <canvas></canvas>
+  </body>
+  <script>
+
+    const fileInput = document.querySelector('input[type=file]');
+    const canvas = document.querySelector('canvas');
+    const button = document.querySelector('button');
+    const img = new Image();
+    const reader = new FileReader();
+    const ctx = canvas.getContext('2d');
+
+    fileInput.addEventListener('change', (ev) => {
+      ev.preventDefault();
+
+      reader.onload = (ev) => {
+        if(ev.target.readyState === FileReader.DONE) {
+          console.log(7);
+          img.onload = () => {
+
+
+            canvas.width = img.naturalWidth / img.naturalHeight * 160;
+            canvas.height = 160;
+
+            canvas.style.width = `${canvas.width}px`;
+            canvas.style.height = `${canvas.height}px`;
+
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          };
+          img.src = ev.target.result;
+        }
+      };
+
+      reader.readAsDataURL(fileInput.files[0]);
+    });
+
+
+    button.addEventListener('click', () => {
+
+      // const ida = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      const form = new FormData();
+      form.append('image', fileInput.files[0]);
+
+      fetch('/newfile', {
+        method: 'POST',
+        body: form,
+      })
+        .then((data) => {
+          console.log(data);
+        })
+    });
+
+  </script>
+</html>
