@@ -2,10 +2,9 @@
   "name": "nodeopixxl",
   "version": "0.0.1",
   "description": "Addressing neopixels on a raspberry pi via nodejs",
-  "main": "src/index.js",
   "scripts": {
-    "service": "node src/service.js",
-    "start": "node src/index.js"
+    "service": "node src/writer/service.js",
+    "start": "node src/writer/index.js"
   },
   "author": "Herr Zatacke",
   "private": true,
