@@ -128,11 +128,9 @@ class Writer {
       } else {
         this.stopAnimation();
         this.canStart = false;
-        ws281x.reset();
         global.setTimeout(() => {
           this.canStart = true;
-          ws281x.init(NUM_LEDS);
-        }, 1000);
+        }, 500);
       }
 
     }, 1000 / this.fps);
