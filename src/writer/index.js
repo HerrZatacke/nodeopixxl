@@ -91,7 +91,8 @@ class Writer {
       // process.stdout.write(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}\r`);
       console.log(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}`);
 
-      const column = this.pixels[this.offset];
+      // clone array -> does this help against the crashes?
+      const column = [...this.pixels[this.offset]];
 
       // const textRow = column.map((color, index) => {
       //   if (index > 7) {
