@@ -15,7 +15,7 @@ process.on('SIGINT', () => {
 });
 
 
-let fps = 45;
+let fps = 30;
 let pixels = [[]];
 let offset = 0;
 let renderInterval = null;
@@ -31,7 +31,9 @@ ipc.serveNet(() => {
   ipc.server.on('nodeopixxl-fps', (data, socket) => {
     console.log(`newfps: ${data}`);
     fps = data;
-    startAnimation(socket);
+    if (renderInterval) {
+      startAnimation(socket);
+    }
   });
 
   ipc.server.on('nodeopixxl-start', (data, socket) => {
@@ -42,12 +44,14 @@ ipc.serveNet(() => {
   ipc.server.on('nodeopixxl-stop', () => {
     console.log('stahpp!!');
     global.clearInterval(renderInterval);
+    renderInterval = null;
     ws281x.render(new Uint32Array(NUM_LEDS));
   });
 
   ipc.server.on('socket.disconnected', () => {
     console.log('disco!');
     global.clearInterval(renderInterval);
+    renderInterval = null;
     ws281x.render(new Uint32Array(NUM_LEDS));
   });
 });

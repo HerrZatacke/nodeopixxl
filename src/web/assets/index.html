@@ -11,8 +11,13 @@
     <canvas></canvas>
     <br />
     <button disabled id="use-image">Bild verwenden</button>
+    <br />
     <button disabled id="start-image">Start</button>
     <button disabled id="stop-image">Stop</button>
+    <br />
+    <input type="number" value="30" id="fps" min="1" max="240" step="1" title="Set FPS"/>
+    <button id="set-fps">Set FPS</button>
+    <br />
   </body>
   <script>
 
@@ -21,6 +26,8 @@
     const useImageButton = document.querySelector('#use-image');
     const startButton = document.querySelector('#start-image');
     const stopButton = document.querySelector('#stop-image');
+    const setFPSButton = document.querySelector('#set-fps');
+    const fpsInput = document.querySelector('#fps');
     const img = new Image();
     const ctx = canvas.getContext('2d');
 
@@ -98,6 +105,10 @@
 
     stopButton.addEventListener('click', () => {
       fetch('/control/stop').then(out);
+    });
+
+    setFPSButton.addEventListener('click', () => {
+      fetch(`/control/fps/${fpsInput.value}`).then(out);
     });
 
   </script>

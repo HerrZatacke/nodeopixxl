@@ -14,7 +14,7 @@ writer.init();
 server.post('/newfile', multer({ dest: '.tmp/' }).single('image'));
 server.post('/newfile', mwParseImage);
 server.get('/status', mwStatus);
-server.get('/control/:action', mwControl);
+server.get(['/control/:action', '/control/:action/:value'], mwControl);
 server.get('/', mwStatic);
 server.use(mwError);
 

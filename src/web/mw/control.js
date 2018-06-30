@@ -9,6 +9,9 @@ const mwControl = (req, res) => {
     case 'stop':
       writer.stop();
       break;
+    case 'fps':
+      writer.setFPS(req.params.value || 30);
+      break;
     default:
       break;
   }
