@@ -1,5 +1,4 @@
 const ipc = require('node-ipc');
-const getPixels = require('./getPixels');
 const ipcConfig = require('./ipcConfig');
 
 Object.assign(ipc.config, ipcConfig);
@@ -35,20 +34,8 @@ class Writer {
     // });
   }
 
-  setPixels(bitmap) {
-    if (bitmap) {
-      const pixels = getPixels(bitmap);
-      if (pixels[0].length !== 160) {
-        return;
-      }
-      this.socket.emit('nodeopixxl-stop');
-      global.setTimeout(() => {
-        this.socket.emit('nodeopixxl-imagedata', [[]]);
-      }, 50);
-      global.setTimeout(() => {
-        this.socket.emit('nodeopixxl-imagedata', pixels);
-      }, 100);
-    }
+  setImageFile(imagepath) {
+    this.socket.emit('nodeopixxl-imagefile', imagepath);
   }
 
   start() {

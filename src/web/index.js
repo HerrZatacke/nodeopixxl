@@ -2,7 +2,7 @@ const express = require('express');
 const writer = require('../writer');
 
 const multer = require('multer');
-const mwParseImage = require('./mw/parseImage');
+const mwSetImage = require('./mw/setImage');
 const mwStatus = require('./mw/status');
 const mwStatic = require('./mw/static');
 const mwControl = require('./mw/control');
@@ -12,7 +12,7 @@ const server = express();
 writer.init();
 
 server.post('/newfile', multer({ dest: '.tmp/' }).single('image'));
-server.post('/newfile', mwParseImage);
+server.post('/newfile', mwSetImage);
 server.get('/status', mwStatus);
 server.get(['/control/:action', '/control/:action/:value'], mwControl);
 server.get('/', mwStatic);

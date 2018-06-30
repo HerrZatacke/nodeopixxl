@@ -1,6 +1,9 @@
+const fs = require('fs');
 const ipc = require('node-ipc');
 const ws281x = require('rpi-ws281x-native');
+const Jimp = require('jimp');
 const ipcConfig = require('./ipcConfig');
+const getPixels = require('./getPixels');
 
 const NUM_LEDS = 160;
 
@@ -23,10 +26,20 @@ let renderInterval = null;
 Object.assign(ipc.config, ipcConfig);
 
 ipc.serveNet(() => {
-  ipc.server.on('nodeopixxl-imagedata', (data) => {
+  ipc.server.on('nodeopixxl-imagefile', (imagePath) => {
     stopAnimation();
-    pixels = data;
-    console.log(`received pixels ${data.length}x${data[0].length}`);
+
+    Jimp.read(imagePath)
+      .then((image) => {
+        pixels = getPixels(image.bitmap);
+        console.log(`received pixels ${pixels.length}x${pixels[0].length}`);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      })
+      .then((image) => {
+        fs.unlinkSync(imagePath);
+      });
   });
 
   ipc.server.on('nodeopixxl-fps', (data, socket) => {
