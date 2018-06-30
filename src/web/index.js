@@ -1,26 +1,50 @@
 const path = require('path');
 const express = require('express');
 const multer = require('multer');
-const pngparse = require('pngparse');
+const Jimp = require('jimp');
 
 const upload = multer({ dest: 'uploads/' });
 
 const server = express();
 
-server.get('/', express.static(path.join(process.cwd(), 'src', 'web', 'assets')));
 
-server.post('/newfile', upload.single('image'), (req, res) => {
-  pngparse.parseFile(path.join(process.cwd(), req.file.path), function(er, imageData) {
-    if (er) {
-      throw er;
-    }
+server.post('/newfile', upload.single('image'), (req, res, next) => {
 
-    console.log(new Uint8ClampedArray(imageData.data));
+  const imagePath = path.join(process.cwd(), req.file.path);
 
-    res.send('thanks for the file');
-  });
+  Jimp.read(imagePath)
+    .then(function (image) {
+      console.log(image);
+      console.log(2);
+      console.log(new Uint8ClampedArray(image.bitmap.data));
+      res.json({
+        width: image.bitmap.width,
+        height: image.bitmap.height,
+      });
+    })
+    .catch(function (err) {
+      console.log(err.message);
+      next(err);
+    });
+
 
 });
+
+
+server.get('/status', (req, res) => {
+  res.json({a:23});
+});
+
+server.get('/', express.static(path.join(process.cwd(), 'src', 'web', 'assets')));
+
+// see: https://expressjs.com/en/guide/using-middleware.html#middleware.error-handling
+// eslint-disable-next-line no-unused-vars
+server.use((error, req, res, next) => {
+  console.log(error.message);
+  res.status(500);
+  res.send(error.stack);
+});
+
 
 server.listen(3000, () => {
   console.log('Example server listening on port 3000!');
