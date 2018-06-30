@@ -89,20 +89,20 @@ class Writer {
     this.renderTimeout = global.setTimeout(() => {
 
       // process.stdout.write(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}\r`);
-      // console.log(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}`);
+      console.log(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}`);
 
       const column = this.pixels[this.offset];
 
-      const textRow = column.map((color, index) => {
-        if (index > 7) {
-          return '';
-        }
-        if (color === 0) {
-          return ' ';
-        }
-        return chalk.hex(`#${`00000${color.toString(16)}`.slice(-6)}`)('▓▓') // ░▒▓█
-      });
-      console.log(textRow.join(''));
+      // const textRow = column.map((color, index) => {
+      //   if (index > 7) {
+      //     return '';
+      //   }
+      //   if (color === 0) {
+      //     return ' ';
+      //   }
+      //   return chalk.hex(`#${`00000${color.toString(16)}`.slice(-6)}`)('▓▓') // ░▒▓█
+      // });
+      // console.log(textRow.join(''));
 
       ws281x.render(new Uint32Array(column));
 
@@ -110,6 +110,8 @@ class Writer {
 
       if (this.offset !== 0) {
         this.startAnimation();
+      } else {
+        this.stopAnimation();
       }
 
     }, 1000 / this.fps);
