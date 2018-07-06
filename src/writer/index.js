@@ -19,7 +19,19 @@ class Writer {
   }
 
   init() {
-    ws281x.init(NUM_LEDS);
+    const channels = ws281x.init({
+      dma: 10,
+      freq: 800000,
+      channels: [
+        {
+          count: 160,
+          gpio: 18,
+          invert: false,
+          brightness: 255,
+          stripType: ws281x.stripType.WS2812
+        },
+      ],
+    });
 
 // trap the SIGINT and reset before exit
     process.on('SIGINT', () => {
