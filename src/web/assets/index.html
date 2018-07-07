@@ -27,6 +27,7 @@
     <canvas></canvas>
     <br />
     <button disabled id="use-image">Bild verwenden</button>
+    <button disabled id="hugh-jazz">Hugh Jazz</button>
     <br />
     <button disabled id="start-image">Start</button>
     <button disabled id="stop-image">Stop</button>
@@ -39,6 +40,7 @@
       const fileInput = document.querySelector('input[type=file]');
       const canvas = document.querySelector('canvas');
       const useImageButton = document.querySelector('#use-image');
+      const hughJazzButton = document.querySelector('#hugh-jazz');
       const startButton = document.querySelector('#start-image');
       const stopButton = document.querySelector('#stop-image');
       const setFPSButton = document.querySelector('#set-fps');
@@ -83,6 +85,7 @@
         useImageButton.disabled = true;
         startButton.disabled = true;
         stopButton.disabled = true;
+        hughJazzButton.disabled = true;
 
         ctx.fillRect(0,0, canvas.width, canvas.height);
 
@@ -101,6 +104,7 @@
               useImageButton.disabled = false;
               startButton.disabled = false;
               stopButton.disabled = false;
+              hughJazzButton.disabled = false;
             };
             img.src = ev.target.result;
           }
@@ -133,6 +137,21 @@
         //   })
         // })
         //   .then(out);
+      });
+
+
+      hughJazzButton.addEventListener('click', () => {
+        const pixels = getScaledImageData();
+        console.log(pixels.length);
+
+        const form = new FormData();
+        form.append('image', JSON.stringify(pixels));
+
+        return fetch('/hugh-jazz-endpoint', {
+          method: 'POST',
+          body: form,
+        })
+          .then(out);
       });
 
       startButton.addEventListener('click', () => {
