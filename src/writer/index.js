@@ -16,7 +16,7 @@ class Writer {
     this.pixels = [[]];
     this.offset = 0;
     this.canAcceptNewImage = true;
-    this.canStart = true;
+    this.isRunning = false;
   }
 
   init() {
@@ -32,7 +32,7 @@ class Writer {
   }
 
   setImageFile(imageData) {
-    if (!this.canStart) {
+    if (this.isRunning) {
       console.log('running');
       return;
     }
@@ -57,10 +57,10 @@ class Writer {
   }
 
   start() {
-    if (!this.canStart) {
+    if (this.isRunning) {
       return;
     }
-    this.canStart = false;
+    this.isRunning = true;
     console.log('start');
     global.setTimeout(() => {
       this.startAnimation();
@@ -81,10 +81,10 @@ class Writer {
   stopAnimation() {
     global.clearTimeout(this.renderTimeout);
     this.renderTimeout = null;
-    this.canStart = true;
     this.offset = 0;
     setTimeout(() => {
       ws281x.render(allBlack);
+      this.isRunning = false;
     }, 50);
   }
 
@@ -125,10 +125,6 @@ class Writer {
         this.startAnimation();
       } else {
         this.stopAnimation();
-        this.canStart = false;
-        global.setTimeout(() => {
-          this.canStart = true;
-        }, 500);
       }
 
     }, 1000 / this.fps);
