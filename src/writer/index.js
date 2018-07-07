@@ -5,6 +5,8 @@ const getPixels = require('./getPixels');
 
 const NUM_LEDS = 160;
 
+const allBlack = new Uint32Array(NUM_LEDS).map(() => 0);
+
 class Writer {
 
   constructor() {
@@ -41,9 +43,9 @@ class Writer {
       console.log('busy loading');
       return;
     }
+    this.canAcceptNewImage = false;
 
     console.log(`loading image with ${imageData.length / 3} single pixels`);
-    this.canAcceptNewImage = false;
 
     // read a file after a second
     global.clearTimeout(this.loadTimeout);
@@ -81,7 +83,9 @@ class Writer {
     this.renderTimeout = null;
     this.canStart = true;
     this.offset = 0;
-    ws281x.render(new Uint32Array(NUM_LEDS));
+    setTimeout(() => {
+      ws281x.render(allBlack);
+    }, 50);
   }
 
   startAnimation() {
@@ -96,7 +100,11 @@ class Writer {
       console.log(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}`);
 
       // clone array -> does this help against the crashes?
-      const column = [...this.pixels[this.offset]];
+      const column = this.pixels[this.offset];
+
+      if (!column || !column.length) {
+        return;
+      }
 
       // const textRow = column.map((color, index) => {
       //   if (index > 7) {
