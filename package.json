@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Addressing neopixels on a raspberry pi via nodejs",
   "scripts": {
-    "service": "node src/writer/service.js",
     "start": "node src/web/index.js"
   },
   "author": "Herr Zatacke",
