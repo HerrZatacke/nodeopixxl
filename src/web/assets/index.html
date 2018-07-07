@@ -57,7 +57,7 @@
       const getScaledImageBlob = () => {
         return new Promise((resolve, reject) => {
           try {
-            const filename = fileInput.files[0].name.toLowerCase().replace(/[\W]*/gi, '');
+            // const filename = fileInput.files[0].name.toLowerCase().replace(/[\W]*/gi, '');
             if (canvas.toBlob) {
               canvas.toBlob(blob => resolve(blob), 'image/png');
             } else {
@@ -67,6 +67,15 @@
             reject(error);
           }
         });
+      };
+
+      const getScaledImageData = () => {
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        return [...imageData.data].map((value, index) => (
+          // ((index + 1) % 4 !== 0) ? String.fromCharCode(value) : false
+          ((index + 1) % 4 !== 0) ? value : false
+        ))
+          .filter(val => val !== false);
       };
 
       fileInput.addEventListener('change', (ev) => {
@@ -103,15 +112,27 @@
       });
 
       useImageButton.addEventListener('click', () => {
-        getScaledImageBlob().then(blob => {
-          const form = new FormData();
-          form.append('image', blob);
-          return fetch('/newfile', {
-            method: 'POST',
-            body: form,
-          })
+        const pixels = getScaledImageData();
+        console.log(pixels.length);
+
+        const form = new FormData();
+        form.append('image', JSON.stringify(pixels));
+
+        return fetch('/newfile', {
+          method: 'POST',
+          body: form,
         })
           .then(out);
+
+        // getScaledImageBlob().then(blob => {
+        //   const form = new FormData();
+        //   form.append('image', blob);
+        //   return fetch('/newfile', {
+        //     method: 'POST',
+        //     body: form,
+        //   })
+        // })
+        //   .then(out);
       });
 
       startButton.addEventListener('click', () => {

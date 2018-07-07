@@ -2,10 +2,10 @@ const path = require('path');
 const writer = require('../../writer');
 
 const mwSetImage = (req, res) => {
-  const imagePath = path.join(process.cwd(), req.file.path);
-  writer.setImageFile(imagePath);
+  const imageData = new Uint8ClampedArray(JSON.parse(req.body.image));
+  writer.setImageFile(imageData);
   res.json({
-    imagePath,
+    length: imageData.length
   });
 };
 

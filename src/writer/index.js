@@ -1,7 +1,6 @@
 const fs = require('fs');
 const ws281x = require('rpi-ws281x-native');
 const chalk = require('chalk');
-const Jimp = require('jimp');
 const getPixels = require('./getPixels');
 
 const NUM_LEDS = 160;
@@ -21,7 +20,7 @@ class Writer {
   init() {
     ws281x.init(NUM_LEDS);
 
-// trap the SIGINT and reset before exit
+    // trap the SIGINT and reset before exit
     process.on('SIGINT', () => {
       ws281x.reset();
       process.nextTick(() => {
@@ -30,7 +29,7 @@ class Writer {
     });
   }
 
-  setImageFile(imagePath) {
+  setImageFile(imageData) {
     if (!this.canStart) {
       console.log('running');
       return;
@@ -43,24 +42,15 @@ class Writer {
       return;
     }
 
-    console.log(`loading file ${imagePath}`);
+    console.log(`loading image with ${imageData.length / 3} single pixels`);
     this.canAcceptNewImage = false;
 
     // read a file after a second
     global.clearTimeout(this.loadTimeout);
     this.loadTimeout = global.setTimeout(() => {
-      Jimp.read(imagePath)
-        .then((image) => {
-          this.pixels = getPixels(image.bitmap);
-          console.log(`received pixels ${this.pixels.length}x${this.pixels[0].length}`);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        })
-        .then((image) => {
-          fs.unlinkSync(imagePath);
-          this.canAcceptNewImage = true;
-        });
+      this.pixels = getPixels(imageData);
+      console.log(`received pixels ${this.pixels.length}x${this.pixels[0].length}`);
+      this.canAcceptNewImage = true;
     }, 1000);
   }
 

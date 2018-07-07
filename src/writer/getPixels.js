@@ -3,11 +3,14 @@ const path = require('path');
 const ndarray = require('ndarray');
 const rgb2int = require('./rgb2int');
 
-const getPixels = (bitmap, brightness = 1) => {
+const getPixels = (imageData, brightness = 1) => {
 
   const pixels = [];
-  const { width, height } = bitmap;
-  const pixelData = ndarray(bitmap.data, [height, width, 4]);
+
+  const height = 160;
+  const width = imageData.length / 480; // NUM_LEDS * 3
+
+  const pixelData = ndarray(imageData, [height, width, 3]);
 
   for (let x = 0; x < width; x++) {
     const col = [];
