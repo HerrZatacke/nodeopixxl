@@ -116,27 +116,26 @@
       });
 
       useImageButton.addEventListener('click', () => {
-        const pixels = getScaledImageData();
-        console.log(pixels.length);
 
-        const form = new FormData();
-        form.append('image', JSON.stringify(pixels));
+        return fetch('/status')
+          .then(res => res.json())
+          .then(status => {
+            if (!status.isRunning) {
+              const pixels = getScaledImageData();
+              console.log(pixels.length);
 
-        return fetch('/newfile', {
-          method: 'POST',
-          body: form,
-        })
-          .then(out);
+              const form = new FormData();
+              form.append('image', JSON.stringify(pixels));
 
-        // getScaledImageBlob().then(blob => {
-        //   const form = new FormData();
-        //   form.append('image', blob);
-        //   return fetch('/newfile', {
-        //     method: 'POST',
-        //     body: form,
-        //   })
-        // })
-        //   .then(out);
+              return fetch('/newfile', {
+                method: 'POST',
+                body: form,
+              })
+                .then(out);
+            } else {
+              console.log('currently running');
+            }
+          });
       });
 
 

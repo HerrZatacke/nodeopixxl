@@ -1,5 +1,9 @@
+const writer = require('../../writer');
+
 const mwStatus = (req, res) => {
-  res.json({a:23});
+  res.json({
+    isRunning: writer.isRunning,
+  });
 };
 
 module.exports = mwStatus;
