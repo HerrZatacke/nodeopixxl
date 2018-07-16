@@ -15,7 +15,7 @@ server.post('/newfile', multer().none());
 server.post('/newfile', mwSetImage);
 server.get('/status', mwStatus);
 server.get(['/control/:action', '/control/:action/:value'], mwControl);
-server.get('/', mwStatic);
+server.get(['/', '/*'], mwStatic);
 server.use(mwError);
 
 server.listen(3000, () => {
