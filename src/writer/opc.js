@@ -12,9 +12,10 @@ class OPC {
     this.host = host;
     this.port = port;
     this.pixelBuffer = null;
+    this.connect();
   }
 
-  _reconnect() {
+  connect() {
     this.socket = new net.Socket();
     this.connected = false;
 
@@ -33,7 +34,7 @@ class OPC {
 
   writePixels() {
     if (!this.socket) {
-      this._reconnect();
+      this.connect();
     }
     if (!this.connected) {
       return;
@@ -42,8 +43,8 @@ class OPC {
   }
 
   setPixelCount(num) {
-    const length = 4 + num*3;
-    if (this.pixelBuffer == null || this.pixelBuffer.length !== length) {
+    const length = 4 + num * 3;
+    if (!this.pixelBuffer || this.pixelBuffer.length !== length) {
       this.pixelBuffer = new Buffer(length);
     }
 
@@ -55,7 +56,7 @@ class OPC {
 
   setPixel(num, r, g, b) {
     const offset = 4 + num * 3;
-    if (this.pixelBuffer == null || offset + 3 > this.pixelBuffer.length) {
+    if (!this.pixelBuffer || offset + 3 > this.pixelBuffer.length) {
       this.setPixelCount(num + 1);
     }
 
