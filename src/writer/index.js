@@ -1,11 +1,13 @@
 const fs = require('fs');
-const ws281x = require('rpi-ws281x-native');
+// const ws281x = require('rpi-ws281x-native');
+const OPC = new require('./opc');
+const client = new OPC('localhost', 7890);
 const chalk = require('chalk');
 const getPixels = require('./getPixels');
 
 const NUM_LEDS = 160;
 
-const allBlack = new Uint32Array(NUM_LEDS).map(() => 0);
+// const allBlack = new Uint32Array(NUM_LEDS).map(() => 0);
 
 class Writer {
 
@@ -20,14 +22,15 @@ class Writer {
   }
 
   init() {
-    ws281x.init(NUM_LEDS);
-
+    // ws281x.init(NUM_LEDS);
     // trap the SIGINT and reset before exit
     process.on('SIGINT', () => {
-      ws281x.reset();
-      process.nextTick(() => {
-        process.exit(0);
-      });
+      // ws281x.reset();
+      for (let pixel = 0; pixel < NUM_LEDS; pixel++) {
+        client.setPixel(pixel, 0, 0, 0);
+      }
+      client.writePixels();
+      process.nextTick(() => { process.exit(0); });
     });
   }
 
@@ -83,7 +86,11 @@ class Writer {
     this.renderTimeout = null;
     this.offset = 0;
     setTimeout(() => {
-      ws281x.render(allBlack);
+      // ws281x.render(allBlack);
+      for (let pixel = 0; pixel < NUM_LEDS; pixel++) {
+        client.setPixel(pixel, 0, 0, 0);
+      }
+      client.writePixels();
       this.isRunning = false;
     }, 50);
   }
@@ -117,7 +124,13 @@ class Writer {
       // });
       // console.log(textRow.join(''));
 
-      ws281x.render(new Uint32Array(column));
+      // ws281x.render(new Uint32Array(column));
+
+      for (let pixel = 0; pixel < NUM_LEDS; pixel++) {
+        const { r, g, b } = int2rgb(column[pixel]);
+        client.setPixel(pixel, r, g, b);
+      }
+      client.writePixels();
 
       this.offset = (this.offset + 1) % this.pixels.length;
 
