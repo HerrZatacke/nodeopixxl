@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Addressing neopixels on a raspberry pi via nodejs",
   "scripts": {
-    "start": "node src/web/index.js"
+    "start": "node src/web/index.js",
+    "win-server": ".\\fcserver\\fcserver.exe .\\fcserver\\config.json"
   },
   "author": "Herr Zatacke",
   "private": true,
