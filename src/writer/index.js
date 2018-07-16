@@ -1,11 +1,13 @@
 const fs = require('fs');
+const chalk = require('chalk');
 // const ws281x = require('rpi-ws281x-native');
 const OPC = new require('./opc');
-const client = new OPC('localhost', 7890);
-const chalk = require('chalk');
+const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
 
 const NUM_LEDS = 160;
+
+const client = new OPC('localhost', 7890);
 
 // const allBlack = new Uint32Array(NUM_LEDS).map(() => 0);
 
