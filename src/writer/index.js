@@ -1,7 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk');
 // const ws281x = require('rpi-ws281x-native');
-const OPC = new require('./opc');
+const OPC = require('./opc');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
 
