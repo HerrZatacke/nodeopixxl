@@ -2,15 +2,15 @@ const path = require('path');
 const writer = require('../../writer');
 
 const mwSetImage = (req, res) => {
-  if (!writer.isRunning) {
-    const imageData = new Uint8ClampedArray(JSON.parse(req.body.image));
-    writer.setImageFile(imageData);
+  if (!writer.isRunning && req.rawBody) {
+    writer.setImageFile(req.rawBody);
     res.json({
-      length: imageData.length
+      size: req.rawBody.length,
     });
   } else {
     res.json({
-      already: 'running',
+      running: writer.isRunning,
+      rawBody: !!req.rawBody,
     });
   }
 };

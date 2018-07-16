@@ -35,10 +35,11 @@ const getScaledImageBlob = () => {
 const getScaledImageData = () => {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   return [...imageData.data].map((value, index) => (
-    // ((index + 1) % 4 !== 0) ? String.fromCharCode(value) : false
-    ((index + 1) % 4 !== 0) ? value : false
+    String.fromCharCode(value)
   ))
-    .filter(val => val !== false);
+    .filter((val, index) => (
+      (index + 1) % 4 !== 0
+    ));
 };
 
 fileInput.addEventListener('change', (ev) => {
@@ -83,12 +84,13 @@ useImageButton.addEventListener('click', () => {
         const pixels = getScaledImageData();
         console.log(pixels.length);
 
-        const form = new FormData();
-        form.append('image', JSON.stringify(pixels));
+        // const form = new FormData();
+        // form.append('image', new Blob(pixels));
 
         return fetch('/newfile', {
           method: 'POST',
-          body: form,
+          // body: form,
+          body: new Blob(pixels),
         })
           .then(out);
       } else {
