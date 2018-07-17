@@ -82,19 +82,27 @@ useImageButton.addEventListener('click', () => {
   const pixels = getScaledImageData();
   console.log(JSON.stringify(pixels).length);
   console.log(pixels.length);
-  exampleSocket.send(JSON.stringify(pixels));
+  exampleSocket.send(JSON.stringify({
+    setImage: pixels,
+  }));
 });
 
 startButton.addEventListener('click', () => {
-  fetch('/control/start').then(out);
+  exampleSocket.send(JSON.stringify({
+    start: true,
+  }));
 });
 
 stopButton.addEventListener('click', () => {
-  fetch('/control/stop').then(out);
+  exampleSocket.send(JSON.stringify({
+    stop: true,
+  }));
 });
 
 setFPSButton.addEventListener('click', () => {
-  fetch(`/control/fps/${fpsInput.value}`).then(out);
+  exampleSocket.send(JSON.stringify({
+    fps: fpsInput.value,
+  }));
 });
 
 const exampleSocket = new WebSocket(`ws://${window.location.hostname}:3001/`);
