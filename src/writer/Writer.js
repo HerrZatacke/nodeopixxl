@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { EventEmitter } = require('events');
 const chalk = require('chalk');
 // const ws281x = require('rpi-ws281x-native');
 const OPC = require('./opc');
@@ -9,9 +10,10 @@ const NUM_LEDS = 160;
 
 const allBlack = new Uint32Array(NUM_LEDS);
 
-class Writer {
+class Writer extends EventEmitter {
 
   constructor() {
+    super();
     this.renderTimeout = null;
     this.loadTimeout = null;
     this.fps = 30;
@@ -20,6 +22,16 @@ class Writer {
     this.canAcceptNewImage = true;
     this.isRunning = false;
     this.init();
+  }
+
+  sendSatus(additional = {}) {
+    this.emit('status', JSON.stringify(Object.assign({
+      fps: this.fps,
+      pixels: `${this.pixels.length}x${this.pixels[0].length}`,
+      offset: this.offset,
+      canAcceptNewImage: this.canAcceptNewImage,
+      isRunning: this.isRunning,
+    }, additional)));
   }
 
   init() {
@@ -42,13 +54,13 @@ class Writer {
       return;
     }
 
-    this.stopAnimation();
-
     if (!this.canAcceptNewImage) {
       console.log('busy loading');
       return;
     }
     this.canAcceptNewImage = false;
+    this.pixels = [[]];
+    this.sendSatus();
 
     console.log(`loading image with ${imageData.length / 3} single pixels`);
 
@@ -58,6 +70,9 @@ class Writer {
       this.pixels = getPixels(imageData);
       console.log(`received pixels ${this.pixels.length}x${this.pixels[0].length}`);
       this.canAcceptNewImage = true;
+      this.sendSatus({
+        imageData: [...imageData],
+      });
     }, 1000);
   }
 
@@ -74,6 +89,7 @@ class Writer {
       return;
     }
     this.isRunning = true;
+    this.sendSatus();
     console.log('start');
     global.setTimeout(() => {
       this.startAnimation();
@@ -88,6 +104,7 @@ class Writer {
   setFPS(fps = 30) {
     console.log(`fps: ${fps}`);
     this.fps = fps;
+    this.sendSatus();
   }
 
 
@@ -99,6 +116,7 @@ class Writer {
       // ws281x.render(allBlack);
       this.setColumn(allBlack);
       this.isRunning = false;
+      this.sendSatus();
     }, 50);
   }
 
@@ -108,6 +126,7 @@ class Writer {
       this.stopAnimation();
       return;
     }
+    this.sendSatus();
     this.renderTimeout = global.setTimeout(() => {
 
       // process.stdout.write(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}\r`);

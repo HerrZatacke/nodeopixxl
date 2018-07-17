@@ -29,6 +29,11 @@ wss.on('connection', (ws) => {
       }
     });
   });
-
-  ws.send('hello');
 });
+
+writer.on('status', (status) => {
+  wss.clients.forEach((ws) => {
+    ws.send(status);
+  });
+});
+
