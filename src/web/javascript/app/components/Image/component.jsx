@@ -7,22 +7,15 @@ class Image extends Component {
     this.canvasContext = null;
   }
 
-  componentDidUpdate() {
-    console.log(this.props);
-  }
-
   setContext(canvasElement) {
-    console.log('setContext');
     if (!canvasElement) {
       return;
     }
-    console.log('setContext', canvasElement);
     this.canvasContext = canvasElement.getContext('2d');
     this.updateCanvas();
   }
 
   updateCanvas() {
-    console.log('updateCanvas');
     if (this.canvasContext && this.props.image.height === 160) {
       this.canvasContext.putImageData(this.props.image, 0, 0);
     }
