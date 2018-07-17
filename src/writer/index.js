@@ -7,8 +7,6 @@ const getPixels = require('./getPixels');
 
 const NUM_LEDS = 160;
 
-const client = new OPC('localhost', 7890);
-
 // const allBlack = new Uint32Array(NUM_LEDS).map(() => 0);
 
 class Writer {
@@ -28,12 +26,25 @@ class Writer {
     // trap the SIGINT and reset before exit
     process.on('SIGINT', () => {
       // ws281x.reset();
-      for (let pixel = 0; pixel < NUM_LEDS; pixel++) {
-        client.setPixel(pixel, 0, 0, 0);
-      }
-      client.writePixels();
+      this.blank();
       process.nextTick(() => { process.exit(0); });
     });
+
+    try {
+      this.client = new OPC('localhost', 7891);
+    } catch (error) {
+      console.log('Error connecting to fadecandy server!');
+    }
+
+    this.blank();
+
+  }
+
+  blank() {
+    for (let pixel = 0; pixel < NUM_LEDS; pixel++) {
+      this.client.setPixel(pixel, 0, 0, 0);
+    }
+    this.client.writePixels();
   }
 
   setImageFile(imageData) {
@@ -93,10 +104,7 @@ class Writer {
     this.offset = 0;
     setTimeout(() => {
       // ws281x.render(allBlack);
-      for (let pixel = 0; pixel < NUM_LEDS; pixel++) {
-        client.setPixel(pixel, 0, 0, 0);
-      }
-      client.writePixels();
+      this.blank();
       this.isRunning = false;
     }, 50);
   }
@@ -133,9 +141,9 @@ class Writer {
 
       for (let pixel = 0; pixel < NUM_LEDS; pixel++) {
         const { r, g, b } = int2rgb(column[pixel]);
-        client.setPixel(pixel, r, g, b);
+        this.client.setPixel(pixel, r, g, b);
       }
-      client.writePixels();
+      this.client.writePixels();
 
       this.offset = (this.offset + 1) % this.pixels.length;
 

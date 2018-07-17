@@ -7,7 +7,9 @@
     "build": "npm run build:clean && npm run build:webpack",
     "build:clean": "rimraf dist && rimraf build",
     "build:webpack": "node scripts/build.js",
-    "start:server": ".\\fcserver\\fcserver.exe .\\fcserver\\config.json"
+    "fcserver": ".\\fcserver\\fcserver.exe .\\fcserver\\config.json",
+    "wsserver": "node ./src/writer/index.js",
+    "wsserver:dev": "nodemon --watch src ./src/writer/index.js"
   },
   "author": "Herr Zatacke",
   "private": true,
@@ -34,6 +36,7 @@
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.9.0",
     "node-watch": "^0.5.8",
+    "nodemon": "^1.18.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
