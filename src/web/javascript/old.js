@@ -47,9 +47,6 @@ const getScaledImageData = () => {
 
 fileInput.addEventListener('change', (ev) => {
   ev.preventDefault();
-  useImageButton.disabled = true;
-  startButton.disabled = true;
-  stopButton.disabled = true;
 
   ctx.fillRect(0,0, canvas.width, canvas.height);
 
@@ -65,9 +62,6 @@ fileInput.addEventListener('change', (ev) => {
         canvas.style.height = `${canvas.height}px`;
 
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        useImageButton.disabled = false;
-        startButton.disabled = false;
-        stopButton.disabled = false;
       };
       img.src = ev.target.result;
     }

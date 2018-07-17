@@ -21,7 +21,6 @@ class Writer extends EventEmitter {
     this.offset = 0;
     this.canAcceptNewImage = true;
     this.isRunning = false;
-    this.init();
   }
 
   sendSatus(additional = {}) {
@@ -45,7 +44,8 @@ class Writer extends EventEmitter {
 
     this.client = new OPC('localhost', 7890);
 
-    this.setColumn(allBlack)
+    this.setColumn(allBlack);
+    this.sendSatus();
   }
 
   setImageFile(imageData) {
@@ -71,7 +71,7 @@ class Writer extends EventEmitter {
       console.log(`received pixels ${this.pixels.length}x${this.pixels[0].length}`);
       this.canAcceptNewImage = true;
       this.sendSatus({
-        imageData: [...imageData],
+        pixels: [...imageData],
       });
     }, 1000);
   }

@@ -29,11 +29,16 @@ wss.on('connection', (ws) => {
       }
     });
   });
+
+  ws.send(lastStatus);
 });
 
 writer.on('status', (status) => {
+  console.log(123);
+  lastStatus = status;
   wss.clients.forEach((ws) => {
     ws.send(status);
   });
 });
 
+writer.init();
