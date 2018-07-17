@@ -1,0 +1,24 @@
+
+.old-app {
+  background: #004422;
+  color: #ddff77;
+  * {
+    font-size: 12px;
+  }
+  button {
+    padding: 10px 20px;
+    margin: 4px;
+    color: #004422;
+    background: #ddff77;
+    border: none;
+    border-radius: 5px;
+  }
+  input{
+    margin: 4px;
+  }
+  canvas {
+    border: 1px solid #ddff77;
+    margin: 4px;
+  }
+
+}
