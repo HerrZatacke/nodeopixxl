@@ -1,3 +1,5 @@
+/* eslint-disable */
+import '../scss/index.scss';
 
 const fileInput = document.querySelector('input[type=file]');
 const canvas = document.querySelector('canvas');

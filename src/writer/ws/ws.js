@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const writer = require('../../writer');
+const writer = require('../index');
 
 const wss = new WebSocket.Server({ port: 3001 });
 

@@ -1,0 +1,14 @@
+@mixin formgroup-focus() {
+  position: relative;
+
+  &:focus-within {
+    &:before {
+      content: '';
+      position: absolute;
+      left: -18px;
+      bottom: 5px;
+      border: 12px solid transparent;
+      border-left-color: $color-rock-blue;
+    }
+  }
+}
