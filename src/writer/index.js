@@ -55,7 +55,11 @@ class Writer {
     // read a file after a second
     global.clearTimeout(this.loadTimeout);
     this.loadTimeout = global.setTimeout(() => {
-      this.pixels = getPixels(imageData);
+      try {
+        this.pixels = getPixels(imageData);
+      } catch (er) {
+        console.error(er);
+      }
       console.log(`received pixels ${this.pixels.length}x${this.pixels[0].length}`);
       this.canAcceptNewImage = true;
     }, 1000);

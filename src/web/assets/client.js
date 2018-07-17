@@ -17,26 +17,27 @@ const out = (res) => {
     });
 };
 
-const getScaledImageBlob = () => {
-  return new Promise((resolve, reject) => {
-    try {
-      // const filename = fileInput.files[0].name.toLowerCase().replace(/[\W]*/gi, '');
-      if (canvas.toBlob) {
-        canvas.toBlob(blob => resolve(blob), 'image/png');
-      } else {
-        resolve(canvas.msToBlob());
-      }
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
+// const getScaledImageBlob = () => {
+//   return new Promise((resolve, reject) => {
+//     try {
+//       // const filename = fileInput.files[0].name.toLowerCase().replace(/[\W]*/gi, '');
+//       if (canvas.toBlob) {
+//         canvas.toBlob(blob => resolve(blob), 'image/png');
+//       } else {
+//         resolve(canvas.msToBlob());
+//       }
+//     } catch (error) {
+//       reject(error);
+//     }
+//   });
+// };
 
 const getScaledImageData = () => {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  return [...imageData.data].map((value, index) => (
-    String.fromCharCode(value)
-  ))
+  return [...imageData.data]
+    // .map((value, index) => (
+    //   String.fromCharCode(value)
+    // ))
     .filter((val, index) => (
       (index + 1) % 4 !== 0
     ));
@@ -81,18 +82,22 @@ useImageButton.addEventListener('click', () => {
     .then(res => res.json())
     .then(status => {
       if (!status.isRunning) {
+
+
         const pixels = getScaledImageData();
+        console.log(JSON.stringify(pixels).length);
         console.log(pixels.length);
+        exampleSocket.send(JSON.stringify(pixels));
 
         // const form = new FormData();
         // form.append('image', new Blob(pixels));
 
-        return fetch('/newfile', {
-          method: 'POST',
-          // body: form,
-          body: new Blob(pixels),
-        })
-          .then(out);
+        // return fetch('/newfile', {
+        //   method: 'POST',
+        //   // body: form,
+        //   body: new Blob(pixels),
+        // })
+        //   .then(out);
       } else {
         console.log('currently running');
       }
@@ -111,3 +116,8 @@ setFPSButton.addEventListener('click', () => {
   fetch(`/control/fps/${fpsInput.value}`).then(out);
 });
 
+const exampleSocket = new WebSocket(`ws://${window.location.hostname}:3001/`);
+
+exampleSocket.onmessage = (event) => {
+  console.log(event.data);
+};
