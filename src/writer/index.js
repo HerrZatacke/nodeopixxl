@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 const writer = require('./Writer');
 
 const wss = new WebSocket.Server({ port: 3001 });
+const lastStatus = {};
 
 wss.on('connection', (ws) => {
 
@@ -30,14 +31,13 @@ wss.on('connection', (ws) => {
     });
   });
 
-  ws.send(lastStatus);
+  ws.send(JSON.stringify(lastStatus));
 });
 
 writer.on('status', (status) => {
-  console.log(123);
-  lastStatus = status;
+  Object.assign(lastStatus, status);
   wss.clients.forEach((ws) => {
-    ws.send(status);
+    ws.send(JSON.stringify(status));
   });
 });
 

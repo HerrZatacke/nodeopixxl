@@ -1,0 +1,17 @@
+.image-component {
+  position: relative;
+
+  canvas {
+    background: rgba(255, 63, 63, 0.5);
+  }
+
+  .indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 160px;
+    width: 1px;
+    background-color: rgba(#888, 0.5);
+  }
+
+}

@@ -11,14 +11,6 @@ const fpsInput = document.querySelector('#fps');
 const img = new Image();
 const ctx = canvas.getContext('2d');
 
-const out = (res) => {
-  res.text()
-    .then(body => console.log(body))
-    .catch(err => {
-      console.error(err)
-    });
-};
-
 // const getScaledImageBlob = () => {
 //   return new Promise((resolve, reject) => {
 //     try {
@@ -74,8 +66,8 @@ fileInput.addEventListener('change', (ev) => {
 
 useImageButton.addEventListener('click', () => {
   const pixels = getScaledImageData();
-  console.log(JSON.stringify(pixels).length);
-  console.log(pixels.length);
+  // console.log(JSON.stringify(pixels).length);
+  // console.log(pixels.length);
   exampleSocket.send(JSON.stringify({
     setImage: pixels,
   }));
@@ -102,5 +94,5 @@ setFPSButton.addEventListener('click', () => {
 const exampleSocket = new WebSocket(`ws://${window.location.hostname}:3001/`);
 
 exampleSocket.onmessage = (event) => {
-  console.log(event.data);
+  // console.log(event.data);
 };

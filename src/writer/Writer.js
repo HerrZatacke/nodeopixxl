@@ -23,14 +23,13 @@ class Writer extends EventEmitter {
     this.isRunning = false;
   }
 
-  sendSatus(additional = {}) {
-    this.emit('status', JSON.stringify(Object.assign({
+  getStatus() {
+    return {
       fps: this.fps,
-      pixels: `${this.pixels.length}x${this.pixels[0].length}`,
       offset: this.offset,
       canAcceptNewImage: this.canAcceptNewImage,
       isRunning: this.isRunning,
-    }, additional)));
+    }
   }
 
   init() {
@@ -45,7 +44,7 @@ class Writer extends EventEmitter {
     this.client = new OPC('localhost', 7890);
 
     this.setColumn(allBlack);
-    this.sendSatus();
+    this.emit('status', this.getStatus());
   }
 
   setImageFile(imageData) {
@@ -60,7 +59,10 @@ class Writer extends EventEmitter {
     }
     this.canAcceptNewImage = false;
     this.pixels = [[]];
-    this.sendSatus();
+    this.emit('status', {
+      canAcceptNewImage: this.canAcceptNewImage,
+      image: new Uint8ClampedArray(3),
+    });
 
     console.log(`loading image with ${imageData.length / 3} single pixels`);
 
@@ -70,8 +72,9 @@ class Writer extends EventEmitter {
       this.pixels = getPixels(imageData);
       console.log(`received pixels ${this.pixels.length}x${this.pixels[0].length}`);
       this.canAcceptNewImage = true;
-      this.sendSatus({
-        pixels: [...imageData],
+      this.emit('status', {
+        canAcceptNewImage: this.canAcceptNewImage,
+        image: [...imageData],
       });
     }, 1000);
   }
@@ -89,7 +92,9 @@ class Writer extends EventEmitter {
       return;
     }
     this.isRunning = true;
-    this.sendSatus();
+    this.emit('status', {
+      isRunning: this.isRunning,
+    });
     console.log('start');
     global.setTimeout(() => {
       this.startAnimation();
@@ -104,7 +109,9 @@ class Writer extends EventEmitter {
   setFPS(fps = 30) {
     console.log(`fps: ${fps}`);
     this.fps = parseInt(fps, 10) || 30;
-    this.sendSatus();
+    this.emit('status', {
+      fps: this.fps,
+    });
   }
 
 
@@ -116,7 +123,10 @@ class Writer extends EventEmitter {
       // ws281x.render(allBlack);
       this.setColumn(allBlack);
       this.isRunning = false;
-      this.sendSatus();
+      this.emit('status', {
+        isRunning: this.isRunning,
+        offset: this.offset,
+      });
     }, 50);
   }
 
@@ -126,7 +136,9 @@ class Writer extends EventEmitter {
       this.stopAnimation();
       return;
     }
-    this.sendSatus();
+    this.emit('status', {
+      offset: this.offset,
+    });
     this.renderTimeout = global.setTimeout(() => {
 
       // process.stdout.write(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}\r`);

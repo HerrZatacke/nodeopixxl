@@ -1,6 +1,6 @@
 const fpsReducer = (fps = 1, action) => {
   switch (action.type) {
-    case 'FPS':
+    case 'SET_FPS':
       return action.payload;
     default:
       return fps;
