@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 class Image extends Component {
 
   componentDidMount() {
-    // this.canvasElement = null;
     this.canvasContext = null;
   }
 
@@ -17,7 +16,6 @@ class Image extends Component {
     if (!canvasElement) {
       return;
     }
-    // this.canvasElement = canvasElement;
     console.log('setContext', canvasElement);
     this.canvasContext = canvasElement.getContext('2d');
     this.updateCanvas();
@@ -34,7 +32,7 @@ class Image extends Component {
     return (
       <div className="image-component">
         <div
-          className="indicator"
+          className={this.props.offset ? 'indicator' : null}
           style={{
             left: `${this.props.offset}px`,
           }}
