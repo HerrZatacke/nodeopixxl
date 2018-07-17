@@ -79,31 +79,10 @@ fileInput.addEventListener('change', (ev) => {
 });
 
 useImageButton.addEventListener('click', () => {
-
-  return fetch('/status')
-    .then(res => res.json())
-    .then(status => {
-      if (!status.isRunning) {
-
-
-        const pixels = getScaledImageData();
-        console.log(JSON.stringify(pixels).length);
-        console.log(pixels.length);
-        exampleSocket.send(JSON.stringify(pixels));
-
-        // const form = new FormData();
-        // form.append('image', new Blob(pixels));
-
-        // return fetch('/newfile', {
-        //   method: 'POST',
-        //   // body: form,
-        //   body: new Blob(pixels),
-        // })
-        //   .then(out);
-      } else {
-        console.log('currently running');
-      }
-    });
+  const pixels = getScaledImageData();
+  console.log(JSON.stringify(pixels).length);
+  console.log(pixels.length);
+  exampleSocket.send(JSON.stringify(pixels));
 });
 
 startButton.addEventListener('click', () => {

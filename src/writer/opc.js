@@ -19,11 +19,17 @@ class OPC {
     this.socket = new net.Socket();
     this.connected = false;
 
-    this.socket.onclose = () => {
+    this.socket.on('close', () => {
       console.log('Connection closed');
       this.socket = null;
       this.connected = false;
-    };
+    });
+
+    this.socket.on('error', () => {
+      console.log('Connection error');
+      this.socket = null;
+      this.connected = false;
+    });
 
     this.socket.connect(this.port, this.host, () => {
       console.log(`Connected to ${this.socket.remoteAddress}`);
