@@ -103,7 +103,7 @@ class Writer extends EventEmitter {
 
   setFPS(fps = 30) {
     console.log(`fps: ${fps}`);
-    this.fps = fps;
+    this.fps = parseInt(fps, 10) || 30;
     this.sendSatus();
   }
 
