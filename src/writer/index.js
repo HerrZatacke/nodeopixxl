@@ -12,11 +12,8 @@ wss.on('connection', (ws) => {
       const payload = message[action];
       switch(action) {
         case 'setImage':
-          if (!writer.isRunning) {
-            const imgDat = Uint8Array.from(payload);
-            console.log(payload.length, imgDat.length);
-            writer.setImageFile(imgDat);
-          }
+          const imgDat = Uint8Array.from(payload);
+          writer.setImageFile(imgDat);
           break;
         case 'start':
           writer.start();
@@ -25,9 +22,7 @@ wss.on('connection', (ws) => {
           writer.stop();
           break;
         case 'fps':
-          if (payload) {
-            writer.setFPS(payload);
-          }
+          writer.setFPS(payload);
           break;
         default:
           break;
