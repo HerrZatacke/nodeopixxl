@@ -129,6 +129,18 @@ class Writer extends EventEmitter {
 
     const delay = Math.floor(1000 / this.fps);
 
+    console.info(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}  delay:${chalk.red(delay)}`);
+    const column = this.pixels[this.offset];
+
+    if (!column || !column.length) {
+      this.stopAnimation();
+      return;
+    }
+
+    this.setColumn(column);
+
+    this.offset = (this.offset + 1) % this.pixels.length;
+
     if (delay > 10 || this.offset % 2 === 0) {
       this.emit('status', {
         offset: this.offset,
@@ -136,24 +148,11 @@ class Writer extends EventEmitter {
     }
 
     this.renderTimeout = global.setTimeout(() => {
-      console.info(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}  delay:${chalk.red(delay)}`);
-      const column = this.pixels[this.offset];
-
-      if (!column || !column.length) {
-        this.stopAnimation();
-        return;
-      }
-
-      this.setColumn(column);
-
-      this.offset = (this.offset + 1) % this.pixels.length;
-
       if (this.offset !== 0) {
         this.startAnimation();
       } else {
         this.stopAnimation();
       }
-
     }, delay);
   }
 }
