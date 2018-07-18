@@ -6,7 +6,7 @@ const mapStateToProps = (/* state */) => ({
 const mapDispatchToProps = dispatch => ({
   setImage: (file) => {
     dispatch({
-      type: 'SET_RAW_IMAGE',
+      type: 'SEND_RAW_IMAGE',
       payload: file,
     });
   },

@@ -11,7 +11,7 @@ const middleware = (store) => {
     // console.log(state);
 
     switch (action.type) {
-      case 'SET_RAW_IMAGE':
+      case 'SEND_RAW_IMAGE':
         sendImageFromFileInput(socket, action.payload);
         break;
       default:
