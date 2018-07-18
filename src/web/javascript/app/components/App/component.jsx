@@ -6,7 +6,6 @@ import Controls from '../Controls';
 
 const App = props => (
   <Fragment>
-    <h1>Äpp Äpp</h1>
     <pre>
       {JSON.stringify(props, null, 2)}
     </pre>
