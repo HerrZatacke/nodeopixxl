@@ -12,22 +12,20 @@ class FileSelect extends Component {
 
   render() {
     return (
-      <div className="file-select">
-        <label
-          data-disabled={this.props.serverBusy || this.props.animationRunning}
-          htmlFor="input-file-select"
-          className="file-select__button"
-        >
-          <input
-            type="file"
-            disabled={this.props.serverBusy || this.props.animationRunning}
-            className="file-select__input"
-            onChange={ev => this.fileChange(ev.target)}
-            id="input-file-select"
-          />
-          Select File
-        </label>
-      </div>
+      <label
+        data-disabled={this.props.serverBusy || this.props.animationRunning}
+        htmlFor="input-file-select"
+        className="file-select__button"
+      >
+        <input
+          type="file"
+          disabled={this.props.serverBusy || this.props.animationRunning}
+          className="file-select__input"
+          onChange={ev => this.fileChange(ev.target)}
+          id="input-file-select"
+        />
+        Select File
+      </label>
     );
   }
 }

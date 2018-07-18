@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import FileSelect from '../FileSelect';
 
 class Controls extends Component {
 
@@ -30,6 +31,7 @@ class Controls extends Component {
   render() {
     return (
       <div className="controls">
+        <FileSelect />
         <button
           disabled={this.props.serverBusy || this.props.animationRunning}
           className="controls__button-start"
