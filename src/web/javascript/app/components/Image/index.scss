@@ -2,7 +2,8 @@
   position: relative;
 
   canvas {
-    background: rgba(255, 63, 63, 0.5);
+    background: rgba($color-honeysuckle, 0.2);
+    margin: 4px 0;
   }
 
   .indicator {
