@@ -1,19 +1,15 @@
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
+  fps: state.fps,
   serverBusy: state.serverBusy,
-  animationRunning: state.animationRunning,
 });
 
 const mapDispatchToProps = dispatch => ({
-  start: () => {
+  sendFps: (fps) => {
     dispatch({
-      type: 'SEND_START',
-    });
-  },
-  stop: () => {
-    dispatch({
-      type: 'SEND_STOP',
+      type: 'SEND_FPS',
+      payload: fps,
     });
   },
 });
