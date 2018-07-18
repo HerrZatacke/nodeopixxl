@@ -23,10 +23,12 @@ class OPC {
       console.info('Connection closed');
       this.socket = null;
       this.connected = false;
+      setTimeout(() => {
+        this.connect();
+      }, 5000);
     });
 
     this.socket.on('error', () => {
-      console.info('Connection error');
       this.socket = null;
       this.connected = false;
     });
