@@ -126,11 +126,14 @@ class Writer extends EventEmitter {
       this.stopAnimation();
       return;
     }
-    this.emit('status', {
-      offset: this.offset,
-    });
 
     const delay = Math.floor(1000 / this.fps);
+
+    if (delay > 10 || this.offset % 2 === 0) {
+      this.emit('status', {
+        offset: this.offset,
+      });
+    }
 
     this.renderTimeout = global.setTimeout(() => {
       console.info(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}  delay:${chalk.red(delay)}`);
