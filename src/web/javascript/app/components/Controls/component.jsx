@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FileSelect from '../FileSelect';
-import FPSInput from '../FPSInput';
 
 const Controls = props => (
   <div className="controls">
@@ -20,7 +19,6 @@ const Controls = props => (
     >
       Stop
     </button>
-    <FPSInput />
   </div>
 );
 

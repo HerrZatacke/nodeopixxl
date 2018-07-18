@@ -1,4 +1,9 @@
 .controls {
+  display: flex;
+  justify-content: space-between;
+  max-width: $content-max-width;
+  margin: 0 auto;
+
   &__button-start,
   &__button-stop {
     @include button();

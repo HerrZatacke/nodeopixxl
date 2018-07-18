@@ -2,8 +2,10 @@ $thumbSize: 40px;
 $barSize: 20px;
 
 .fpsinput {
+  display: block;
   width: 100%;
-  margin: 16px 0;
+  max-width: $content-max-width;
+  margin: 16px auto;
   -webkit-appearance: none;
   background: $color-honeysuckle;
   height: $barSize;

@@ -6,6 +6,10 @@ body {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 pre {
   font-family: monospace;
   padding: 2px;

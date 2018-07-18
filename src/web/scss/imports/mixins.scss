@@ -1,11 +1,14 @@
 @mixin button() {
   display: inline-block;
-  padding: 6px 12px;
-  margin: 4px 4px 4px 0;
+  padding: 12px 12px;
+  margin: 4px 0;
   border-radius: 5px;
   border: none;
   font-family: inherit;
   font-size: inherit;
+  text-align: center;
+  line-height: inherit;
+  flex: 0 0 calc(33.33% - 4px);
 
   &:not([disabled]):not([data-disabled="true"]) {
     background-color: $color-honeysuckle;
