@@ -8,6 +8,7 @@ import StatsTable from '../StatsTable';
 
 const App = () => (
   <Fragment>
+    <h1 className="app-headline">Lightdraw Command</h1>
     <Image />
     <StatsTable />
     <Controls />
