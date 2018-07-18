@@ -1,9 +1,9 @@
 .image-component {
   position: relative;
+  margin: 4px 0;
 
   canvas {
     background: rgba($color-honeysuckle, 0.2);
-    margin: 4px 0;
   }
 
   .indicator {
