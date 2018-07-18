@@ -11,10 +11,9 @@ wss.on('connection', (ws) => {
 
     Object.keys(message).forEach((action) => {
       const payload = message[action];
-      switch(action) {
+      switch (action) {
         case 'setImage':
-          const imgDat = Uint8Array.from(payload);
-          writer.setImageFile(imgDat);
+          writer.setImageFile(Uint8Array.from(payload));
           break;
         case 'start':
           writer.start();

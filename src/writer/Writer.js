@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { EventEmitter } = require('events');
 const chalk = require('chalk');
 // const ws281x = require('rpi-ws281x-native');
@@ -29,7 +28,7 @@ class Writer extends EventEmitter {
       offset: this.offset,
       canAcceptNewImage: this.canAcceptNewImage,
       isRunning: this.isRunning,
-    }
+    };
   }
 
   init() {
@@ -38,7 +37,9 @@ class Writer extends EventEmitter {
     process.on('SIGINT', () => {
       // ws281x.reset();
       this.setColumn(allBlack);
-      process.nextTick(() => { process.exit(0); });
+      process.nextTick(() => {
+        process.exit(0);
+      });
     });
 
     this.client = new OPC('localhost', 7890);
@@ -49,12 +50,10 @@ class Writer extends EventEmitter {
 
   setImageFile(imageData) {
     if (this.isRunning) {
-      console.log('running');
       return;
     }
 
     if (!this.canAcceptNewImage) {
-      console.log('busy loading');
       return;
     }
     this.canAcceptNewImage = false;
@@ -64,13 +63,13 @@ class Writer extends EventEmitter {
       image: new Uint8ClampedArray(3),
     });
 
-    console.log(`loading image with ${imageData.length / 3} single pixels`);
+    console.info(chalk.blue(`loading image with ${imageData.length / 3} single pixels`));
 
     // read a file after a second
     global.clearTimeout(this.loadTimeout);
     this.loadTimeout = global.setTimeout(() => {
       this.pixels = getPixels(imageData);
-      console.log(`received pixels ${this.pixels.length}x${this.pixels[0].length}`);
+      console.info(chalk.blue(`image loaded (${this.pixels.length}x${this.pixels[0].length})`));
       this.canAcceptNewImage = true;
       this.emit('status', {
         canAcceptNewImage: this.canAcceptNewImage,
@@ -80,7 +79,7 @@ class Writer extends EventEmitter {
   }
 
   setColumn(column) {
-    for (let pixel = 0; pixel < NUM_LEDS; pixel++) {
+    for (let pixel = 0; pixel < NUM_LEDS; pixel += 1) {
       const { r, g, b } = int2rgb(column[pixel]);
       this.client.setPixel(pixel, r, g, b);
     }
@@ -95,19 +94,16 @@ class Writer extends EventEmitter {
     this.emit('status', {
       isRunning: this.isRunning,
     });
-    console.log('start');
     global.setTimeout(() => {
       this.startAnimation();
-    }, 1000)
+    }, 1000);
   }
 
   stop() {
-    console.log('stop');
     this.stopAnimation();
   }
 
   setFPS(fps = 30) {
-    console.log(`fps: ${fps}`);
     this.fps = parseInt(fps, 10) || 30;
     this.emit('status', {
       fps: this.fps,
@@ -142,7 +138,7 @@ class Writer extends EventEmitter {
     this.renderTimeout = global.setTimeout(() => {
 
       // process.stdout.write(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}\r`);
-      console.log(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}`);
+      // console.log(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}`);
 
       const column = this.pixels[this.offset];
 
@@ -178,8 +174,8 @@ class Writer extends EventEmitter {
 }
 
 let writer;
-const getWriter = () => {
-  return writer || new Writer();
-};
+const getWriter = () => (
+  writer || new Writer()
+);
 
 module.exports = getWriter();
