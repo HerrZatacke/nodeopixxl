@@ -94,9 +94,7 @@ class Writer extends EventEmitter {
     this.emit('status', {
       isRunning: this.isRunning,
     });
-    global.setTimeout(() => {
-      this.startAnimation();
-    }, 1000 / this.fps);
+    this.startAnimation();
   }
 
   stop() {
@@ -115,15 +113,12 @@ class Writer extends EventEmitter {
     global.clearTimeout(this.renderTimeout);
     this.renderTimeout = null;
     this.offset = 0;
-    setTimeout(() => {
-      // ws281x.render(allBlack);
-      this.setColumn(allBlack);
-      this.isRunning = false;
-      this.emit('status', {
-        isRunning: this.isRunning,
-        offset: this.offset,
-      });
-    }, 50);
+    this.setColumn(allBlack);
+    this.isRunning = false;
+    this.emit('status', {
+      isRunning: this.isRunning,
+      offset: this.offset,
+    });
   }
 
   startAnimation() {
