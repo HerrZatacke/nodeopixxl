@@ -7,7 +7,7 @@ class FileSelect extends Component {
     if (!inputElement.files[0]) {
       return;
     }
-    this.props.setImage(inputElement.files[0]);
+    this.props.setImage(inputElement);
   }
 
   render() {

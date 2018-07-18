@@ -12,7 +12,7 @@ const getScaledImageData = () => {
     ));
 };
 
-const sendImageFromFileInput = (socket, inputFile, dispatch) => {
+const sendImageFromFileInput = (socket, dispatch, inputElement) => {
 
   dispatch({
     type: 'SET_SERVER_BUSY',
@@ -29,6 +29,8 @@ const sendImageFromFileInput = (socket, inputFile, dispatch) => {
 
         const pixels = getScaledImageData();
 
+        // eslint-disable-next-line no-param-reassign
+        inputElement.value = '';
         socket.send(JSON.stringify({
           setImage: pixels,
         }));
@@ -38,7 +40,7 @@ const sendImageFromFileInput = (socket, inputFile, dispatch) => {
     }
   };
 
-  reader.readAsDataURL(inputFile);
+  reader.readAsDataURL(inputElement.files[0]);
 };
 
 export default sendImageFromFileInput;

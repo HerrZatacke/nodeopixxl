@@ -6,10 +6,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setImage: (file) => {
+  setImage: (inputElement) => {
     dispatch({
       type: 'SEND_RAW_IMAGE',
-      payload: file,
+      payload: inputElement,
     });
   },
 });
