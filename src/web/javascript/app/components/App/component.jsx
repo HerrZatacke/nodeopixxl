@@ -2,15 +2,14 @@ import React, { Fragment } from 'react';
 import Image from '../Image';
 import Controls from '../Controls';
 import FPSInput from '../FPSInput';
+import StatsTable from '../StatsTable';
 
 // import PropTypes from 'prop-types';
 
-const App = props => (
+const App = () => (
   <Fragment>
-    <pre>
-      {JSON.stringify(props, null, 2)}
-    </pre>
     <Image />
+    <StatsTable />
     <Controls />
     <FPSInput />
   </Fragment>

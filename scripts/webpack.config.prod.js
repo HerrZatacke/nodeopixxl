@@ -64,7 +64,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'App',
+      title: 'StatsTable',
       template: './src/web/assets/index.html',
       filename: 'index.html',
       chunks: ['main'],

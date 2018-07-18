@@ -1,0 +1,18 @@
+.stats-table {
+  margin: 32px auto;
+  width: 100%;
+  max-width: $content-max-width;
+
+  td,
+  th {
+    padding: 8px;
+    color: $color-chelsea-cucumber;
+    border: 2px solid $color-chelsea-cucumber;
+    background-color: $color-county-green;
+    text-align: right;
+  }
+
+  th {
+    color: $color-honeysuckle;
+  }
+}

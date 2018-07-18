@@ -12,15 +12,15 @@ const fps2speed = (fps, width, height) => {
   const timeout = Math.floor(1000 / realFps);
 
   return {
-    realFps: `${realFps.toFixed(precision)} fps`,
-    base: `${pixelsPerMeter.toFixed(precision)} px/m`,
-    pixelSize: `${pixelSize.toFixed(precision)} mm`,
-    imageWidth: `${imageWidth.toFixed(precision)} m`,
-    imageHeight: `${imageHeight.toFixed(precision)} m`,
-    duration: `${duration.toFixed(precision)} s`,
-    timeout: `${timeout} ms`,
-    mps: `${metersPerSecond.toFixed(precision)} m/s`,
-    kph: `${kmPerHour.toFixed(precision)}' km/h`,
+    realFps: `${realFps.toFixed(precision)}fps`,
+    base: `${pixelsPerMeter.toFixed(precision)}px/m`,
+    pixelSize: `${pixelSize.toFixed(precision)}mm`,
+    imageWidth: `${imageWidth.toFixed(precision)}m`,
+    imageHeight: `${imageHeight.toFixed(precision)}m`,
+    duration: `${duration.toFixed(precision)}s`,
+    timeout: `${timeout}ms`,
+    mps: `${metersPerSecond.toFixed(precision)}m/s`,
+    kph: `${kmPerHour.toFixed(precision)}km/h`,
   };
 
 };
