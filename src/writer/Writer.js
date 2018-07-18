@@ -1,6 +1,5 @@
 const { EventEmitter } = require('events');
 const chalk = require('chalk');
-// const ws281x = require('rpi-ws281x-native');
 const OPC = require('./opc');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
@@ -32,10 +31,8 @@ class Writer extends EventEmitter {
   }
 
   init() {
-    // ws281x.init(NUM_LEDS);
     // trap the SIGINT and reset before exit
     process.on('SIGINT', () => {
-      // ws281x.reset();
       this.setColumn(allBlack);
       process.nextTick(() => {
         process.exit(0);
@@ -130,29 +127,17 @@ class Writer extends EventEmitter {
     this.emit('status', {
       offset: this.offset,
     });
+
+    const delay = Math.floor(1000 / this.fps);
+
     this.renderTimeout = global.setTimeout(() => {
-
-      // process.stdout.write(`offset:${this.offset}  width:${this.pixels.length}  fps:${this.fps}\r`);
-      // console.log(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}`);
-
+      console.info(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}  delay:${chalk.red(delay)}`);
       const column = this.pixels[this.offset];
 
       if (!column || !column.length) {
+        this.stopAnimation();
         return;
       }
-
-      // const textRow = column.map((color, index) => {
-      //   if (index > 7) {
-      //     return '';
-      //   }
-      //   if (color === 0) {
-      //     return ' ';
-      //   }
-      //   return chalk.hex(`#${`00000${color.toString(16)}`.slice(-6)}`)('▓▓') // ░▒▓█
-      // });
-      // console.log(textRow.join(''));
-
-      // ws281x.render(new Uint32Array(column));
 
       this.setColumn(column);
 
@@ -164,7 +149,7 @@ class Writer extends EventEmitter {
         this.stopAnimation();
       }
 
-    }, 1000 / this.fps);
+    }, delay);
   }
 }
 
