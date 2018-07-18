@@ -1,0 +1,6 @@
+.controls {
+  &__button-start,
+  &__button-stop {
+    @include button();
+  }
+}
