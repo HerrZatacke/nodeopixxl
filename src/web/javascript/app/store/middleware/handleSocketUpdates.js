@@ -1,9 +1,17 @@
+// import ReconnectingWebSocket from 'reconnecting-websocket';
 import arrayToImageData from '../../tools/arrayToImageData';
 
 const handleSocketUpdates = (dispatch) => {
   const socket = new WebSocket(`ws://${window.location.hostname}:3001/`);
 
-  socket.onmessage = (event) => {
+  socket.addEventListener('close', () => {
+    // https://github.com/pladaria/reconnecting-websocket/issues/60
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
+  });
+
+  socket.addEventListener('message', (event) => {
     const message = JSON.parse(event.data);
 
     if (message.fps) {
@@ -26,7 +34,7 @@ const handleSocketUpdates = (dispatch) => {
         payload: arrayToImageData(message.image),
       });
     }
-  };
+  });
   return socket;
 };
 
