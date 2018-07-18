@@ -24,7 +24,7 @@
 
   &__canvas {
     margin-top: 3px;
-    background: rgba($color-honeysuckle, 0.2);
+    background: rgba($color-key-lime-pie, 0.2);
     image-rendering: pixelated;
   }
 
@@ -34,7 +34,7 @@
     left: 0;
     height: inherit;
     width: 1px;
-    background-color: rgba($color-honeysuckle, 0.3);
+    background-color: rgba($color-key-lime-pie, 0.3);
 
     &:before,
     &:after {
@@ -48,12 +48,12 @@
     }
 
     &:before {
-      border-top-color: $color-honeysuckle;
+      border-top-color: $color-key-lime-pie;
       top: 0;
     }
 
     &:after {
-      border-bottom-color: $color-honeysuckle;
+      border-bottom-color: $color-key-lime-pie;
       bottom: 0;
     }
 

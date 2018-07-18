@@ -11,24 +11,24 @@
   flex: 0 0 calc(33.33% - 4px);
 
   &:not([disabled]):not([data-disabled="true"]) {
-    background-color: $color-honeysuckle;
+    background-color: $color-key-lime-pie;
     color: $color-kaitoke-green;
 
     &:hover {
-      background-color: rgba($color-honeysuckle, 0.7);
+      background-color: rgba($color-key-lime-pie, 0.7);
       cursor: pointer;
     }
 
     &:focus-within,
     &:focus {
       outline: none;
-      background-color: rgba($color-honeysuckle, 0.7);
+      background-color: rgba($color-key-lime-pie, 0.7);
     }
   }
 
   &[disabled],
   &[data-disabled="true"] {
     background-color: $color-chelsea-cucumber;
-    color: $color-killarney;
+    color: $color-dingley;
   }
 }

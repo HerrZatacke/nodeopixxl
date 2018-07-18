@@ -7,7 +7,7 @@ $barSize: 20px;
   max-width: $content-max-width;
   margin: 16px auto;
   -webkit-appearance: none;
-  background: $color-honeysuckle;
+  background: $color-key-lime-pie;
   height: $barSize;
   cursor: pointer;
   border-radius: 5px;
@@ -33,7 +33,7 @@ $barSize: 20px;
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    border: 3px solid $color-honeysuckle;
+    border: 3px solid $color-key-lime-pie;
     height: $thumbSize;
     width: $thumbSize;
     border-radius: 50%;
