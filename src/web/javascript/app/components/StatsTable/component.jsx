@@ -16,20 +16,20 @@ const StatsTable = props => (
       <td>{props.duration}</td>
     </tr>
     <tr>
-      <th>m/s</th>
-      <td>{props.mps}</td>
-    </tr>
-    <tr>
-      <th>km/h</th>
-      <td>{props.kph}</td>
-    </tr>
-    <tr>
       <th>physical dimensions</th>
       <td>{`${props.imageWidth} ✕ ${props.imageHeight}`}</td>
     </tr>
     <tr>
       <th>pixel dimensions</th>
       <td>{`${props.width}px ✕ ${props.height}px`}</td>
+    </tr>
+    <tr>
+      <th>m/s</th>
+      <td>{props.mps}</td>
+    </tr>
+    <tr>
+      <th>km/h</th>
+      <td>{props.kph}</td>
     </tr>
   </table>
 );
