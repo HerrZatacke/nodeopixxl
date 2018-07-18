@@ -75,7 +75,7 @@ class Writer extends EventEmitter {
         canAcceptNewImage: this.canAcceptNewImage,
         image: [...imageData],
       });
-    }, 1000);
+    }, 100);
   }
 
   setColumn(column) {
@@ -96,7 +96,7 @@ class Writer extends EventEmitter {
     });
     global.setTimeout(() => {
       this.startAnimation();
-    }, 1000);
+    }, 1000 / this.fps);
   }
 
   stop() {
