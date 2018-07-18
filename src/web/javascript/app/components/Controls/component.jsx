@@ -1,19 +1,42 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const Controls = props => (
-  <div className="controls">
-    <button className="controls__button-start" onClick={() => props.start()}>Start</button>
-    <button className="controls__button-stop" onClick={() => props.stop()}>Stop</button>
-    <input type="range" value={props.fps} onChange={ev => props.setFps(ev.target.value)} />
-  </div>
-);
+class Controls extends Component {
+
+  constructor(props) {
+    super(props);
+    this.debounceTimeout = null;
+    this.state = {
+      fps: props.fps,
+    };
+  }
+
+  sendFps(fps) {
+    this.setState({
+      fps,
+    });
+    window.clearTimeout(this.debounceTimeout);
+    this.debounceTimeout = window.setTimeout(() => {
+      this.props.sendFps(fps);
+    }, 15);
+  }
+
+  render() {
+    return (
+      <div className="controls">
+        <button className="controls__button-start" onClick={() => this.props.start()}>Start</button>
+        <button className="controls__button-stop" onClick={() => this.props.stop()}>Stop</button>
+        <input type="range" value={this.state.fps} onChange={ev => this.sendFps(ev.target.value)} />
+      </div>
+    );
+  }
+}
 
 Controls.propTypes = {
   fps: PropTypes.number.isRequired,
   start: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
-  setFps: PropTypes.func.isRequired,
+  sendFps: PropTypes.func.isRequired,
 };
 
 Controls.defaultProps = {

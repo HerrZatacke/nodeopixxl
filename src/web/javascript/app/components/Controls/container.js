@@ -15,7 +15,7 @@ const mapDispatchToProps = dispatch => ({
       type: 'SEND_STOP',
     });
   },
-  setFps: (fps) => {
+  sendFps: (fps) => {
     dispatch({
       type: 'SEND_FPS',
       payload: fps,
