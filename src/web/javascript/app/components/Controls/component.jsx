@@ -30,9 +30,22 @@ class Controls extends Component {
   render() {
     return (
       <div className="controls">
-        <button className="controls__button-start" onClick={() => this.props.start()}>Start</button>
-        <button className="controls__button-stop" onClick={() => this.props.stop()}>Stop</button>
+        <button
+          disabled={this.props.serverBusy || this.props.animationRunning}
+          className="controls__button-start"
+          onClick={() => this.props.start()}
+        >
+          Start
+        </button>
+        <button
+          disabled={this.props.serverBusy}
+          className="controls__button-stop"
+          onClick={() => this.props.stop()}
+        >
+          Stop
+        </button>
         <input
+          disabled={this.props.serverBusy}
           type="range"
           value={this.state.fps}
           min="1"
@@ -47,6 +60,8 @@ class Controls extends Component {
 
 Controls.propTypes = {
   fps: PropTypes.number.isRequired,
+  serverBusy: PropTypes.bool.isRequired,
+  animationRunning: PropTypes.bool.isRequired,
   start: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
   sendFps: PropTypes.func.isRequired,

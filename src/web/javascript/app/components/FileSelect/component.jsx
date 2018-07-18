@@ -13,9 +13,14 @@ class FileSelect extends Component {
   render() {
     return (
       <div className="file-select">
-        <label htmlFor="input-file-select" className="file-select__button">
+        <label
+          data-disabled={this.props.serverBusy || this.props.animationRunning}
+          htmlFor="input-file-select"
+          className="file-select__button"
+        >
           <input
             type="file"
+            disabled={this.props.serverBusy || this.props.animationRunning}
             className="file-select__input"
             onChange={ev => this.fileChange(ev.target)}
             id="input-file-select"
@@ -28,6 +33,8 @@ class FileSelect extends Component {
 }
 
 FileSelect.propTypes = {
+  serverBusy: PropTypes.bool.isRequired,
+  animationRunning: PropTypes.bool.isRequired,
   setImage: PropTypes.func.isRequired,
 };
 

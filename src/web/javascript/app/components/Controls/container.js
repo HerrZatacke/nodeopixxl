@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
   fps: state.fps,
+  serverBusy: state.serverBusy,
+  animationRunning: state.animationRunning,
 });
 
 const mapDispatchToProps = dispatch => ({

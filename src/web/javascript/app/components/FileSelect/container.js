@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 
-const mapStateToProps = (/* state */) => ({
+const mapStateToProps = state => ({
+  serverBusy: state.serverBusy,
+  animationRunning: state.animationRunning,
 });
 
 const mapDispatchToProps = dispatch => ({
