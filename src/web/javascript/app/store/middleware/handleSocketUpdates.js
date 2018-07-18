@@ -1,9 +1,9 @@
-import arrayToImageData from '../tools/arrayToImageData';
+import arrayToImageData from '../../tools/arrayToImageData';
 
 const handleSocketUpdates = (dispatch) => {
-  const exampleSocket = new WebSocket(`ws://${window.location.hostname}:3001/`);
+  const socket = new WebSocket(`ws://${window.location.hostname}:3001/`);
 
-  exampleSocket.onmessage = (event) => {
+  socket.onmessage = (event) => {
     const message = JSON.parse(event.data);
 
     if (message.fps) {
@@ -27,6 +27,7 @@ const handleSocketUpdates = (dispatch) => {
       });
     }
   };
+  return socket;
 };
 
 export default handleSocketUpdates;

@@ -1,8 +1,9 @@
-import handleSocketUpdates from './handleSocketUpdates';
+import handleSocketUpdates from './middleware/handleSocketUpdates';
+import sendImageFromFileInput from './middleware/sendImageFromFileInput';
 
 const middleware = (store) => {
 
-  handleSocketUpdates(store.dispatch);
+  const socket = handleSocketUpdates(store.dispatch);
 
   return next => (action) => {
 
@@ -11,7 +12,7 @@ const middleware = (store) => {
 
     switch (action.type) {
       case 'SET_RAW_IMAGE':
-        console.log(action.payload);
+        sendImageFromFileInput(socket, action.payload);
         break;
       default:
         break;
