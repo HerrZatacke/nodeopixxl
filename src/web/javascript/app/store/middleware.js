@@ -1,5 +1,6 @@
 import handleSocketUpdates from './middleware/handleSocketUpdates';
 import sendImageFromFileInput from './middleware/sendImageFromFileInput';
+import sendAction from './middleware/sendAction';
 
 const middleware = (store) => {
 
@@ -13,6 +14,15 @@ const middleware = (store) => {
     switch (action.type) {
       case 'SEND_RAW_IMAGE':
         sendImageFromFileInput(socket, action.payload);
+        break;
+      case 'SEND_START':
+        sendAction(socket, 'start');
+        break;
+      case 'SEND_STOP':
+        sendAction(socket, 'stop');
+        break;
+      case 'SEND_FPS':
+        sendAction(socket, 'fps', action.payload);
         break;
       default:
         break;
