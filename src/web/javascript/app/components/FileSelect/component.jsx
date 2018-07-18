@@ -13,13 +13,13 @@ class FileSelect extends Component {
   render() {
     return (
       <div className="file-select">
-        <input
-          type="file"
-          className="file-select__input"
-          onChange={ev => this.fileChange(ev.target)}
-          id="input-file-select"
-        />
         <label htmlFor="input-file-select" className="file-select__button">
+          <input
+            type="file"
+            className="file-select__input"
+            onChange={ev => this.fileChange(ev.target)}
+            id="input-file-select"
+          />
           Select File
         </label>
       </div>
