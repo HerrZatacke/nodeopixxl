@@ -30,6 +30,8 @@ class FPSInput extends Component {
   render() {
     return (
       <input
+        title={`${this.state.fps} FPS`}
+        className="fpsinput"
         disabled={this.props.serverBusy}
         type="range"
         value={this.state.fps}
