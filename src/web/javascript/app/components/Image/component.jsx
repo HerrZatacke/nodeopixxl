@@ -21,20 +21,41 @@ class Image extends Component {
     }
   }
 
+  leftPos() {
+    try {
+      const containerWidth = Math.min(window.innerWidth, 500);
+      if (containerWidth >= this.props.image.width) {
+        return 0;
+      }
+      const hiddenWidth = this.props.image.width - containerWidth;
+      return -hiddenWidth * (this.props.offset / this.props.image.width);
+    } catch (err) {
+      return 30;
+    }
+  }
+
   render() {
     return (
       <div className="image-component">
         <div
-          className={this.props.offset ? 'indicator' : null}
+          className="image-component__wrapper"
           style={{
-            left: `${this.props.offset}px`,
+            left: `${this.leftPos()}px`,
           }}
-        />
-        <canvas
-          width={this.props.image.width / this.props.image.height * 160}
-          height="160"
-          ref={elt => this.setContext(elt)}
-        />
+        >
+          <div
+            className={`image-component__indicator ${this.props.offset ? '' : 'image-component__indicator--hidden'}`}
+            style={{
+              left: `${this.props.offset}px`,
+            }}
+          />
+          <canvas
+            className="image-component__canvas"
+            width={this.props.image.width / this.props.image.height * 160}
+            height="160"
+            ref={elt => this.setContext(elt)}
+          />
+        </div>
       </div>
     );
   }

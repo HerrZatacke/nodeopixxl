@@ -1,18 +1,63 @@
 .image-component {
+  margin: 8px auto;
+  max-width: $content-max-width;
+  overflow: hidden;
   position: relative;
-  margin: 4px 0;
+  height: 166px;
+  //background-color: $color-mine-shaft;
 
-  canvas {
+  &:before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(20deg, $color-black, $color-county-green);
+  }
+
+  &__wrapper {
+    height: 166px;
+    position: absolute;
+    left: 0;
+  }
+
+  &__canvas {
+    margin-top: 3px;
     background: rgba($color-honeysuckle, 0.2);
   }
 
-  .indicator {
+  &__indicator {
     position: absolute;
     top: 0;
     left: 0;
-    height: 160px;
+    height: inherit;
     width: 1px;
-    background-color: rgba($color-gray, 0.5);
-  }
+    background-color: rgba($color-honeysuckle, 0.3);
 
+    &:before,
+    &:after {
+      content: '';
+      width: 1px;
+      height: 1px;
+      border: 3px solid transparent;
+      display: block;
+      position: absolute;
+      left: -3px;
+    }
+
+    &:before {
+      border-top-color: $color-honeysuckle;
+      top: 0;
+    }
+
+    &:after {
+      border-bottom-color: $color-honeysuckle;
+      bottom: 0;
+    }
+
+    &--hidden {
+      display: none;
+    }
+  }
 }
