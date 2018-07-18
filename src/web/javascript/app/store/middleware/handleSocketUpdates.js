@@ -28,6 +28,20 @@ const handleSocketUpdates = (dispatch) => {
       });
     }
 
+    if (message.canAcceptNewImage !== undefined) {
+      dispatch({
+        type: 'SET_SERVER_BUSY',
+        payload: !message.canAcceptNewImage,
+      });
+    }
+
+    if (message.isRunning !== undefined) {
+      dispatch({
+        type: 'SET_ANIMATION_RUNNING',
+        payload: message.isRunning,
+      });
+    }
+
     if (message.image && message.image.length) {
       dispatch({
         type: 'SET_IMAGE',

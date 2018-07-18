@@ -5,6 +5,8 @@ const mapStateToProps = state => ({
   offset: state.offset,
   width: state.image.width,
   height: state.image.height,
+  serverBusy: state.serverBusy,
+  animationRunning: state.animationRunning,
 });
 
 const mapDispatchToProps = (/* dispatch */) => ({
