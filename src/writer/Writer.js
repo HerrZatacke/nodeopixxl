@@ -1,6 +1,7 @@
 const { EventEmitter } = require('events');
 const chalk = require('chalk');
 const OPC = require('./opc');
+const randomImage = require('./randomImage');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
 
@@ -14,7 +15,7 @@ class Writer extends EventEmitter {
     super();
     this.renderTimeout = null;
     this.loadTimeout = null;
-    this.fps = 30;
+    this.fps = 60;
     this.pixels = [[]];
     this.offset = 0;
     this.canAcceptNewImage = true;
@@ -43,6 +44,7 @@ class Writer extends EventEmitter {
 
     this.setColumn(allBlack);
     this.emit('status', this.getStatus());
+    this.setImageFile(randomImage());
   }
 
   setImageFile(imageData) {
