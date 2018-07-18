@@ -25,6 +25,7 @@
   &__canvas {
     margin-top: 3px;
     background: rgba($color-honeysuckle, 0.2);
+    image-rendering: pixelated;
   }
 
   &__indicator {
