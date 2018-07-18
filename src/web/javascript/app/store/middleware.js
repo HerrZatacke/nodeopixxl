@@ -4,20 +4,21 @@ const middleware = (store) => {
 
   handleSocketUpdates(store.dispatch);
 
-  return next => action => next(action);
+  return next => (action) => {
 
-  // return next => (action) => {
-  //
-  //   // const state = store.getState();
-  //
-  //   // console.log(state);
-  //
-  //   // if (action.type === 'SUBMITENTRY') {
-  //   //   submitEntry(store, state, action);
-  //   // }
-  //
-  //   return next(action);
-  // };
+    // const state = store.getState();
+    // console.log(state);
+
+    switch (action.type) {
+      case 'SET_RAW_IMAGE':
+        console.log(action.payload);
+        break;
+      default:
+        break;
+    }
+
+    return next(action);
+  };
 };
 
 export default middleware;

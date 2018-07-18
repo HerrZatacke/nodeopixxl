@@ -1,0 +1,8 @@
+.file-select {
+  &__input {
+    display: none;
+  }
+  &__button {
+    @include button();
+  }
+}

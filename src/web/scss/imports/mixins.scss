@@ -1,14 +1,14 @@
-@mixin formgroup-focus() {
-  position: relative;
+@mixin button() {
+  background-color: #004422;
+  color: #ddff77;
+  padding: 6px 12px;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 4px 0;
+  font-family: inherit;
 
-  &:focus-within {
-    &:before {
-      content: '';
-      position: absolute;
-      left: -18px;
-      bottom: 5px;
-      border: 12px solid transparent;
-      border-left-color: $color-rock-blue;
-    }
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
   }
 }
