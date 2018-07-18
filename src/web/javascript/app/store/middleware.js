@@ -13,7 +13,7 @@ const middleware = (store) => {
 
     switch (action.type) {
       case 'SEND_RAW_IMAGE':
-        sendImageFromFileInput(socket, action.payload);
+        sendImageFromFileInput(socket, action.payload, store.dispatch);
         break;
       case 'SEND_START':
         sendAction(socket, 'start');

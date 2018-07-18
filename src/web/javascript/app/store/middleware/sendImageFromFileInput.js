@@ -12,7 +12,12 @@ const getScaledImageData = () => {
     ));
 };
 
-const sendImageFromFileInput = (socket, inputFile) => {
+const sendImageFromFileInput = (socket, inputFile, dispatch) => {
+
+  dispatch({
+    type: 'SET_SERVER_BUSY',
+    payload: true,
+  });
 
   reader.onload = (ev) => {
     if (ev.target.readyState === FileReader.DONE) {
