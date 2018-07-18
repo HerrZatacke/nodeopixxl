@@ -46,7 +46,7 @@ class Image extends Component {
           <div
             className={`image-component__indicator ${this.props.offset ? '' : 'image-component__indicator--hidden'}`}
             style={{
-              left: `${this.props.offset}px`,
+              left: `${this.props.offset - 1}px`,
             }}
           />
           <canvas
