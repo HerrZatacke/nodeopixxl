@@ -11,6 +11,12 @@ class Controls extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props) {
+    return {
+      fps: props.fps,
+    };
+  }
+
   sendFps(fps) {
     this.setState({
       fps,
@@ -26,7 +32,14 @@ class Controls extends Component {
       <div className="controls">
         <button className="controls__button-start" onClick={() => this.props.start()}>Start</button>
         <button className="controls__button-stop" onClick={() => this.props.stop()}>Stop</button>
-        <input type="range" value={this.state.fps} onChange={ev => this.sendFps(ev.target.value)} />
+        <input
+          type="range"
+          value={this.state.fps}
+          min="1"
+          max="250"
+          step="1"
+          onChange={ev => this.sendFps(ev.target.value)}
+        />
       </div>
     );
   }
