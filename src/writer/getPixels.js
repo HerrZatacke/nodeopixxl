@@ -1,5 +1,3 @@
-const fs = require('fs');
-const path = require('path');
 const ndarray = require('ndarray');
 const rgb2int = require('./rgb2int');
 
@@ -12,10 +10,10 @@ const getPixels = (imageData, brightness = 1) => {
 
   const pixelData = ndarray(imageData, [height, width, 3]);
 
-  for (let x = 0; x < width; x++) {
+  for (let x = 0; x < width; x += 1) {
     const col = [];
     pixels.push(col);
-    for (let y = 0; y < height; y++) {
+    for (let y = 0; y < height; y += 1) {
 
       let r = pixelData.get(y, x, 0);
       let g = pixelData.get(y, x, 1);

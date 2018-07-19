@@ -13,6 +13,9 @@
   },
   "author": "Herr Zatacke",
   "private": true,
+  "settings": {
+    "num-leds": 160
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
