@@ -7,7 +7,8 @@
     "build": "npm run build:clean && npm run build:webpack",
     "build:clean": "rimraf dist && rimraf build",
     "build:webpack": "node scripts/build.js",
-    "fcserver": ".\\fcserver\\fcserver.exe .\\fcserver\\config.json",
+    "fcserver:win": ".\\fcserver\\fcserver.exe .\\fcserver\\config.json",
+    "fcserver:rpi": ".\\fcserver\\fcserver-rpi .\\fcserver\\config.json",
     "wsserver": "node ./src/writer/index.js",
     "wsserver:dev": "nodemon --watch src ./src/writer/index.js"
   },
