@@ -6,7 +6,7 @@ const Controls = props => (
   <div className="controls">
     <FileSelect />
     <button
-      disabled={props.serverBusy}
+      disabled={props.serverBusy || props.animationRunning}
       className="controls__button controls__button-set-random"
       onClick={() => props.setRandom()}
     >
