@@ -1,3 +1,6 @@
+// this must be the first thing to ever happen
+global.CONFIG = require('../../package').projectConfig;
+
 const WebSocket = require('ws');
 const writer = require('./Writer');
 

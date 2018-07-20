@@ -5,9 +5,7 @@ const randomImage = require('./randomImage');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
 
-const NUM_LEDS = 160;
-
-const allBlack = new Uint32Array(NUM_LEDS);
+const allBlack = new Uint32Array(CONFIG.NUM_LEDS);
 
 class Writer extends EventEmitter {
 
@@ -78,7 +76,7 @@ class Writer extends EventEmitter {
   }
 
   setColumn(column) {
-    for (let pixel = 0; pixel < NUM_LEDS; pixel += 1) {
+    for (let pixel = 0; pixel < CONFIG.NUM_LEDS; pixel += 1) {
       const { r, g, b } = int2rgb(column[pixel]);
       this.client.setPixel(pixel, r, g, b);
     }

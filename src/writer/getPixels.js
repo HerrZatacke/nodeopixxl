@@ -5,8 +5,8 @@ const getPixels = (imageData, brightness = 1) => {
 
   const pixels = [];
 
-  const height = 160;
-  const width = imageData.length / 480; // NUM_LEDS * 3
+  const height = CONFIG.NUM_LEDS;
+  const width = imageData.length / height; // NUM_LEDS * 3
 
   const pixelData = ndarray(imageData, [height, width, 3]);
 
