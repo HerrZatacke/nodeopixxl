@@ -5,7 +5,7 @@ const randomImage = () => {
   const scaleB = Math.floor(Math.random() * 3) + bigScale;
 
   return (
-    new Uint32Array(160 * 320 * 3)
+    new Uint32Array(CONFIG.NUM_LEDS * 320 * 3)
       .map((n, index) => {
         // r
         if (index % 3 === 0) {
