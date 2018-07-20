@@ -24,7 +24,7 @@
     &:focus-within,
     &:focus {
       outline: none;
-      background-color: rgba($color-key-lime-pie, 0.7);
+      //box-shadow: inset $color-chelsea-cucumber 0 0 0 2px;
     }
   }
 
