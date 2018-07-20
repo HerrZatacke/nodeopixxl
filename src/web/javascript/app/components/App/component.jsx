@@ -4,8 +4,6 @@ import Controls from '../Controls';
 import FPSInput from '../FPSInput';
 import StatsTable from '../StatsTable';
 
-// import PropTypes from 'prop-types';
-
 const App = () => (
   <Fragment>
     <h1 className="app-headline">Lightdraw Command</h1>
