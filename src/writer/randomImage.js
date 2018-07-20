@@ -1,11 +1,12 @@
+const basicWidth = 500;
 const randomImage = () => {
-  const bigScale = (Math.floor(Math.random() * 3) + 1) * 80;
+  const bigScale = (Math.floor(Math.random() * 3) + 1) * (basicWidth / 4);
   const scaleR = Math.floor(Math.random() * 3) + bigScale;
   const scaleG = Math.floor(Math.random() * 3) + bigScale;
   const scaleB = Math.floor(Math.random() * 3) + bigScale;
 
   return (
-    new Uint32Array(CONFIG.NUM_LEDS * 500 * 3)
+    new Uint32Array(CONFIG.NUM_LEDS * basicWidth * 3)
       .map((n, index) => {
         // r
         if (index % 3 === 0) {
