@@ -1,5 +1,5 @@
 const arrayToImageData = (array) => {
-  const height = 160;
+  const height = CONFIG.NUM_LEDS;
   const width = array.length / (height * 3); // NUM_LEDS * 3
   const imgData = new Uint8ClampedArray(width * height * 4);
   let t = 0;

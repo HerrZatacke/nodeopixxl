@@ -16,7 +16,7 @@ class Image extends Component {
   }
 
   updateCanvas() {
-    if (this.canvasContext && this.props.image.height === 160) {
+    if (this.canvasContext && this.props.image.height === CONFIG.NUM_LEDS) {
       this.canvasContext.putImageData(this.props.image, 0, 0);
     }
   }
@@ -51,8 +51,8 @@ class Image extends Component {
           />
           <canvas
             className="image-component__canvas"
-            width={this.props.image.width / this.props.image.height * 160}
-            height="160"
+            width={this.props.image.width / this.props.image.height * CONFIG.NUM_LEDS}
+            height={CONFIG.NUM_LEDS}
             ref={elt => this.setContext(elt)}
           />
         </div>

@@ -6,3 +6,6 @@ $color-key-lime-pie: #BFC921;
 $color-black: #000000;
 
 $content-max-width: 500px;
+
+//noinspection SassScssUnresolvedVariable
+$num-leds: $CONFIG_NUM_LEDS;

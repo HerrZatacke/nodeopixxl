@@ -13,8 +13,8 @@
   },
   "author": "Herr Zatacke",
   "private": true,
-  "settings": {
-    "num-leds": 160
+  "projectConfig": {
+    "NUM_LEDS": 160
   },
   "dependencies": {
     "body-parser": "^1.18.3",

@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const packageJson = require('../package.json');
 
 module.exports = {
   mode: 'development',
@@ -86,5 +87,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({
+      CONFIG: JSON.stringify(packageJson.projectConfig),
+    }),
   ],
 };

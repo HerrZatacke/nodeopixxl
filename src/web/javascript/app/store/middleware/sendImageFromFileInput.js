@@ -22,8 +22,8 @@ const sendImageFromFileInput = (socket, dispatch, inputElement) => {
   reader.onload = (ev) => {
     if (ev.target.readyState === FileReader.DONE) {
       img.onload = () => {
-        canvas.width = img.naturalWidth / img.naturalHeight * 160;
-        canvas.height = 160;
+        canvas.width = img.naturalWidth / img.naturalHeight * CONFIG.NUM_LEDS;
+        canvas.height = CONFIG.NUM_LEDS;
 
         canvasContext.drawImage(img, 0, 0, canvas.width, canvas.height);
 
