@@ -18,6 +18,7 @@ class Writer extends EventEmitter {
     this.offset = 0;
     this.canAcceptNewImage = true;
     this.isRunning = false;
+    this.loop = true;
   }
 
   getStatus() {
@@ -146,7 +147,7 @@ class Writer extends EventEmitter {
     }
 
     this.renderTimeout = global.setTimeout(() => {
-      if (this.offset !== 0) {
+      if (this.offset !== 0 || this.loop) {
         this.startAnimation();
       } else {
         this.stopAnimation();

@@ -44,7 +44,7 @@ class Image extends Component {
           }}
         >
           <div
-            className={`image-component__indicator ${this.props.offset ? '' : 'image-component__indicator--hidden'}`}
+            className={`image-component__indicator ${this.props.animationRunning ? '' : 'image-component__indicator--hidden'}`}
             style={{
               left: `${this.props.offset - 1}px`,
             }}
@@ -64,9 +64,7 @@ class Image extends Component {
 Image.propTypes = {
   image: PropTypes.instanceOf(ImageData).isRequired,
   offset: PropTypes.number.isRequired,
-};
-
-Image.defaultProps = {
+  animationRunning: PropTypes.bool.isRequired,
 };
 
 export default Image;
