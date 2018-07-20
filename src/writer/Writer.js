@@ -18,7 +18,7 @@ class Writer extends EventEmitter {
     this.offset = 0;
     this.canAcceptNewImage = true;
     this.isRunning = false;
-    this.loop = true;
+    this.loop = false;
   }
 
   getStatus() {
