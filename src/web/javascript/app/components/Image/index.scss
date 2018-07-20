@@ -13,7 +13,7 @@
     left: 0;
     width: 100%;
     height: $num-leds * 1px;
-    background: linear-gradient(20deg, $color-black, $color-county-green);
+    background-color: rgba($color-black, 0.5);
   }
 
   &__wrapper {
