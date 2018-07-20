@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import Image from '../Image';
 import Controls from '../Controls';
-import FPSInput from '../FPSInput';
 import StatsTable from '../StatsTable';
 
 const App = () => (
@@ -10,7 +9,6 @@ const App = () => (
     <Image />
     <StatsTable />
     <Controls />
-    <FPSInput />
   </Fragment>
 );
 

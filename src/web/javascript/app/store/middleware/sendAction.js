@@ -9,6 +9,9 @@ const sendAction = (socket, actionName, actionValue) => {
     case 'setrandom':
       socket.send(JSON.stringify({ setrandom: true }));
       break;
+    case 'loop':
+      socket.send(JSON.stringify({ loop: actionValue }));
+      break;
     case 'fps':
       socket.send(JSON.stringify({ fps: actionValue }));
       break;

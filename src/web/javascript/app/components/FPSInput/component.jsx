@@ -29,17 +29,19 @@ class FPSInput extends Component {
 
   render() {
     return (
-      <input
-        title={`${this.state.fps} FPS`}
-        className="fpsinput"
-        disabled={this.props.serverBusy}
-        type="range"
-        value={this.state.fps}
-        min="1"
-        max="300"
-        step="1"
-        onChange={ev => this.sendFps(ev.target.value)}
-      />
+      <div className="fpsinput">
+        <input
+          title={`${this.state.fps} FPS`}
+          className="fpsinput__input"
+          disabled={this.props.serverBusy}
+          type="range"
+          value={this.state.fps}
+          min="1"
+          max="300"
+          step="1"
+          onChange={ev => this.sendFps(ev.target.value)}
+        />
+      </div>
     );
   }
 }

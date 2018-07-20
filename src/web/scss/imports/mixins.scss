@@ -1,7 +1,7 @@
-@mixin button() {
+@mixin button($hoverColor: true) {
   display: inline-block;
   padding: 12px 12px;
-  margin: 4px 0;
+  margin: 4px;
   border-radius: 5px;
   border: none;
   font-family: inherit;
@@ -9,15 +9,16 @@
   text-align: center;
   line-height: inherit;
   vertical-align: baseline;
-  flex: 0 0 calc(25% - 4px);
-  //flex: 0 0 calc(33.33% - 4px);
+  flex: 1 0 240px;
 
   &:not([disabled]):not([data-disabled="true"]) {
     background-color: $color-key-lime-pie;
     color: $color-kaitoke-green;
 
     &:hover {
-      background-color: rgba($color-key-lime-pie, 0.7);
+      @if $hoverColor {
+        background-color: rgba($color-key-lime-pie, 0.7);
+      }
       cursor: pointer;
     }
 

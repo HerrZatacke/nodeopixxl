@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   serverBusy: state.serverBusy,
   animationRunning: state.animationRunning,
+  isLooping: state.isLooping,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -14,6 +15,12 @@ const mapDispatchToProps = dispatch => ({
   stop: () => {
     dispatch({
       type: 'SEND_STOP',
+    });
+  },
+  loop: (value) => {
+    dispatch({
+      type: 'SEND_LOOP',
+      payload: value,
     });
   },
   setRandom: () => {

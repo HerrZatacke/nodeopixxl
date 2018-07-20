@@ -42,6 +42,13 @@ const handleSocketUpdates = (dispatch) => {
       });
     }
 
+    if (message.loop !== undefined) {
+      dispatch({
+        type: 'SET_IS_LOOPING',
+        payload: message.loop,
+      });
+    }
+
     if (message.image && message.image.length) {
       dispatch({
         type: 'SET_IMAGE',

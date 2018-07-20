@@ -28,6 +28,9 @@ wss.on('connection', (ws) => {
         case 'setrandom':
           writer.setImageFile(randomImage());
           break;
+        case 'loop':
+          writer.setLoop(payload);
+          break;
         case 'fps':
           writer.setFPS(payload);
           break;

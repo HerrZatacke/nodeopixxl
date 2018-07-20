@@ -3,8 +3,51 @@
   justify-content: space-between;
   max-width: $content-max-width;
   margin: 0 auto;
+  flex-wrap: wrap;
+
 
   &__button {
     @include button();
+  }
+
+  &__checkbox {
+    @include button(false);
+    flex: 0 0 90px;
+    height: 40px;
+    padding: 0;
+    white-space: nowrap;
+    position: relative;
+
+    &__text {
+      float: left;
+      padding: 12px 4px;
+    }
+
+    &__input {
+      float: left;
+      -webkit-appearance: none;
+      border: 3px solid $color-key-lime-pie;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      background: $color-kaitoke-green;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+
+      &:focus {
+        outline: none;
+      }
+
+      &:checked {
+        background: radial-gradient(
+            $color-key-lime-pie 0%,
+            $color-key-lime-pie 26%,
+            $color-kaitoke-green 30%,
+            $color-kaitoke-green 100%
+        );
+      }
+
+    }
   }
 }

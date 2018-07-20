@@ -1,48 +1,52 @@
 $thumbSize: 40px;
-$barSize: 20px;
+$barSize: 40px;
 
 .fpsinput {
-  display: block;
-  width: 100%;
-  max-width: $content-max-width;
-  margin: 16px auto;
-  -webkit-appearance: none;
-  background: $color-key-lime-pie;
-  height: $barSize;
-  cursor: pointer;
-  border-radius: 5px;
-  position: relative;
+  margin: 4px;
+  flex: 1 0 60%;
 
-  &:before,
-  &:after {
-    position: absolute;
-    content: attr(title);
-    font-size: 14px;
-    line-height: $barSize;
-    padding: 0 4px;
-    display: block;
-    color: $color-kaitoke-green;
-  }
-
-  &:before {
-    left: 0;
-  }
-  &:after {
-    right: 0;
-  }
-
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: 3px solid $color-key-lime-pie;
-    height: $thumbSize;
-    width: $thumbSize;
-    border-radius: 50%;
-    background: $color-kaitoke-green;
-    cursor: pointer;
+  &__input {
+    width: 100%;
     margin: 0;
-  }
+    display: block;
+    -webkit-appearance: none;
+    background: $color-key-lime-pie;
+    height: $barSize;
+    cursor: pointer;
+    border-radius: 5px;
+    position: relative;
 
-  &:focus {
-    outline: none;
+    &:before,
+    &:after {
+      position: absolute;
+      content: attr(title);
+      font-size: 16px;
+      line-height: $barSize;
+      padding: 0 10px;
+      display: block;
+      color: $color-kaitoke-green;
+    }
+
+    &:before {
+      left: 0;
+    }
+    &:after {
+      right: 0;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border: 3px solid $color-key-lime-pie;
+      height: $thumbSize;
+      width: $thumbSize;
+      border-radius: 50%;
+      background: $color-kaitoke-green;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 }

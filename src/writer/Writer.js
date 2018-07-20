@@ -27,6 +27,7 @@ class Writer extends EventEmitter {
       offset: this.offset,
       canAcceptNewImage: this.canAcceptNewImage,
       isRunning: this.isRunning,
+      loop: this.loop,
     };
   }
 
@@ -97,6 +98,13 @@ class Writer extends EventEmitter {
 
   stop() {
     this.stopAnimation();
+  }
+
+  setLoop(value) {
+    this.loop = !!value;
+    this.emit('status', {
+      loop: this.loop,
+    });
   }
 
   setFPS(fps = 30) {
