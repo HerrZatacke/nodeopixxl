@@ -6,6 +6,9 @@ const sendAction = (socket, actionName, actionValue) => {
     case 'stop':
       socket.send(JSON.stringify({ stop: true }));
       break;
+    case 'setrandom':
+      socket.send(JSON.stringify({ setrandom: true }));
+      break;
     case 'fps':
       socket.send(JSON.stringify({ fps: actionValue }));
       break;

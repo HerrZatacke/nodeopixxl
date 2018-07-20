@@ -8,7 +8,9 @@
   font-size: inherit;
   text-align: center;
   line-height: inherit;
-  flex: 0 0 calc(33.33% - 4px);
+  vertical-align: baseline;
+  flex: 0 0 calc(25% - 4px);
+  //flex: 0 0 calc(33.33% - 4px);
 
   &:not([disabled]):not([data-disabled="true"]) {
     background-color: $color-key-lime-pie;

@@ -16,6 +16,11 @@ const mapDispatchToProps = dispatch => ({
       type: 'SEND_STOP',
     });
   },
+  setRandom: () => {
+    dispatch({
+      type: 'SEND_SETRANDOM',
+    });
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);

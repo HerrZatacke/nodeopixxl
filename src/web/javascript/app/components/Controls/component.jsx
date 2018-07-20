@@ -6,15 +6,22 @@ const Controls = props => (
   <div className="controls">
     <FileSelect />
     <button
+      disabled={props.serverBusy}
+      className="controls__button controls__button-set-random"
+      onClick={() => props.setRandom()}
+    >
+      Random
+    </button>
+    <button
       disabled={props.serverBusy || props.animationRunning}
-      className="controls__button-start"
+      className="controls__button controls__button-start"
       onClick={() => props.start()}
     >
       Start
     </button>
     <button
       disabled={props.serverBusy}
-      className="controls__button-stop"
+      className="controls__button controls__button-stop"
       onClick={() => props.stop()}
     >
       Stop
@@ -27,6 +34,7 @@ Controls.propTypes = {
   animationRunning: PropTypes.bool.isRequired,
   start: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
+  setRandom: PropTypes.func.isRequired,
 };
 
 Controls.defaultProps = {

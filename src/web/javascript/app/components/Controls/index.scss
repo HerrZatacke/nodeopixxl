@@ -4,8 +4,7 @@
   max-width: $content-max-width;
   margin: 0 auto;
 
-  &__button-start,
-  &__button-stop {
+  &__button {
     @include button();
   }
 }

@@ -3,6 +3,7 @@ global.CONFIG = require('../../package').projectConfig;
 
 const WebSocket = require('ws');
 const writer = require('./Writer');
+const randomImage = require('./randomImage');
 
 const wss = new WebSocket.Server({ port: 3001 });
 const lastStatus = {};
@@ -23,6 +24,9 @@ wss.on('connection', (ws) => {
           break;
         case 'stop':
           writer.stop();
+          break;
+        case 'setrandom':
+          writer.setImageFile(randomImage());
           break;
         case 'fps':
           writer.setFPS(payload);

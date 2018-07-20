@@ -21,6 +21,9 @@ const middleware = (store) => {
       case 'SEND_STOP':
         sendAction(socket, 'stop');
         break;
+      case 'SEND_SETRANDOM':
+        sendAction(socket, 'setrandom');
+        break;
       case 'SEND_FPS':
         sendAction(socket, 'fps', action.payload);
         break;
