@@ -28,6 +28,13 @@ const mapDispatchToProps = dispatch => ({
       type: 'SEND_SETRANDOM',
     });
   },
+  setText: () => {
+    dispatch({
+      type: 'SEND_TEXT',
+      // eslint-disable-next-line no-alert
+      payload: window.prompt('Text?'),
+    });
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);

@@ -1,16 +1,9 @@
+import getScaledImageData from '../../tools/getScaledImageData';
+
 const reader = new FileReader();
 const img = new Image();
 const canvas = document.createElement('canvas');
 const canvasContext = canvas.getContext('2d');
-
-const getScaledImageData = () => {
-  const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
-  return [...imageData.data]
-    // removes the alpha channel
-    .filter((val, index) => (
-      (index + 1) % 4 !== 0
-    ));
-};
 
 const sendImageFromFileInput = (socket, dispatch, inputElement) => {
 
@@ -27,7 +20,7 @@ const sendImageFromFileInput = (socket, dispatch, inputElement) => {
 
         canvasContext.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        const pixels = getScaledImageData();
+        const pixels = getScaledImageData(canvas);
 
         // eslint-disable-next-line no-param-reassign
         inputElement.value = '';

@@ -8,6 +8,13 @@ const Controls = props => (
     <FileSelect />
     <button
       disabled={props.serverBusy || props.animationRunning}
+      className="controls__button controls__button-set-text"
+      onClick={() => props.setText()}
+    >
+      Text
+    </button>
+    <button
+      disabled={props.serverBusy || props.animationRunning}
       className="controls__button controls__button-set-random"
       onClick={() => props.setRandom()}
     >
@@ -50,6 +57,7 @@ Controls.propTypes = {
   start: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
   loop: PropTypes.func.isRequired,
+  setText: PropTypes.func.isRequired,
   setRandom: PropTypes.func.isRequired,
 };
 

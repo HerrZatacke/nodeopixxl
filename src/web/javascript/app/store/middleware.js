@@ -1,5 +1,6 @@
 import handleSocketUpdates from './middleware/handleSocketUpdates';
 import sendImageFromFileInput from './middleware/sendImageFromFileInput';
+import sendText from './middleware/sendText';
 import sendAction from './middleware/sendAction';
 
 const middleware = (store) => {
@@ -14,6 +15,9 @@ const middleware = (store) => {
     switch (action.type) {
       case 'SEND_RAW_IMAGE':
         sendImageFromFileInput(socket, store.dispatch, action.payload);
+        break;
+      case 'SEND_TEXT':
+        sendText(socket, store.dispatch, action.payload);
         break;
       case 'SEND_START':
         sendAction(socket, 'start');
