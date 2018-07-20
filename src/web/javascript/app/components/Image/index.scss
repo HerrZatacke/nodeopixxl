@@ -1,15 +1,16 @@
+$arrow-base: 3px;
+
 .image-component {
   margin: 0 auto 8px auto;
   max-width: $content-max-width;
   overflow: hidden;
   position: relative;
-  height: calc(#{$num-leds * 1px} + 6px);
-  //background-color: $color-mine-shaft;
+  height: calc(#{$num-leds * 1px} + #{$arrow-base * 2});
 
   &:before {
     content: '';
     position: absolute;
-    top: 3px;
+    top: $arrow-base;
     left: 0;
     width: 100%;
     height: $num-leds * 1px;
@@ -17,13 +18,14 @@
   }
 
   &__wrapper {
-    height: calc(#{$num-leds * 1px} + 6px);
+    height: calc(#{$num-leds * 1px} + #{$arrow-base * 2});
     position: absolute;
     left: 0;
   }
 
   &__canvas {
-    margin-top: 3px;
+    display: block;
+    margin-top: $arrow-base;
     background: rgba($color-key-lime-pie, 0.2);
     image-rendering: pixelated;
   }
@@ -41,10 +43,10 @@
       content: '';
       width: 1px;
       height: 1px;
-      border: 3px solid transparent;
+      border: $arrow-base solid transparent;
       display: block;
       position: absolute;
-      left: -3px;
+      left: -$arrow-base;
     }
 
     &:before {
