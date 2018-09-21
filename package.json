@@ -10,18 +10,19 @@
     "fcserver:win": ".\\fcserver\\fcserver.exe .\\fcserver\\config.json",
     "fcserver:rpi": "./fcserver/fcserver-rpi ./fcserver/config.json",
     "wsserver": "node ./src/writer/index.js",
-    "wsserver:dev": "nodemon --watch src ./src/writer/index.js"
+    "wsserver:dev": "nodemon --watch src ./src/writer/index.js localclient"
   },
   "author": "Herr Zatacke",
   "private": true,
   "projectConfig": {
-    "NUM_LEDS": 16
+    "NUM_LEDS": 48
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "express": "^4.16.3",
     "ndarray": "^1.0.18",
+    "puppeteer": "^1.8.0",
     "ws": "^5.2.2"
   },
   "devDependencies": {

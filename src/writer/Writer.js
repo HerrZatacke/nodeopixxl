@@ -1,6 +1,7 @@
 const { EventEmitter } = require('events');
 const chalk = require('chalk');
 const OPC = require('./opc');
+const ScreenDisplayClient = require('./ScreenDisplayClient');
 const randomImage = require('./randomImage');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
@@ -42,7 +43,11 @@ class Writer extends EventEmitter {
       });
     });
 
-    this.client = new OPC('localhost', 7890, conn => this.setConnectionStatus(conn));
+    if (process.argv.indexOf('localclient') !== -1) {
+      this.client = new ScreenDisplayClient(conn => this.setConnectionStatus(conn));
+    } else {
+      this.client = new OPC('localhost', 7890, conn => this.setConnectionStatus(conn));
+    }
 
     this.setColumn(allBlack);
     this.emit('status', this.getStatus());
