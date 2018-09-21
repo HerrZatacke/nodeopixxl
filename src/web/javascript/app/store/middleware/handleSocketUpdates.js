@@ -21,6 +21,13 @@ const handleSocketUpdates = (dispatch) => {
       });
     }
 
+    if (message.hasConnection !== undefined) {
+      dispatch({
+        type: 'SET_HAS_CONNECTION',
+        payload: message.hasConnection,
+      });
+    }
+
     if (message.offset !== undefined) {
       dispatch({
         type: 'SET_OFFSET',

@@ -8,11 +8,12 @@
 const net = require('net');
 
 class OPC {
-  constructor(host, port) {
+  constructor(host, port, statusCallback = () => {}) {
     this.host = host;
     this.port = port;
     this.pixelBuffer = null;
     this.connect();
+    this.statusCallback = statusCallback;
   }
 
   connect() {
@@ -20,7 +21,7 @@ class OPC {
     this.connected = false;
 
     this.socket.on('close', () => {
-      console.info('Connection closed');
+      this.statusCallback(false);
       this.socket = null;
       this.connected = false;
       setTimeout(() => {
@@ -29,12 +30,13 @@ class OPC {
     });
 
     this.socket.on('error', () => {
+      this.statusCallback(false);
       this.socket = null;
       this.connected = false;
     });
 
     this.socket.connect(this.port, this.host, () => {
-      console.info(`Connected to ${this.socket.remoteAddress}`);
+      this.statusCallback(true);
       this.connected = true;
       this.socket.setNoDelay();
     });
@@ -75,6 +77,7 @@ class OPC {
     // eslint-disable-next-line no-bitwise
     this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, b | 0)), offset + 2);
   }
+
 }
 
 

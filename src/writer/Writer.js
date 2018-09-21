@@ -19,6 +19,7 @@ class Writer extends EventEmitter {
     this.canAcceptNewImage = true;
     this.isRunning = false;
     this.loop = false;
+    this.hasConnection = false;
   }
 
   getStatus() {
@@ -28,6 +29,7 @@ class Writer extends EventEmitter {
       canAcceptNewImage: this.canAcceptNewImage,
       isRunning: this.isRunning,
       loop: this.loop,
+      hasConnection: this.hasConnection,
     };
   }
 
@@ -40,7 +42,7 @@ class Writer extends EventEmitter {
       });
     });
 
-    this.client = new OPC('localhost', 7890);
+    this.client = new OPC('localhost', 7890, conn => this.setStatus(conn));
 
     this.setColumn(allBlack);
     this.emit('status', this.getStatus());
@@ -114,6 +116,13 @@ class Writer extends EventEmitter {
     });
   }
 
+  setStatus(hasConnection) {
+    console.log({ hasConnection });
+    this.hasConnection = hasConnection;
+    this.emit('status', {
+      hasConnection: this.hasConnection,
+    });
+  }
 
   stopAnimation() {
     global.clearTimeout(this.renderTimeout);

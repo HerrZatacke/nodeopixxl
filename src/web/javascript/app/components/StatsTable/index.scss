@@ -15,4 +15,15 @@
   th {
     color: $color-key-lime-pie;
   }
+
+  .connected {
+    td, th {
+      color: lime;
+    }
+    &--not {
+      td, th {
+        color: red;
+      }
+    }
+  }
 }

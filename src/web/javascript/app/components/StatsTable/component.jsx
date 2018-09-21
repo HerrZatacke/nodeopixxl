@@ -32,6 +32,10 @@ const StatsTable = props => (
         <th>km/h</th>
         <td>{props.kph}</td>
       </tr>
+      <tr className={props.hasConnection ? 'connected' : 'connected--not'}>
+        <th>Fadecandy connected</th>
+        <td>{props.hasConnection ? '🗹' : '🗷'}</td>
+      </tr>
     </tbody>
   </table>
 );
@@ -46,6 +50,7 @@ StatsTable.propTypes = {
   imageHeight: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  hasConnection: PropTypes.bool.isRequired,
 };
 
 StatsTable.defaultProps = {

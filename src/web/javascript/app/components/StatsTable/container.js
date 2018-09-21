@@ -6,6 +6,7 @@ const mapStateToProps = (state) => {
   return Object.assign({
     width: state.image.width,
     height: state.image.height,
+    hasConnection: state.hasConnection,
   }, frameStats);
 };
 
