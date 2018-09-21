@@ -42,7 +42,7 @@ class Writer extends EventEmitter {
       });
     });
 
-    this.client = new OPC('localhost', 7890, conn => this.setStatus(conn));
+    this.client = new OPC('localhost', 7890, conn => this.setConnectionStatus(conn));
 
     this.setColumn(allBlack);
     this.emit('status', this.getStatus());
@@ -116,8 +116,7 @@ class Writer extends EventEmitter {
     });
   }
 
-  setStatus(hasConnection) {
-    console.log({ hasConnection });
+  setConnectionStatus(hasConnection) {
     this.hasConnection = hasConnection;
     this.emit('status', {
       hasConnection: this.hasConnection,
