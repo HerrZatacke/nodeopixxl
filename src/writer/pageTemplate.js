@@ -22,9 +22,9 @@ function initBody(numLeds) {
      }
      .led {
       border: 1px solid #111;
-      border-radius: 50%;
+      border-radius: 5px;
       flex: 1 1 100%;
-      margin: 2px;
+      margin: 1px;
      }
      .led div {
        padding-bottom: 100%;
