@@ -93,7 +93,7 @@ class Writer extends EventEmitter {
   }
 
   start(timeout = 0) {
-    if (this.isRunning) {
+    if (this.isRunning || !this.hasConnection) {
       return;
     }
     this.isRunning = true;
@@ -127,10 +127,15 @@ class Writer extends EventEmitter {
   }
 
   setConnectionStatus(hasConnection) {
-    this.hasConnection = hasConnection;
-    this.emit('status', {
-      hasConnection: this.hasConnection,
-    });
+    if (this.hasConnection !== hasConnection) {
+      this.hasConnection = hasConnection;
+      this.emit('status', {
+        hasConnection: this.hasConnection,
+      });
+      if (!this.hasConnection) {
+        this.stop();
+      }
+    }
   }
 
   stopAnimation() {
