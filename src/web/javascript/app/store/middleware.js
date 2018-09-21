@@ -6,7 +6,6 @@ import sendAction from './middleware/sendAction';
 const middleware = (store) => {
 
   const socket = handleSocketUpdates(store.dispatch);
-  let delayStartTimeout = null;
 
   return next => (action) => {
 
@@ -24,19 +23,9 @@ const middleware = (store) => {
         sendAction(socket, 'start');
         break;
       case 'SEND_START_DELAYED':
-        store.dispatch({
-          type: 'SET_ANIMATION_RUNNING',
-          payload: true,
-        });
-        window.clearTimeout(delayStartTimeout);
-        delayStartTimeout = window.setTimeout(() => {
-          store.dispatch({
-            type: 'SEND_START',
-          });
-        }, 2000);
+        sendAction(socket, 'start_delayed');
         break;
       case 'SEND_STOP':
-        window.clearTimeout(delayStartTimeout);
         sendAction(socket, 'stop');
         break;
       case 'SEND_SETRANDOM':

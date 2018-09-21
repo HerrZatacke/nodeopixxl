@@ -92,7 +92,7 @@ class Writer extends EventEmitter {
     this.client.writePixels();
   }
 
-  start() {
+  start(timeout = 0) {
     if (this.isRunning) {
       return;
     }
@@ -100,7 +100,12 @@ class Writer extends EventEmitter {
     this.emit('status', {
       isRunning: this.isRunning,
     });
-    this.startAnimation();
+    if (timeout) {
+      this.setColumn(allBlack);
+    }
+    this.renderTimeout = global.setTimeout(() => {
+      this.startAnimation();
+    }, timeout);
   }
 
   stop() {
