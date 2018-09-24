@@ -1,4 +1,9 @@
 /* eslint-disable */
+
+let timeout = null;
+let pageContainer = null;
+let button = null;
+
 function initBody(numLeds) {
 
   const leds = [...new Array(numLeds)].map((i, index) => (
@@ -7,7 +12,10 @@ function initBody(numLeds) {
 
   document.querySelector('body').innerHTML = `
     <div class="leds">${leds.join('')}</div>
-    <iframe id="pageIframe" src="http://localhost:3000/"></iframe>
+    <div id="pageContainer">
+      <iframe src="http://localhost:3000/"></iframe>
+      <button>X</button>
+    </div>
     <style>
       body {
         background: black;
@@ -37,22 +45,39 @@ function initBody(numLeds) {
       height: 680px;
       width: 550px;
      }
+     button {
+       position: absolute;
+       bottom: 0;
+       left: calc(50vw - 320px);
+       border-radius: 5px;
+       background: black;
+       border: 2px solid currentColor;
+       color: white;
+       width: 40px;
+       height: 40px;
+     }
+     button:hover {
+      color: #666;
+      cursor: pointer;
+     }
     </style>
   `;
+
+  button = document.querySelector('button');
+  pageContainer = document.getElementById('pageContainer');
+
+  button.addEventListener('click', () => {
+    pageContainer.parentElement.removeChild(pageContainer);
+  })
 }
 
-let timeout = null;
-let pageIframe = null;
 
 function render() {
-  try {
-    pageIframe = pageIframe || document.getElementById('pageIframe');
-    pageIframe.style.display = 'none';
-  } catch (err) {
-    console.log(err);
-  }
-
   const args = [...arguments];
+
+  if (pageContainer) {
+    pageContainer.style.display = 'none';
+  }
 
   const colors = [...new Array(args.length / 3)].map((i, index) => (
     `rgb(${args[index * 3]}, ${args[index * 3 + 1]}, ${args[index * 3 + 2]})`
@@ -63,7 +88,9 @@ function render() {
   });
 
   window.clearTimeout(timeout);
-  timeout = window.setTimeout(() => {
-    pageIframe.style.display = 'block';
-  }, 3000)
+  if (pageContainer) {
+    timeout = window.setTimeout(() => {
+      pageContainer.style.display = 'block';
+    }, 3000);
+  }
 }
