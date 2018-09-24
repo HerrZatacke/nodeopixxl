@@ -14,6 +14,7 @@ class OPC {
     this.pixelBuffer = null;
     this.connect();
     this.statusCallback = statusCallback;
+    this.connectRetryTimeout = null;
   }
 
   connect() {
@@ -21,16 +22,24 @@ class OPC {
     this.connected = false;
 
     this.socket.on('close', () => {
-      this.statusCallback(false);
+      if (this.connected) {
+        this.statusCallback(false);
+      }
       this.socket = null;
       this.connected = false;
-      setTimeout(() => {
-        this.connect();
-      }, 5000);
+
+      if (!this.connectRetryTimeout) {
+        this.connectRetryTimeout = setTimeout(() => {
+          this.connectRetryTimeout = null;
+          this.connect();
+        }, 5000);
+      }
     });
 
     this.socket.on('error', () => {
-      this.statusCallback(false);
+      if (this.connected) {
+        this.statusCallback(false);
+      }
       this.socket = null;
       this.connected = false;
     });

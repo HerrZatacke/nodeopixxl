@@ -20,7 +20,8 @@ wss.on('connection', (ws) => {
           writer.setImageFile(Uint8Array.from(payload));
           break;
         case 'start':
-          writer.start();
+        case 'start_delayed':
+          writer.start(payload || 0);
           break;
         case 'stop':
           writer.stop();

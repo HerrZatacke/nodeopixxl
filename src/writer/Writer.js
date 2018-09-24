@@ -1,6 +1,7 @@
 const { EventEmitter } = require('events');
 const chalk = require('chalk');
 const OPC = require('./opc');
+const ScreenDisplayClient = require('./ScreenDisplayClient');
 const randomImage = require('./randomImage');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
@@ -42,7 +43,11 @@ class Writer extends EventEmitter {
       });
     });
 
-    this.client = new OPC('localhost', 7890, conn => this.setStatus(conn));
+    if (process.argv.indexOf('localclient') !== -1) {
+      this.client = new ScreenDisplayClient(conn => this.setConnectionStatus(conn));
+    } else {
+      this.client = new OPC('localhost', 7890, conn => this.setConnectionStatus(conn));
+    }
 
     this.setColumn(allBlack);
     this.emit('status', this.getStatus());
@@ -87,15 +92,20 @@ class Writer extends EventEmitter {
     this.client.writePixels();
   }
 
-  start() {
-    if (this.isRunning) {
+  start(timeout = 0) {
+    if (this.isRunning || !this.hasConnection) {
       return;
     }
     this.isRunning = true;
     this.emit('status', {
       isRunning: this.isRunning,
     });
-    this.startAnimation();
+    if (timeout) {
+      this.setColumn(allBlack);
+    }
+    this.renderTimeout = global.setTimeout(() => {
+      this.startAnimation();
+    }, timeout);
   }
 
   stop() {
@@ -116,12 +126,16 @@ class Writer extends EventEmitter {
     });
   }
 
-  setStatus(hasConnection) {
-    console.log({ hasConnection });
-    this.hasConnection = hasConnection;
-    this.emit('status', {
-      hasConnection: this.hasConnection,
-    });
+  setConnectionStatus(hasConnection) {
+    if (this.hasConnection !== hasConnection) {
+      this.hasConnection = hasConnection;
+      this.emit('status', {
+        hasConnection: this.hasConnection,
+      });
+      if (!this.hasConnection) {
+        this.stop();
+      }
+    }
   }
 
   stopAnimation() {

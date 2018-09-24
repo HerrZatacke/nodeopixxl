@@ -21,6 +21,13 @@ const Controls = props => (
       Random
     </button>
     <button
+      disabled={props.serverBusy}
+      className="controls__button controls__button-stop"
+      onClick={() => props.stop()}
+    >
+      Stop
+    </button>
+    <button
       disabled={props.serverBusy || props.animationRunning}
       className="controls__button controls__button-start"
       onClick={() => props.start()}
@@ -28,11 +35,11 @@ const Controls = props => (
       Start
     </button>
     <button
-      disabled={props.serverBusy}
-      className="controls__button controls__button-stop"
-      onClick={() => props.stop()}
+      disabled={props.serverBusy || props.animationRunning}
+      className="controls__button controls__button-start"
+      onClick={() => props.startDelayed()}
     >
-      Stop
+      Start Delayed
     </button>
     <FPSInput />
     <label htmlFor="check-loop" className="controls__checkbox">
@@ -55,6 +62,7 @@ Controls.propTypes = {
   animationRunning: PropTypes.bool.isRequired,
   isLooping: PropTypes.bool.isRequired,
   start: PropTypes.func.isRequired,
+  startDelayed: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
   loop: PropTypes.func.isRequired,
   setText: PropTypes.func.isRequired,

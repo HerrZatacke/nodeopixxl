@@ -33,7 +33,7 @@ const StatsTable = props => (
         <td>{props.kph}</td>
       </tr>
       <tr className={props.hasConnection ? 'connected' : 'connected--not'}>
-        <th>Fadecandy connected</th>
+        <th>Display Client connected</th>
         <td>{props.hasConnection ? '🗹' : '🗷'}</td>
       </tr>
     </tbody>

@@ -22,6 +22,9 @@ const middleware = (store) => {
       case 'SEND_START':
         sendAction(socket, 'start');
         break;
+      case 'SEND_START_DELAYED':
+        sendAction(socket, 'start_delayed');
+        break;
       case 'SEND_STOP':
         sendAction(socket, 'stop');
         break;

@@ -12,6 +12,11 @@ const mapDispatchToProps = dispatch => ({
       type: 'SEND_START',
     });
   },
+  startDelayed: () => {
+    dispatch({
+      type: 'SEND_START_DELAYED',
+    });
+  },
   stop: () => {
     dispatch({
       type: 'SEND_STOP',
