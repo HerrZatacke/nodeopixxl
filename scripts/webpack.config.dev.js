@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const pxtorem = require('postcss-pxtorem');
+const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const packageJson = require('../package.json');
 
@@ -16,6 +18,7 @@ module.exports = {
       warnings: false,
       errors: true,
     },
+    contentBase: path.join(process.cwd(), 'src', 'assets'),
   },
   resolve: {
     extensions: ['.js', '.json', '.jsx'],
@@ -24,7 +27,6 @@ module.exports = {
     main: [
       path.join(process.cwd(), 'src', 'web', 'javascript', 'index.js'),
       'webpack-dev-server/client?http://localhost:3000/',
-      // 'webpack-hot-middleware/client',
     ],
   },
   module: {
@@ -54,16 +56,33 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              minimize: false,
               sourceMap: true,
             },
           },
-          // sharedConfig.loaders.postcss(),
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                pxtorem({
+                  rootValue: 16,
+                  unitPrecision: 3,
+                  propList: ['*', '!border*'],
+                  selectorBlackList: [],
+                  replace: true,
+                  mediaQuery: true,
+                  minPixelValue: 2,
+                }),
+                autoprefixer(),
+              ],
+            },
+          },
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true,
-              includePaths: [path.join(process.cwd(), 'src', 'web')],
+              sassOptions: {
+                sourceMap: true,
+                includePaths: [path.join(process.cwd(), 'src', 'web')],
+              },
             },
           },
           {

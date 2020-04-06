@@ -6,7 +6,7 @@
     "jest": true
   },
   "globals": {
-    "CONFIG": true,
+    "CONFIG": true
   },
   "rules": {
     // Airbnb overwrites
@@ -18,6 +18,7 @@
       "as-needed"
     ],
     "linebreak-style": "off",
+    "react/destructuring-assignment": "off",
     "react/jsx-indent": [
       2
     ],
@@ -36,18 +37,27 @@
     ],
     "react/no-array-index-key": "off",
     "class-methods-use-this": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/interactive-supports-focus": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "assert": "either"
+      }
+    ],
     "no-console": [
       "warn",
       {
         "allow": [
           "warn",
-          "error",
-          "info"
+          "error"
         ]
       }
     ],
     "eol-last": "warn",
     "no-alert": "warn",
+    "no-loop-func": "error",
     "no-param-reassign": [
       "error",
       {
@@ -81,7 +91,16 @@
       "error",
       "last"
     ],
-    "no-empty": "error",
+    "no-empty": "warn",
+    "id-blacklist": [
+      "error",
+      "err",
+      "e",
+      "temp",
+      "_temp",
+      "foo",
+      "_foo"
+    ],
     "brace-style": [
       "error",
       "1tbs"
@@ -139,6 +158,11 @@
       }
     ],
     "no-multi-spaces": "warn",
+    "padding-line-between-statements": [
+      "warn",
+      { "blankLine": "always", "prev": "block", "next": "*" },
+      { "blankLine": "always", "prev": "block-like", "next": "*" }
+    ],
     "quotes": "warn",
     "operator-linebreak": [
       "error",
@@ -148,6 +172,10 @@
     "curly": [
       "error",
       "all"
+    ],
+    "object-curly-newline": [
+      "warn",
+      { "consistent":  true }
     ],
     "semi": [
       "warn",
@@ -162,22 +190,85 @@
     ],
     "keyword-spacing": "warn",
     "prefer-const": "warn",
+    "prefer-destructuring": "off",
     "comma-spacing": "warn",
-    "import/no-webpack-loader-syntax": "off",
-    "jsx-a11y/label-has-for": [
-      2,
+    "no-implicit-globals": "error",
+    "no-undef": "error",
+    "no-underscore-dangle": [
+      "error",
       {
-        "components": [
-          "Label"
-        ],
-        "required": {
-          "some": [
-            "nesting",
-            "id"
-          ]
-        },
-        "allowChildren": false
+        "allow": [
+          "__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"
+        ]
       }
+    ],
+    "no-restricted-globals": [
+      "error",
+      "addEventListener",
+      "blur",
+      "close",
+      "closed",
+      "clearInterval",
+      "clearTimeout",
+      "confirm",
+      "defaultStatus",
+      "event",
+      "external",
+      "defaultstatus",
+      "fdescribe",
+      "find",
+      "focus",
+      "frameElement",
+      "frames",
+      "getComputedStyle",
+      "history",
+      "innerHeight",
+      "innerWidth",
+      "length",
+      "location",
+      "locationbar",
+      "menubar",
+      "moveBy",
+      "moveTo",
+      "name",
+      "onblur",
+      "onerror",
+      "onfocus",
+      "onload",
+      "onresize",
+      "onunload",
+      "open",
+      "opener",
+      "opera",
+      "outerHeight",
+      "outerWidth",
+      "pageXOffset",
+      "pageYOffset",
+      "parent",
+      "print",
+      "removeEventListener",
+      "resizeBy",
+      "resizeTo",
+      "requestAnimationFrame",
+      "screen",
+      "screenLeft",
+      "screenTop",
+      "screenX",
+      "screenY",
+      "scroll",
+      "scrollbars",
+      "scrollBy",
+      "scrollTo",
+      "scrollX",
+      "scrollY",
+      "self",
+      "setInterval",
+      "setTimeout",
+      "status",
+      "statusbar",
+      "stop",
+      "toolbar",
+      "top"
     ]
   }
 }

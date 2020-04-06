@@ -1,5 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const pxtorem = require('postcss-pxtorem');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   mode: 'production',
@@ -34,21 +37,38 @@ module.exports = {
         test: /\.(scss|css)$/,
         use: [
           {
-            loader: 'style-loader',
+            loader: MiniCssExtractPlugin.loader,
           },
           {
             loader: 'css-loader',
             options: {
-              minimize: false,
               sourceMap: true,
             },
           },
-          // sharedConfig.loaders.postcss(),
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                pxtorem({
+                  rootValue: 16,
+                  unitPrecision: 3,
+                  propList: ['*', '!border*'],
+                  selectorBlackList: [],
+                  replace: true,
+                  mediaQuery: true,
+                  minPixelValue: 2,
+                }),
+                autoprefixer(),
+              ],
+            },
+          },
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true,
-              includePaths: [path.join(process.cwd(), 'src', 'web')],
+              sassOptions: {
+                sourceMap: true,
+                includePaths: [path.join(process.cwd(), 'src', 'web')],
+              },
             },
           },
           {
@@ -69,6 +89,8 @@ module.exports = {
       filename: 'index.html',
       chunks: ['main'],
     }),
-    // new webpack.NamedModulesPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
   ],
 };
