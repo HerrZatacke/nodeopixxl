@@ -11,6 +11,7 @@ class Image extends Component {
     if (!canvasElement) {
       return;
     }
+
     this.canvasContext = canvasElement.getContext('2d');
     this.updateCanvas();
   }
@@ -27,9 +28,10 @@ class Image extends Component {
       if (containerWidth >= this.props.image.width) {
         return 0;
       }
+
       const hiddenWidth = this.props.image.width - containerWidth;
       return -hiddenWidth * (this.props.offset / this.props.image.width);
-    } catch (err) {
+    } catch (error) {
       return 30;
     }
   }
@@ -53,7 +55,7 @@ class Image extends Component {
             className="image-component__canvas"
             width={this.props.image.width / this.props.image.height * CONFIG.NUM_LEDS}
             height={CONFIG.NUM_LEDS}
-            ref={elt => this.setContext(elt)}
+            ref={(elt) => this.setContext(elt)}
           />
         </div>
       </div>

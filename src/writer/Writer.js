@@ -62,6 +62,7 @@ class Writer extends EventEmitter {
     if (!this.canAcceptNewImage) {
       return;
     }
+
     this.canAcceptNewImage = false;
     this.pixels = [[]];
     this.emit('status', {
@@ -89,6 +90,7 @@ class Writer extends EventEmitter {
       const { r, g, b } = int2rgb(column[pixel]);
       this.client.setPixel(pixel, r, g, b);
     }
+
     this.client.writePixels();
   }
 
@@ -96,6 +98,7 @@ class Writer extends EventEmitter {
     if (this.isRunning || !this.hasConnection) {
       return;
     }
+
     this.isRunning = true;
     this.emit('status', {
       isRunning: this.isRunning,

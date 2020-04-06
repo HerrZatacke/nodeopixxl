@@ -7,9 +7,11 @@ const animationRunningReducer = (animationRunning = false, action) => {
         if (action.payload === true) {
           startTime = (new Date()).getTime();
         } else {
+          // eslint-disable-next-line no-console
           console.info((new Date()).getTime() - startTime);
         }
       }
+
       return action.payload;
     default:
       return animationRunning;

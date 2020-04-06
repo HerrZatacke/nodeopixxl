@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const StatsTable = props => (
+const StatsTable = (props) => (
   <table className="stats-table">
     <tbody>
       <tr>

@@ -6,7 +6,7 @@ const handleSocketUpdates = (dispatch) => {
 
   socket.addEventListener('close', () => {
     // https://github.com/pladaria/reconnecting-websocket/issues/60
-    setTimeout(() => {
+    window.setTimeout(() => {
       window.location.reload();
     }, 3000);
   });

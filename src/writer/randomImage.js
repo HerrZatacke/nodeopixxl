@@ -13,16 +13,19 @@ const randomImage = () => {
           // return 0;
           return (index % scaleR) % 255;
         }
+
         // g
         if ((index + 1) % 3 === 0) {
           // return 0;
           return (index % scaleG) % 255;
         }
+
         // b
         if ((index + 2) % 3 === 0) {
           // return 0;
           return (index % scaleB) % 255;
         }
+
         return 0;
       })
   );

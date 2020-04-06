@@ -26,6 +26,7 @@ const getPixels = (imageData, brightness = 1) => {
       col.unshift(rgb2int(r, g, b));
     }
   }
+
   return pixels;
 };
 

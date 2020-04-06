@@ -3,11 +3,12 @@ import fps2speed from '../../tools/fps2speed';
 
 const mapStateToProps = (state) => {
   const frameStats = fps2speed(state.fps, state.image.width, state.image.height);
-  return Object.assign({
+  return {
     width: state.image.width,
     height: state.image.height,
     hasConnection: state.hasConnection,
-  }, frameStats);
+    ...frameStats,
+  };
 };
 
 const mapDispatchToProps = (/* dispatch */) => ({

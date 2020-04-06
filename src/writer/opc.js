@@ -55,9 +55,11 @@ class OPC {
     if (!this.socket) {
       this.connect();
     }
+
     if (!this.connected) {
       return;
     }
+
     this.socket.write(this.pixelBuffer);
   }
 

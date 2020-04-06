@@ -39,7 +39,7 @@ class FPSInput extends Component {
           min="1"
           max="300"
           step="1"
-          onChange={ev => this.sendFps(ev.target.value)}
+          onChange={(ev) => this.sendFps(ev.target.value)}
         />
       </div>
     );

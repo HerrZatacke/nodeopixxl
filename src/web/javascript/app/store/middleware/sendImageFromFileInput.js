@@ -29,6 +29,7 @@ const sendImageFromFileInput = (socket, dispatch, inputElement) => {
         }));
 
       };
+
       img.src = ev.target.result;
     }
   };

@@ -7,7 +7,7 @@ const middleware = (store) => {
 
   const socket = handleSocketUpdates(store.dispatch);
 
-  return next => (action) => {
+  return (next) => (action) => {
 
     // const state = store.getState();
     // console.log(state);

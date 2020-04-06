@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   serverBusy: state.serverBusy,
   animationRunning: state.animationRunning,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setImage: (inputElement) => {
     dispatch({
       type: 'SEND_RAW_IMAGE',

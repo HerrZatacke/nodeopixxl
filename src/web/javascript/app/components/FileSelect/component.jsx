@@ -7,6 +7,7 @@ class FileSelect extends Component {
     if (!inputElement.files[0]) {
       return;
     }
+
     this.props.setImage(inputElement);
   }
 
@@ -21,7 +22,7 @@ class FileSelect extends Component {
           type="file"
           disabled={this.props.serverBusy || this.props.animationRunning}
           className="file-select__input"
-          onChange={ev => this.fileChange(ev.target)}
+          onChange={(ev) => this.fileChange(ev.target)}
           id="input-file-select"
         />
         Select File

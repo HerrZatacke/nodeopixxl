@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import FileSelect from '../FileSelect';
 import FPSInput from '../FPSInput';
 
-const Controls = props => (
+const Controls = (props) => (
   <div className="controls">
     <FileSelect />
     <button
+      type="button"
       disabled={props.serverBusy || props.animationRunning}
       className="controls__button controls__button-set-text"
       onClick={() => props.setText()}
@@ -14,6 +15,7 @@ const Controls = props => (
       Text
     </button>
     <button
+      type="button"
       disabled={props.serverBusy || props.animationRunning}
       className="controls__button controls__button-set-random"
       onClick={() => props.setRandom()}
@@ -21,6 +23,7 @@ const Controls = props => (
       Random
     </button>
     <button
+      type="button"
       disabled={props.serverBusy}
       className="controls__button controls__button-stop"
       onClick={() => props.stop()}
@@ -28,6 +31,7 @@ const Controls = props => (
       Stop
     </button>
     <button
+      type="button"
       disabled={props.serverBusy || props.animationRunning}
       className="controls__button controls__button-start"
       onClick={() => props.start()}
@@ -35,6 +39,7 @@ const Controls = props => (
       Start
     </button>
     <button
+      type="button"
       disabled={props.serverBusy || props.animationRunning}
       className="controls__button controls__button-start"
       onClick={() => props.startDelayed()}
