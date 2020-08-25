@@ -1,7 +1,6 @@
 const { EventEmitter } = require('events');
 const chalk = require('chalk');
 const OPC = require('./opc');
-const ScreenDisplayClient = require('./ScreenDisplayClient');
 const randomImage = require('./randomImage');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
@@ -66,13 +65,17 @@ class Writer extends EventEmitter {
       image: new Uint8ClampedArray(3),
     });
 
+    // eslint-disable-next-line no-console
     console.info(chalk.blue(`loading image with ${imageData.length / 3} single pixels`));
 
     // read a file after a second
     global.clearTimeout(this.loadTimeout);
     this.loadTimeout = global.setTimeout(() => {
       this.pixels = getPixels(imageData);
+
+      // eslint-disable-next-line no-console
       console.info(chalk.blue(`image loaded (${this.pixels.length}x${this.pixels[0].length})`));
+
       this.canAcceptNewImage = true;
       this.emit('status', {
         canAcceptNewImage: this.canAcceptNewImage,
@@ -102,6 +105,7 @@ class Writer extends EventEmitter {
     if (timeout) {
       this.setColumn(allBlack);
     }
+
     this.renderTimeout = global.setTimeout(() => {
       this.startAnimation();
     }, timeout);
@@ -158,7 +162,9 @@ class Writer extends EventEmitter {
 
     const delay = Math.floor(1000 / this.fps);
 
+    // eslint-disable-next-line no-console
     console.info(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}  delay:${chalk.red(delay)}`);
+
     const column = this.pixels[this.offset];
 
     if (!column || !column.length) {
