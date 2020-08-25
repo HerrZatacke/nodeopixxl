@@ -43,11 +43,7 @@ class Writer extends EventEmitter {
       });
     });
 
-    if (process.argv.indexOf('localclient') !== -1) {
-      this.client = new ScreenDisplayClient(conn => this.setConnectionStatus(conn));
-    } else {
-      this.client = new OPC('localhost', 7890, conn => this.setConnectionStatus(conn));
-    }
+    this.client = new OPC('localhost', 7890, (conn) => this.setConnectionStatus(conn));
 
     this.setColumn(allBlack);
     this.emit('status', this.getStatus());

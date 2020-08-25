@@ -7,11 +7,10 @@
     "build": "npm run build:clean && npm run build:webpack",
     "build:clean": "rimraf dist && rimraf build",
     "build:webpack": "node scripts/build.js",
-    "fcserver:win": ".\\fcserver\\fcserver.exe .\\fcserver\\config.json",
-    "fcserver:rpi": "./fcserver/fcserver-rpi ./fcserver/config.json",
+    "fcserver:win": ".\\fcserver\\fcserver.exe",
+    "fcserver:rpi": "./fcserver/fcserver-rpi",
     "wsserver": "node ./src/writer/index.js",
-    "wsserver:dev": "nodemon --watch src ./src/writer/index.js",
-    "wsserver:devlocal": "nodemon --watch src ./src/writer/index.js localclient"
+    "wsserver:dev": "nodemon --watch src ./src/writer/index.js"
   },
   "author": "Herr Zatacke",
   "private": true,
@@ -45,7 +44,6 @@
     "postcss-loader": "^3.0.0",
     "postcss-pxtorem": "^5.1.1",
     "prop-types": "^15.7.2",
-    "puppeteer": "^1.8.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-modal": "^3.4.5",
