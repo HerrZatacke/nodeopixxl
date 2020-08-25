@@ -4,11 +4,12 @@ const https = require('https');
 const unzip = require('unzip-stream');
 const mkdirp = require('mkdirp');
 const fcServerExecutable = require('../tools/getFCServerExecutable')();
+const getOs = require('../tools/getOs');
 
 const executablePath = `fadecandy-package-02/bin/${fcServerExecutable}`;
 
 const download = (url, dest) => (
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
     mkdirp(dest)
       .then(() => {
         https.get(url, (response) => {
@@ -23,6 +24,15 @@ const download = (url, dest) => (
               }
             })
             .on('finish', () => {
+
+              if (getOs() === 'pi') {
+                try {
+                  fs.chmodSync(executablePath, 0o775);
+                } catch (error) {
+                  reject(error);
+                }
+              }
+
               resolve(path.join(dest, fcServerExecutable));
             });
         });
