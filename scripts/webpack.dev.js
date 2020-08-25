@@ -23,7 +23,7 @@ module.exports = merge(common, {
     contentBase: path.join(process.cwd(), 'src', 'web', 'assets'),
     port: 3000,
     watchContentBase: true,
-    before: setupServer,
+    before: setupServer(true),
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

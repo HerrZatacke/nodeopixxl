@@ -1,15 +1,15 @@
 const { sep } = require('path');
 
-const getFCServerExecutable = () => {
+const getOs = () => {
   if (process.arch === 'arm') {
-    return 'fcserver-rpi';
+    return 'pi';
   }
 
   if (sep === '\\') {
-    return 'fcserver.exe';
+    return 'win';
   }
 
   throw new Error('OS/Arch not supported. (yet?)');
 };
 
-module.exports = getFCServerExecutable;
+module.exports = getOs;

@@ -3,7 +3,7 @@ const path = require('path');
 const https = require('https');
 const unzip = require('unzip-stream');
 const mkdirp = require('mkdirp');
-const fcServerExecutable = require('./getFCServerExecutable')();
+const fcServerExecutable = require('../tools/getFCServerExecutable')();
 
 const executablePath = `fadecandy-package-02/bin/${fcServerExecutable}`;
 

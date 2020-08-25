@@ -6,7 +6,7 @@ const setupServer = require('./setupServer');
 const port = 3000;
 const app = express();
 
-setupServer(app);
+setupServer(false)(app);
 
 app.use(express.static(path.join(process.cwd(), 'dist')));
 

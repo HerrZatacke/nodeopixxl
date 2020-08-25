@@ -7,7 +7,18 @@ const handleSocketUpdates = (dispatch) => {
   socket.addEventListener('close', () => {
     // https://github.com/pladaria/reconnecting-websocket/issues/60
     window.setTimeout(() => {
-      window.location.reload();
+      fetch('/secondaryServers')
+        .then((res) => res.json())
+        .then((body) => {
+          // eslint-disable-next-line no-console
+          console.info(body);
+          window.location.reload();
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-alert
+          alert(error.message);
+          window.location.reload();
+        });
     }, 3000);
   });
 
