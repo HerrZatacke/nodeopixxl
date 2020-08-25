@@ -46,6 +46,7 @@ const sendText = (socket, dispatch, text) => {
   } else {
     canvasContext.fillStyle = color;
   }
+
   canvasContext.fillText(usedText, Math.ceil(fontSpace / 2), CONFIG.NUM_LEDS - fontSpace);
 
   const pixels = getScaledImageData(canvas);

@@ -1,32 +1,18 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const pxtorem = require('postcss-pxtorem');
 const autoprefixer = require('autoprefixer');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const packageJson = require('../package.json');
+const { projectConfig } = require('../package.json');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'cheap-module-source-map',
-  devServer: {
-    // hot: true,
-    inline: true,
-    stats: {
-      colors: true,
-    },
-    overlay: {
-      warnings: false,
-      errors: true,
-    },
-    contentBase: path.join(process.cwd(), 'src', 'assets'),
-  },
   resolve: {
     extensions: ['.js', '.json', '.jsx'],
   },
   entry: {
     main: [
       path.join(process.cwd(), 'src', 'web', 'javascript', 'index.js'),
-      'webpack-dev-server/client?http://localhost:3000/',
     ],
   },
   module: {
@@ -51,7 +37,11 @@ module.exports = {
         test: /\.(scss|css)$/,
         use: [
           {
-            loader: 'style-loader',
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: true,
+              reload: 'all', // Fallback
+            },
           },
           {
             loader: 'css-loader',
@@ -86,7 +76,12 @@ module.exports = {
             },
           },
           {
-            loader: './scripts/sass-import-loader',
+            loader: 'sass-resources-loader',
+            options: {
+              resources: [
+                path.join(process.cwd(), 'src', 'web', 'scss', 'auto-imports', '**', '*.scss'),
+              ],
+            },
           },
         ],
       },
@@ -98,16 +93,17 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'StatsTable',
+      title: 'projectkick',
       template: './src/web/assets/index.html',
       filename: 'index.html',
       chunks: ['main'],
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
     new webpack.DefinePlugin({
-      CONFIG: JSON.stringify(packageJson.projectConfig),
+      CONFIG: JSON.stringify(projectConfig),
     }),
   ],
 };
