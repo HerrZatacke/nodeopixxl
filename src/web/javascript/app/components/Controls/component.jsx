@@ -53,7 +53,7 @@ const Controls = (props) => (
         id="check-loop"
         className="controls__checkbox__input"
         checked={props.isLooping}
-        onClick={() => props.loop(!props.isLooping)}
+        onChange={() => props.loop(!props.isLooping)}
       />
       <span className="controls__checkbox__text">
         Loop
