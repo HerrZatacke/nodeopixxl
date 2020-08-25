@@ -1,11 +1,15 @@
 const path = require('path');
 const { spawn } = require('child_process');
 const getFCServerExecutable = require('../tools/getFCServerExecutable')();
+const getOs = require('../tools/getOs');
+
 
 class SecondaryServers {
   constructor({ devMode }) {
     this.fcExecutable = path.join(process.cwd(), 'fcserver', getFCServerExecutable);
     this.wsNpmScript = devMode ? 'wsserver:dev' : 'wsserver:prod';
+
+    this.npmCommand = getOs() === 'pi' ? 'npm' : 'npm.cmd';
 
     this.spawnOpts = {
       cwd: process.cwd(),
@@ -28,7 +32,7 @@ class SecondaryServers {
   startWSServer() {
     // eslint-disable-next-line no-console
     console.info(`starting wsserver (${this.wsNpmScript})`);
-    const wsproc = spawn('npm.cmd', ['run', this.wsNpmScript], this.spawnOpts);
+    const wsproc = spawn(this.npmCommand, ['run', this.wsNpmScript], this.spawnOpts);
     wsproc.stdout.pipe(process.stdout);
     wsproc.stderr.pipe(process.stderr);
     return wsproc;
