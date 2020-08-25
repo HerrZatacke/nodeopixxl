@@ -10,6 +10,7 @@ const executablePath = `fadecandy-package-02/bin/${fcServerExecutable}`;
 
 const download = (url, dest) => (
   new Promise((resolve, reject) => {
+    let savedExecutable = null;
     mkdirp(dest)
       .then(() => {
         https.get(url, (response) => {
@@ -18,7 +19,8 @@ const download = (url, dest) => (
             .on('entry', (entry) => {
               const filePath = entry.path;
               if (filePath === executablePath) {
-                entry.pipe(fs.createWriteStream(path.join(dest, path.basename(filePath))));
+                savedExecutable = path.join(dest, path.basename(filePath));
+                entry.pipe(fs.createWriteStream(savedExecutable));
               } else {
                 entry.autodrain();
               }
@@ -27,13 +29,13 @@ const download = (url, dest) => (
 
               if (getOs() === 'pi') {
                 try {
-                  fs.chmodSync(executablePath, 0o775);
+                  fs.chmodSync(savedExecutable, 0o775);
                 } catch (error) {
                   reject(error);
                 }
               }
 
-              resolve(path.join(dest, fcServerExecutable));
+              resolve(savedExecutable);
             });
         });
       });
