@@ -1,42 +1,43 @@
-const { EventEmitter } = require('events');
 const chalk = require('chalk');
 const OPC = require('./opc');
 const randomImage = require('./randomImage');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
 
-const allBlack = new Uint32Array(CONFIG.NUM_LEDS);
 
-class Writer extends EventEmitter {
+class Writer {
 
-  constructor() {
-    super();
+  constructor({ socket, numLeds }) {
+    if (!socket) {
+      throw new Error('Socket missing');
+    }
+
+    if (!numLeds) {
+      throw new Error('number of LEDs not defined');
+    }
+
+    this.socket = socket;
+    this.numLeds = numLeds;
     this.renderTimeout = null;
     this.loadTimeout = null;
-    this.fps = 60;
     this.pixels = [[]];
-    this.offset = 0;
-    this.canAcceptNewImage = true;
-    this.isRunning = false;
-    this.loop = false;
-    this.hasConnection = false;
-  }
 
-  getStatus() {
-    return {
-      fps: this.fps,
-      offset: this.offset,
-      canAcceptNewImage: this.canAcceptNewImage,
-      isRunning: this.isRunning,
-      loop: this.loop,
-      hasConnection: this.hasConnection,
+    this.allBlack = new Uint32Array(this.numLeds);
+
+    this.status = {
+      fps: 60,
+      offset: 0,
+      canAcceptNewImage: true,
+      isRunning: false,
+      loop: false,
+      hasConnection: false,
     };
   }
 
   init() {
     // trap the SIGINT and reset before exit
     process.on('SIGINT', () => {
-      this.setColumn(allBlack);
+      this.setColumn(this.allBlack);
       process.nextTick(() => {
         process.exit(0);
       });
@@ -44,24 +45,76 @@ class Writer extends EventEmitter {
 
     this.client = new OPC('localhost', 7890, (conn) => this.setConnectionStatus(conn));
 
-    this.setColumn(allBlack);
-    this.emit('status', this.getStatus());
-    this.setImageFile(randomImage());
+    this.setColumn(this.allBlack);
+    this.bindSocketEvents();
+    this.sendStatus(this.status);
+    this.setImageFile(randomImage(this.numLeds, this.numLeds));
+  }
+
+  bindSocketEvents() {
+    this.socket.on('connection', (ws) => {
+
+      ws.on('message', (messageString) => {
+        const message = JSON.parse(messageString);
+
+        Object.keys(message).forEach((action) => {
+          const payload = message[action];
+          switch (action) {
+            case 'setImage':
+              this.setImageFile(Uint8Array.from(payload));
+              break;
+            case 'start':
+            case 'start_delayed':
+              this.start(payload || 0);
+              break;
+            case 'stop':
+              this.stop();
+              break;
+            case 'setrandom':
+              this.setImageFile(randomImage(this.numLeds, this.numLeds));
+              break;
+            case 'loop':
+              this.setLoop(payload);
+              break;
+            case 'fps':
+              this.setFPS(payload);
+              break;
+            default:
+              break;
+          }
+        });
+      });
+
+      ws.send(JSON.stringify(this.status));
+    });
+  }
+
+  updateStatus(changes, dontSend = false) {
+    Object.assign(this.status, changes);
+
+    if (!dontSend) {
+      this.sendStatus(changes);
+    }
+  }
+
+  sendStatus(changes) {
+    this.socket.clients.forEach((ws) => {
+      ws.send(JSON.stringify(changes));
+    });
   }
 
   setImageFile(imageData) {
-    if (this.isRunning) {
+    if (this.status.isRunning) {
       return;
     }
 
-    if (!this.canAcceptNewImage) {
+    if (!this.status.canAcceptNewImage) {
       return;
     }
 
-    this.canAcceptNewImage = false;
     this.pixels = [[]];
-    this.emit('status', {
-      canAcceptNewImage: this.canAcceptNewImage,
+    this.updateStatus({
+      canAcceptNewImage: false,
       image: new Uint8ClampedArray(3),
     });
 
@@ -71,21 +124,20 @@ class Writer extends EventEmitter {
     // read a file after a second
     global.clearTimeout(this.loadTimeout);
     this.loadTimeout = global.setTimeout(() => {
-      this.pixels = getPixels(imageData);
+      this.pixels = getPixels(imageData, this.numLeds);
 
       // eslint-disable-next-line no-console
       console.info(chalk.blue(`image loaded (${this.pixels.length}x${this.pixels[0].length})`));
 
-      this.canAcceptNewImage = true;
-      this.emit('status', {
-        canAcceptNewImage: this.canAcceptNewImage,
+      this.updateStatus({
+        canAcceptNewImage: true,
         image: [...imageData],
       });
     }, 100);
   }
 
   setColumn(column) {
-    for (let pixel = 0; pixel < CONFIG.NUM_LEDS; pixel += 1) {
+    for (let pixel = 0; pixel < this.numLeds; pixel += 1) {
       const { r, g, b } = int2rgb(column[pixel]);
       this.client.setPixel(pixel, r, g, b);
     }
@@ -94,16 +146,15 @@ class Writer extends EventEmitter {
   }
 
   start(timeout = 0) {
-    if (this.isRunning || !this.hasConnection) {
+    if (this.status.isRunning || !this.status.hasConnection) {
       return;
     }
 
-    this.isRunning = true;
-    this.emit('status', {
-      isRunning: this.isRunning,
+    this.updateStatus({
+      isRunning: true,
     });
     if (timeout) {
-      this.setColumn(allBlack);
+      this.setColumn(this.allBlack);
     }
 
     this.renderTimeout = global.setTimeout(() => {
@@ -116,26 +167,23 @@ class Writer extends EventEmitter {
   }
 
   setLoop(value) {
-    this.loop = !!value;
-    this.emit('status', {
-      loop: this.loop,
+    this.updateStatus({
+      loop: !!value,
     });
   }
 
   setFPS(fps = 30) {
-    this.fps = parseInt(fps, 10) || 30;
-    this.emit('status', {
-      fps: this.fps,
+    this.updateStatus({
+      fps: parseInt(fps, 10) || 30,
     });
   }
 
   setConnectionStatus(hasConnection) {
-    if (this.hasConnection !== hasConnection) {
-      this.hasConnection = hasConnection;
-      this.emit('status', {
-        hasConnection: this.hasConnection,
+    if (this.status.hasConnection !== hasConnection) {
+      this.updateStatus({
+        hasConnection,
       });
-      if (!this.hasConnection) {
+      if (!hasConnection) {
         this.stop();
       }
     }
@@ -144,12 +192,10 @@ class Writer extends EventEmitter {
   stopAnimation() {
     global.clearTimeout(this.renderTimeout);
     this.renderTimeout = null;
-    this.offset = 0;
-    this.setColumn(allBlack);
-    this.isRunning = false;
-    this.emit('status', {
-      isRunning: this.isRunning,
-      offset: this.offset,
+    this.setColumn(this.allBlack);
+    this.updateStatus({
+      isRunning: false,
+      offset: 0,
     });
   }
 
@@ -160,12 +206,12 @@ class Writer extends EventEmitter {
       return;
     }
 
-    const delay = Math.floor(1000 / this.fps);
+    const delay = Math.floor(1000 / this.status.fps);
 
     // eslint-disable-next-line no-console
-    console.info(`offset:${chalk.cyanBright(this.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.fps)}  delay:${chalk.red(delay)}`);
+    console.info(`offset:${chalk.cyanBright(this.status.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.status.fps)}  delay:${chalk.red(delay)}`);
 
-    const column = this.pixels[this.offset];
+    const column = this.pixels[this.status.offset];
 
     if (!column || !column.length) {
       this.stopAnimation();
@@ -174,16 +220,14 @@ class Writer extends EventEmitter {
 
     this.setColumn(column);
 
-    this.offset = (this.offset + 1) % this.pixels.length;
+    const offset = (this.status.offset + 1) % this.pixels.length;
 
-    if (delay > 10 || this.offset % 2 === 0) {
-      this.emit('status', {
-        offset: this.offset,
-      });
-    }
+    this.updateStatus({
+      offset,
+    }, (delay <= 10 && offset % 2 !== 0));
 
     this.renderTimeout = global.setTimeout(() => {
-      if (this.offset !== 0 || this.loop) {
+      if (this.status.offset !== 0 || this.status.loop) {
         this.startAnimation();
       } else {
         this.stopAnimation();
@@ -192,9 +236,4 @@ class Writer extends EventEmitter {
   }
 }
 
-let writer;
-const getWriter = () => (
-  writer || new Writer()
-);
-
-module.exports = getWriter();
+module.exports = Writer;

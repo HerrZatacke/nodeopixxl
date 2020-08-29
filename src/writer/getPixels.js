@@ -1,12 +1,11 @@
 const ndarray = require('ndarray');
 const rgb2int = require('./rgb2int');
 
-const getPixels = (imageData, brightness = 1) => {
+const getPixels = (imageData, height, brightness = 1) => {
 
   const pixels = [];
 
-  const height = CONFIG.NUM_LEDS;
-  const width = imageData.length / (height * 3); // NUM_LEDS * 3
+  const width = imageData.length / (height * 3);
 
   const pixelData = ndarray(imageData, [height, width, 3]);
 
