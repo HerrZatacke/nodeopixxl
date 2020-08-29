@@ -24,6 +24,12 @@ module.exports = merge(common, {
     port: 3000,
     watchContentBase: true,
     before: setupServer(true),
+    proxy: {
+      '/writer/*': {
+        target: 'ws://localhost:3001',
+        ws: true,
+      },
+    },
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

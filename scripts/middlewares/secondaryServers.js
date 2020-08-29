@@ -6,8 +6,9 @@ const getOs = require('../tools/getOs');
 
 class SecondaryServers {
   constructor({ devMode }) {
+    this.devMode = devMode;
     this.fcExecutable = path.join(process.cwd(), 'fcserver', getFCServerExecutable);
-    this.wsNpmScript = devMode ? 'wsserver:dev' : 'wsserver:prod';
+    this.wsNpmScript = this.devMode ? 'wsserver:dev' : 'wsserver:prod';
 
     this.npmCommand = getOs() === 'pi' ? 'npm' : 'npm.cmd';
 
@@ -30,6 +31,10 @@ class SecondaryServers {
   }
 
   startWSServer() {
+    if (!this.devMode) {
+      return null;
+    }
+
     // eslint-disable-next-line no-console
     console.info(`starting wsserver (${this.wsNpmScript})`);
     const wsproc = spawn(this.npmCommand, ['run', this.wsNpmScript], this.spawnOpts);
@@ -44,13 +49,13 @@ class SecondaryServers {
       this.fcProcess = this.startFCServer();
     }
 
-    if (this.wsProcess.exitCode !== null) {
+    if (this.devMode && this.wsProcess && this.wsProcess.exitCode !== null) {
       this.wsProcess = this.startWSServer();
     }
 
     res.json({
       fcProcess: this.fcProcess.exitCode === null,
-      wsProcess: this.wsProcess.exitCode === null,
+      wsProcess: !!(this.wsProcess && this.wsProcess.exitCode === null),
     });
   }
 

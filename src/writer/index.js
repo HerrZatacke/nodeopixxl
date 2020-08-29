@@ -52,3 +52,5 @@ writer.on('status', (status) => {
 });
 
 writer.init();
+
+module.exports = wss;

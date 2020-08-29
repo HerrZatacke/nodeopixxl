@@ -2,7 +2,7 @@
 import arrayToImageData from '../../tools/arrayToImageData';
 
 const handleSocketUpdates = (dispatch) => {
-  const socket = new WebSocket(`ws://${window.location.hostname}:3001/`);
+  const socket = new WebSocket(`ws://${window.location.host}/writer`);
 
   socket.addEventListener('close', () => {
     // https://github.com/pladaria/reconnecting-websocket/issues/60
