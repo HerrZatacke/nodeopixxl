@@ -6,7 +6,17 @@ const mapStateToProps = (state) => ({
   animationRunning: state.animationRunning,
 });
 
-const mapDispatchToProps = (/* dispatch */) => ({
+const mapDispatchToProps = (dispatch) => ({
+  start: () => {
+    dispatch({
+      type: 'SEND_START',
+    });
+  },
+  stop: () => {
+    dispatch({
+      type: 'SEND_STOP',
+    });
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);

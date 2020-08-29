@@ -58,6 +58,13 @@ class Image extends Component {
             ref={(elt) => this.setContext(elt)}
           />
         </div>
+        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+        <button
+          className="image-component__button"
+          title={this.props.animationRunning ? 'Stop' : 'Start'}
+          type="button"
+          onClick={this.props.animationRunning ? this.props.stop : this.props.start}
+        />
       </div>
     );
   }
@@ -67,6 +74,8 @@ Image.propTypes = {
   image: PropTypes.instanceOf(ImageData).isRequired,
   offset: PropTypes.number.isRequired,
   animationRunning: PropTypes.bool.isRequired,
+  start: PropTypes.func.isRequired,
+  stop: PropTypes.func.isRequired,
 };
 
 export default Image;
