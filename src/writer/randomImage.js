@@ -1,8 +1,28 @@
 const randomImage = (width, height) => {
   const bigScale = (Math.floor(Math.random() * 3) + 1) * (width / 4);
-  const scaleR = Math.floor(Math.random() * 3) + bigScale;
-  const scaleG = Math.floor(Math.random() * 3) + bigScale;
-  const scaleB = Math.floor(Math.random() * 3) + bigScale;
+
+  const scales = [
+    0.5 + bigScale,
+    -0.5 + bigScale,
+    1 + bigScale,
+    -1 + bigScale,
+    1.5 + bigScale,
+    -1.5 + bigScale,
+    2 + bigScale,
+    -2 + bigScale,
+    2.5 + bigScale,
+    -2.5 + bigScale,
+    0.1 + bigScale,
+    -0.1 + bigScale,
+  ];
+
+  scales.sort(() => (
+    Math.random() > 0.5 ? -1 : 1
+  ));
+
+  const scaleR = scales.pop();
+  const scaleG = scales.pop();
+  const scaleB = scales.pop();
 
   return (
     new Uint32Array(height * width * 3)

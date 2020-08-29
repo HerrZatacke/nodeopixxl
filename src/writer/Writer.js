@@ -48,7 +48,7 @@ class Writer {
     this.setColumn(this.allBlack);
     this.bindSocketEvents();
     this.sendStatus(this.status);
-    this.setImageFile(randomImage(this.numLeds, this.numLeds));
+    this.setImageFile(randomImage(500, this.numLeds));
   }
 
   bindSocketEvents() {
@@ -71,7 +71,7 @@ class Writer {
               this.stop();
               break;
             case 'setrandom':
-              this.setImageFile(randomImage(this.numLeds, this.numLeds));
+              this.setImageFile(randomImage(500, this.numLeds));
               break;
             case 'loop':
               this.setLoop(payload);
