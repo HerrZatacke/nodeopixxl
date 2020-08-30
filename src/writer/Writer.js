@@ -26,7 +26,7 @@ class Writer {
     this.allBlack = new Uint32Array(this.numLeds);
 
     this.status = {
-      fps: 180,
+      fps: 200,
       offset: 0,
       canAcceptNewImage: true,
       isRunning: false,
