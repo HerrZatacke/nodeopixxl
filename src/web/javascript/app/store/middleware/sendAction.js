@@ -3,8 +3,8 @@ const sendAction = (socket, actionName, actionValue) => {
     case 'start':
       socket.send(JSON.stringify({ start: true }));
       break;
-    case 'start_delayed':
-      socket.send(JSON.stringify({ start_delayed: 2000 }));
+    case 'startdelay':
+      socket.send(JSON.stringify({ startdelay: actionValue }));
       break;
     case 'stop':
       socket.send(JSON.stringify({ stop: true }));

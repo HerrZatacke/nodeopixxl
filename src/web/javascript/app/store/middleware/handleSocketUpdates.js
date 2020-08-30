@@ -25,10 +25,17 @@ const handleSocketUpdates = (dispatch) => {
   socket.addEventListener('message', (event) => {
     const message = JSON.parse(event.data);
 
-    if (message.fps) {
+    if (message.fps !== undefined) {
       dispatch({
         type: 'SET_FPS',
         payload: message.fps,
+      });
+    }
+
+    if (message.startDelay !== undefined) {
+      dispatch({
+        type: 'SET_START_DELAY',
+        payload: message.startDelay,
       });
     }
 

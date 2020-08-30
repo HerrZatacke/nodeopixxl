@@ -4,40 +4,49 @@ const mapStateToProps = (state) => ({
   serverBusy: state.serverBusy,
   animationRunning: state.animationRunning,
   isLooping: state.isLooping,
+  fps: state.fps,
+  startDelay: state.startDelay,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  start: () => {
+  sendStart: () => {
     dispatch({
       type: 'SEND_START',
     });
   },
-  startDelayed: () => {
-    dispatch({
-      type: 'SEND_START_DELAYED',
-    });
-  },
-  stop: () => {
+  sendStop: () => {
     dispatch({
       type: 'SEND_STOP',
     });
   },
-  loop: (value) => {
+  sendStartDelay: (value) => {
+    dispatch({
+      type: 'SEND_START_DELAY',
+      payload: value,
+    });
+  },
+  sendLoop: (value) => {
     dispatch({
       type: 'SEND_LOOP',
       payload: value,
     });
   },
-  setRandom: () => {
+  sendRandom: () => {
     dispatch({
       type: 'SEND_SETRANDOM',
     });
   },
-  setText: () => {
+  sendText: () => {
     dispatch({
       type: 'SEND_TEXT',
       // eslint-disable-next-line no-alert
       payload: window.prompt('Text?'),
+    });
+  },
+  sendFps: (fps) => {
+    dispatch({
+      type: 'SEND_FPS',
+      payload: fps,
     });
   },
 });

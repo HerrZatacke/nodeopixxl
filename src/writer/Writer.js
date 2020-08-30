@@ -31,6 +31,7 @@ class Writer {
       isRunning: false,
       loop: false,
       hasConnection: false,
+      startDelay: 1000,
     };
   }
 
@@ -64,8 +65,7 @@ class Writer {
               this.setImageFile(Uint8Array.from(payload));
               break;
             case 'start':
-            case 'start_delayed':
-              this.start(payload || 0);
+              this.start();
               break;
             case 'stop':
               this.stop();
@@ -75,6 +75,9 @@ class Writer {
               break;
             case 'loop':
               this.setLoop(payload);
+              break;
+            case 'startdelay':
+              this.setStartDelay(payload);
               break;
             case 'fps':
               this.setFPS(payload);
@@ -145,7 +148,7 @@ class Writer {
     this.client.writePixels();
   }
 
-  start(timeout = 0) {
+  start() {
     if (this.status.isRunning || !this.status.hasConnection) {
       return;
     }
@@ -153,13 +156,13 @@ class Writer {
     this.updateStatus({
       isRunning: true,
     });
-    if (timeout) {
+    if (this.status.startDelay) {
       this.setColumn(this.allBlack);
     }
 
     this.renderTimeout = global.setTimeout(() => {
       this.startAnimation();
-    }, timeout);
+    }, this.status.startDelay);
   }
 
   stop() {
@@ -169,6 +172,12 @@ class Writer {
   setLoop(value) {
     this.updateStatus({
       loop: !!value,
+    });
+  }
+
+  setStartDelay(value) {
+    this.updateStatus({
+      startDelay: parseInt(value, 10) || 0,
     });
   }
 
@@ -209,7 +218,7 @@ class Writer {
     const delay = Math.floor(1000 / this.status.fps);
 
     // eslint-disable-next-line no-console
-    console.info(`offset:${chalk.cyanBright(this.status.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.status.fps)}  delay:${chalk.red(delay)}`);
+    console.info(`offset:${chalk.cyanBright(this.status.offset)}  width:${chalk.yellowBright(this.pixels.length)}  fps:${chalk.green(this.status.fps)}  delay:${chalk.red(delay)}ms`);
 
     const column = this.pixels[this.status.offset];
 
@@ -221,18 +230,26 @@ class Writer {
     this.setColumn(column);
 
     const offset = (this.status.offset + 1) % this.pixels.length;
-
     this.updateStatus({
       offset,
     }, (delay <= 10 && offset % 2 !== 0));
 
+
+    const atLastCol = this.status.offset === 0;
+    const additionalLoopDelay = (atLastCol && this.status.loop) ? this.status.startDelay : 0;
+
+    if (additionalLoopDelay) {
+      // eslint-disable-next-line no-console
+      console.info(`delaying for an extra ${chalk.red(additionalLoopDelay)}ms`);
+    }
+
     this.renderTimeout = global.setTimeout(() => {
-      if (this.status.offset !== 0 || this.status.loop) {
+      if (!atLastCol || this.status.loop) {
         this.startAnimation();
       } else {
         this.stopAnimation();
       }
-    }, delay);
+    }, delay + additionalLoopDelay);
   }
 }
 
