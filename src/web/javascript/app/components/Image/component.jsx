@@ -39,32 +39,34 @@ class Image extends Component {
   render() {
     return (
       <div className="image-component">
-        <div
-          className="image-component__wrapper"
-          style={{
-            left: `${this.leftPos()}px`,
-          }}
-        >
+        <div className="image-component__outer-wrapper">
           <div
-            className={`image-component__indicator ${this.props.animationRunning ? '' : 'image-component__indicator--hidden'}`}
+            className="image-component__wrapper"
             style={{
-              left: `${this.props.offset - 1}px`,
+              left: `${this.leftPos()}px`,
             }}
-          />
-          <canvas
-            className="image-component__canvas"
-            width={this.props.image.width / this.props.image.height * CONFIG.NUM_LEDS}
-            height={CONFIG.NUM_LEDS}
-            ref={(elt) => this.setContext(elt)}
+          >
+            <div
+              className={`image-component__indicator ${this.props.animationRunning ? '' : 'image-component__indicator--hidden'}`}
+              style={{
+                left: `${this.props.offset - 1}px`,
+              }}
+            />
+            <canvas
+              className="image-component__canvas"
+              width={this.props.image.width / this.props.image.height * CONFIG.NUM_LEDS}
+              height={CONFIG.NUM_LEDS}
+              ref={(elt) => this.setContext(elt)}
+            />
+          </div>
+          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+          <button
+            className="image-component__button"
+            title={this.props.animationRunning ? 'Stop' : 'Start'}
+            type="button"
+            onClick={this.props.animationRunning ? this.props.stop : this.props.start}
           />
         </div>
-        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-        <button
-          className="image-component__button"
-          title={this.props.animationRunning ? 'Stop' : 'Start'}
-          type="button"
-          onClick={this.props.animationRunning ? this.props.stop : this.props.start}
-        />
       </div>
     );
   }

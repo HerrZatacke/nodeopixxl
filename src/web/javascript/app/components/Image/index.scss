@@ -1,31 +1,61 @@
 $arrow-base: 3px;
+$height: #{$num-leds * 1px};
+//$height: calc(#{$num-leds * 1px} + #{$arrow-base * 2});
 
 .image-component {
-  margin: 0 auto 8px auto;
-  max-width: $content-max-width;
-  overflow: hidden;
+  margin: 0 0 8px 0;
+  overflow-x: hidden;
+  overflow-y: visible;
   position: relative;
-  height: calc(#{$num-leds * 1px} + #{$arrow-base * 2});
+  height: $height;
+
+  &__outer-wrapper {
+    max-width: $content-max-width;
+    position: relative;
+    margin: 0 auto;
+    height: $height;
+    width: 100%;
+    background-color: $color-county-green;
+
+    &:before,
+    &:after {
+      content: '';
+      height: $height;
+      width: 100vw;
+      background-color: rgba($color-kaitoke-green, 0.85);
+      position: absolute;
+      z-index: 1;
+    }
+
+    &:before {
+      right: $content-max-width;
+    }
+
+    &:after {
+      left: $content-max-width;
+    }
+  }
 
   &:before {
     content: '';
     position: absolute;
-    top: $arrow-base;
+    //top: $arrow-base;
+    top: 0;
     left: 0;
     width: 100%;
     height: $num-leds * 1px;
-    background-color: rgba($color-black, 0.5);
   }
 
   &__wrapper {
-    height: calc(#{$num-leds * 1px} + #{$arrow-base * 2});
+    height: $height;
     position: absolute;
     left: 0;
   }
 
   &__canvas {
     display: block;
-    margin-top: $arrow-base;
+    margin-top: 0;
+    //margin-top: $arrow-base;
     background: rgba($color-key-lime-pie, 0.2);
     image-rendering: pixelated;
   }
@@ -35,8 +65,9 @@ $arrow-base: 3px;
     top: 0;
     left: 0;
     height: inherit;
-    width: 1px;
-    background-color: rgba($color-key-lime-pie, 0.3);
+    width: 0;
+    border-left: 1px solid rgba($color-black, 0.3);
+    border-right: 1px solid rgba($color-white, 0.3);
 
     &:before,
     &:after {
@@ -47,16 +78,20 @@ $arrow-base: 3px;
       display: block;
       position: absolute;
       left: -$arrow-base;
+      transform-origin: center center;
+      transform: rotate(45deg);
+      border-right-color: $color-black;
+      border-bottom-color: $color-white;
+      border-left-color: $color-white;
+      border-top-color: $color-black;
     }
 
     &:before {
-      border-top-color: $color-key-lime-pie;
-      top: 0;
+      top: -$arrow-base;
     }
 
     &:after {
-      border-bottom-color: $color-key-lime-pie;
-      bottom: 0;
+      bottom: -$arrow-base;
     }
 
     &--hidden {
