@@ -15,10 +15,14 @@ const sendImageFromFileInput = (socket, dispatch, inputElement) => {
   reader.onload = (ev) => {
     if (ev.target.readyState === FileReader.DONE) {
       img.onload = () => {
-        canvas.width = img.naturalWidth / img.naturalHeight * CONFIG.NUM_LEDS;
+
+        const targetHeight = Math.min(CONFIG.NUM_LEDS, img.naturalHeight);
+        canvas.width = Math.min(img.naturalWidth, img.naturalWidth / img.naturalHeight * CONFIG.NUM_LEDS);
         canvas.height = CONFIG.NUM_LEDS;
 
-        canvasContext.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const yOffset = Math.floor((CONFIG.NUM_LEDS - targetHeight) / 2);
+
+        canvasContext.drawImage(img, 0, yOffset, canvas.width, targetHeight);
 
         const pixels = getScaledImageData(canvas);
 
