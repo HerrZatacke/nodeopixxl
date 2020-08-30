@@ -37,6 +37,7 @@ const Controls = (props) => (
       step={100}
       value={props.startDelay}
       update={props.sendStartDelay}
+      disabled={props.serverBusy || props.animationRunning}
     />
     <button
       type="button"

@@ -11,6 +11,7 @@ $barSize: 40px;
     display: block;
     -webkit-appearance: none;
     background: $color-key-lime-pie;
+    color: $color-kaitoke-green;
     height: $barSize;
     cursor: pointer;
     border-radius: 5px;
@@ -24,7 +25,7 @@ $barSize: 40px;
       line-height: $barSize;
       padding: 0 10px;
       display: block;
-      color: $color-kaitoke-green;
+      color: currentColor;
     }
 
     &:before {
@@ -47,6 +48,16 @@ $barSize: 40px;
 
     &:focus {
       outline: none;
+    }
+
+    &[disabled] {
+      background-color: $color-chelsea-cucumber;
+      color: $color-dingley;
+
+      &::-webkit-slider-thumb {
+        background-color: $color-dingley;
+        border-color: $color-chelsea-cucumber;
+      }
     }
   }
 }

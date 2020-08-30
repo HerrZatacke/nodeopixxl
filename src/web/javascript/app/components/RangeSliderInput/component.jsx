@@ -37,7 +37,7 @@ class RangeSliderInput extends Component {
         <input
           title={this.props.title}
           className="range-slider-input__input"
-          disabled={this.props.serverBusy}
+          disabled={this.props.disabled}
           type="range"
           value={this.state.value}
           min={this.props.min}
@@ -56,7 +56,7 @@ RangeSliderInput.propTypes = {
   step: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  serverBusy: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
   update: PropTypes.func.isRequired,
 };
 

@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 
-const mapStateToProps = (state) => ({
-  serverBusy: state.serverBusy,
-});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = () => ({});
 
