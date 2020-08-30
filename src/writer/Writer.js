@@ -32,7 +32,7 @@ class Writer {
       isRunning: false,
       loop: false,
       hasConnection: false,
-      startDelay: 1000,
+      startDelay: 0,
     };
   }
 
