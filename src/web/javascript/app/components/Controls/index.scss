@@ -12,7 +12,6 @@
 
   &__checkbox {
     @include button(false);
-    flex: 0 0 90px;
     height: 40px;
     padding: 0;
     white-space: nowrap;
@@ -49,5 +48,9 @@
       }
 
     }
+  }
+
+  &__short {
+    flex: 0 0 90px;
   }
 }

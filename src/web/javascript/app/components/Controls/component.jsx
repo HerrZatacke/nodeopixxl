@@ -42,7 +42,7 @@ const Controls = (props) => (
     <button
       type="button"
       disabled={props.serverBusy || props.animationRunning}
-      className="controls__button controls__button-start"
+      className="controls__button controls__button-start controls__short"
       onClick={() => props.sendStart()}
     >
       Start
@@ -55,7 +55,7 @@ const Controls = (props) => (
       step={1}
       update={props.sendFps}
     />
-    <label htmlFor="check-loop" className="controls__checkbox">
+    <label htmlFor="check-loop" className="controls__checkbox controls__short">
       <input
         type="checkbox"
         id="check-loop"
