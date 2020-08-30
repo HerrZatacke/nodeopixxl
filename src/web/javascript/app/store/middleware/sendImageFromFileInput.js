@@ -1,5 +1,3 @@
-import getScaledImageData from '../../tools/getScaledImageData';
-
 const reader = new FileReader();
 const img = new Image();
 const canvas = document.createElement('canvas');
@@ -24,14 +22,11 @@ const sendImageFromFileInput = (socket, dispatch, inputElement) => {
 
         canvasContext.drawImage(img, 0, yOffset, canvas.width, targetHeight);
 
-        const pixels = getScaledImageData(canvas);
-
-        // eslint-disable-next-line no-param-reassign
-        inputElement.value = '';
-        socket.send(JSON.stringify({
-          setImage: pixels,
-        }));
-
+        canvas.toBlob((blob) => {
+          // eslint-disable-next-line no-param-reassign
+          inputElement.value = '';
+          socket.send(blob);
+        }, 'image/png', 100);
       };
 
       img.src = ev.target.result;

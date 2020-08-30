@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const OPC = require('./opc');
+const pixelsFromPngBuffer = require('./pixelsFromPngBuffer');
 const randomImage = require('./randomImage');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
@@ -55,37 +56,39 @@ class Writer {
   bindSocketEvents() {
     this.socket.on('connection', (ws) => {
 
-      ws.on('message', (messageString) => {
-        const message = JSON.parse(messageString);
+      ws.on('message', (received) => {
 
-        Object.keys(message).forEach((action) => {
-          const payload = message[action];
-          switch (action) {
-            case 'setImage':
-              this.setImageFile(Uint8Array.from(payload));
-              break;
-            case 'start':
-              this.start();
-              break;
-            case 'stop':
-              this.stop();
-              break;
-            case 'setrandom':
-              this.setImageFile(randomImage(500, this.numLeds));
-              break;
-            case 'loop':
-              this.setLoop(payload);
-              break;
-            case 'startdelay':
-              this.setStartDelay(payload);
-              break;
-            case 'fps':
-              this.setFPS(payload);
-              break;
-            default:
-              break;
-          }
-        });
+        if (received instanceof Buffer) {
+          this.setImageFile(pixelsFromPngBuffer(received));
+        } else {
+          const message = JSON.parse(received);
+
+          Object.keys(message).forEach((action) => {
+            const payload = message[action];
+            switch (action) {
+              case 'start':
+                this.start();
+                break;
+              case 'stop':
+                this.stop();
+                break;
+              case 'setrandom':
+                this.setImageFile(randomImage(500, this.numLeds));
+                break;
+              case 'loop':
+                this.setLoop(payload);
+                break;
+              case 'startdelay':
+                this.setStartDelay(payload);
+                break;
+              case 'fps':
+                this.setFPS(payload);
+                break;
+              default:
+                break;
+            }
+          });
+        }
       });
 
       ws.send(JSON.stringify(this.status));

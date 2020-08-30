@@ -1,4 +1,3 @@
-import getScaledImageData from '../../tools/getScaledImageData';
 import measureText from '../../tools/measureText';
 
 const canvas = document.createElement('canvas');
@@ -49,12 +48,9 @@ const sendText = (socket, dispatch, text) => {
 
   canvasContext.fillText(usedText, Math.ceil(fontSpace / 2), CONFIG.NUM_LEDS - fontSpace);
 
-  const pixels = getScaledImageData(canvas);
-
-  socket.send(JSON.stringify({
-    setImage: pixels,
-  }));
-
+  canvas.toBlob((blob) => {
+    socket.send(blob);
+  }, 'image/png', 100);
 };
 
 export default sendText;
