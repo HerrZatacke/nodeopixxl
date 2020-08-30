@@ -56,11 +56,12 @@ RangeSliderInput.propTypes = {
   step: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   update: PropTypes.func.isRequired,
 };
 
 RangeSliderInput.defaultProps = {
+  disabled: false,
 };
 
 export default RangeSliderInput;
