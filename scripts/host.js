@@ -14,7 +14,7 @@ app.use(express.static(path.join(process.cwd(), 'dist')));
 
 const server = app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.info(chalk.green(`Example app listening at http://localhost:${port}`));
+  console.info(chalk.green(`listening at http://localhost:${port}`));
 });
 
 
