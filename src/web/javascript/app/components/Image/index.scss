@@ -4,8 +4,7 @@ $height: #{$num-leds * 1px};
 
 .image-component {
   margin: 0 0 8px 0;
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: hidden;
   position: relative;
   height: $height;
 
