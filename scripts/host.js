@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const url = require('url');
 const setupServer = require('./setupServer');
 const writerSocket = require('../src/writer');
+const listIPs = require('./tools/listIPs');
 
 const port = 3000;
 const app = express();
@@ -17,7 +18,6 @@ const server = app.listen(port, () => {
   console.info(chalk.green(`listening at http://localhost:${port}`));
 });
 
-
 server.on('upgrade', (request, socket, head) => {
   const pathname = url.parse(request.url).pathname;
 
@@ -29,3 +29,5 @@ server.on('upgrade', (request, socket, head) => {
     socket.destroy();
   }
 });
+
+listIPs();
