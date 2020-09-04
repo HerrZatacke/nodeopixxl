@@ -4,7 +4,7 @@ const pixelsFromPngBuffer = require('./pixelsFromPngBuffer');
 const randomImage = require('./randomImage');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
-
+const getImage = require('./getImage');
 
 class Writer {
 
@@ -50,7 +50,11 @@ class Writer {
     this.setColumn(this.allBlack);
     this.bindSocketEvents();
     this.sendStatus(this.status);
-    this.setImageFile(randomImage(500, this.numLeds));
+    this.setImageFile(getImage());
+
+    global.setTimeout(() => {
+      this.start();
+    }, 2500);
   }
 
   bindSocketEvents() {
