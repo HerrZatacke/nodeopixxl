@@ -25,11 +25,12 @@ class OPC {
       if (this.connected) {
         this.statusCallback(false);
       }
+
       this.socket = null;
       this.connected = false;
 
       if (!this.connectRetryTimeout) {
-        this.connectRetryTimeout = setTimeout(() => {
+        this.connectRetryTimeout = global.setTimeout(() => {
           this.connectRetryTimeout = null;
           this.connect();
         }, 5000);
@@ -40,6 +41,7 @@ class OPC {
       if (this.connected) {
         this.statusCallback(false);
       }
+
       this.socket = null;
       this.connected = false;
     });
