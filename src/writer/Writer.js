@@ -5,6 +5,7 @@ const randomImage = require('./randomImage');
 const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
 const getImage = require('./getImage');
+const getOs = require('../../scripts/tools/getOs');
 
 class Writer {
 
@@ -55,6 +56,37 @@ class Writer {
     global.setTimeout(() => {
       this.start();
     }, 2500);
+
+
+    if (getOs() === 'pi') {
+      this.initGPIO();
+    }
+  }
+
+  initGPIO() {
+    // eslint-disable-next-line global-require,import/no-unresolved
+    const rpio = require('rpio');
+
+    // pin 13 (GPIO-27) is opposite to a ground pin.
+
+    const now = () => (
+      (new Date()).getTime()
+    );
+
+    const pin = 13;
+    let lastPinUpdate = now();
+
+    rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
+
+    rpio.poll(pin, () => {
+      if (lastPinUpdate + 50 < now()) {
+        return;
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(`pin ${pin} is ${rpio.read(pin) ? 'high' : 'low'}`);
+      lastPinUpdate = now();
+    }, rpio.POLL_BOTH);
   }
 
   bindSocketEvents() {
