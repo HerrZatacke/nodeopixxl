@@ -1,5 +1,4 @@
 const chalk = require('chalk');
-const debounce = require('debounce');
 const OPC = require('./opc');
 const pixelsFromPngBuffer = require('./pixelsFromPngBuffer');
 const randomImage = require('./randomImage');
@@ -7,6 +6,10 @@ const int2rgb = require('./int2rgb');
 const getPixels = require('./getPixels');
 const getImage = require('./getImage');
 const getOs = require('../../scripts/tools/getOs');
+
+const now = () => (
+  (new Date()).getTime()
+);
 
 class Writer {
 
@@ -58,11 +61,11 @@ class Writer {
       this.start();
     }, 2500);
 
-
     if (getOs() === 'pi') {
       this.initGPIO();
     }
   }
+
 
   initGPIO() {
     // eslint-disable-next-line global-require,import/no-unresolved
@@ -70,26 +73,31 @@ class Writer {
 
     // pin 13 (GPIO-27) is opposite to a ground pin.
     const pin = 13;
-    let pinState = false;
+    let lastPinUpdate = now();
 
     rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
 
-    const onPinUpdate = debounce(() => {
-      if (!!rpio.read(pin) === pinState) {
+    const onPinUpdate = () => {
+      const pinState = rpio.read(pin);
+
+      // !0 means pin has been released -> no action;
+      if (pinState !== 0) {
         return;
       }
 
-      pinState = !pinState;
-
-      if (pinState) {
-        if (this.status.isRunning) {
-          this.stopAnimation();
-        } else {
-          this.startAnimation();
-        }
+      if (lastPinUpdate + 50 > now()) {
+        return;
       }
 
-    }, 150, false);
+      lastPinUpdate = now();
+
+      if (this.status.isRunning) {
+        this.stopAnimation();
+      } else {
+        this.startAnimation();
+      }
+    };
+
 
     rpio.poll(pin, onPinUpdate, rpio.POLL_BOTH);
   }
