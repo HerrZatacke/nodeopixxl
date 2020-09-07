@@ -81,8 +81,13 @@ class Writer {
 
       pinState = !pinState;
 
-      // eslint-disable-next-line no-console
-      console.log(`pin ${pin} is ${rpio.read(pin) ? 'high' : 'low'}`);
+      if (pinState) {
+        if (this.status.isRunning) {
+          this.stopAnimation();
+        } else {
+          this.startAnimation();
+        }
+      }
 
     }, 150, false);
 
