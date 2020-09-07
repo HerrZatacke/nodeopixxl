@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const debounce = require('debounce');
 const OPC = require('./opc');
 const pixelsFromPngBuffer = require('./pixelsFromPngBuffer');
 const randomImage = require('./randomImage');
@@ -68,26 +69,26 @@ class Writer {
     const rpio = require('rpio');
 
     // pin 13 (GPIO-27) is opposite to a ground pin.
-
-    const now = () => (
-      (new Date()).getTime()
-    );
-
     const pin = 13;
-    let lastPinUpdate = now();
+    let pinState = false;
 
     rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
 
-    rpio.poll(pin, () => {
-      if (lastPinUpdate + 50 < now()) {
+    const onPinUpdate = debounce(() => {
+      if (!!rpio.read(pin) === pinState) {
         return;
       }
 
+      pinState = !pinState;
+
       // eslint-disable-next-line no-console
       console.log(`pin ${pin} is ${rpio.read(pin) ? 'high' : 'low'}`);
-      lastPinUpdate = now();
-    }, rpio.POLL_BOTH);
+
+    }, 150, false);
+
+    rpio.poll(pin, onPinUpdate, rpio.POLL_BOTH);
   }
+
 
   bindSocketEvents() {
     this.socket.on('connection', (ws) => {
