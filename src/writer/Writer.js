@@ -7,7 +7,7 @@ const getPixels = require('./getPixels');
 const getImage = require('./getImage');
 const getOs = require('../../scripts/tools/getOs');
 
-const now = () => (
+const getNow = () => (
   (new Date()).getTime()
 );
 
@@ -73,32 +73,36 @@ class Writer {
 
     // pin 13 (GPIO-27) is opposite to a ground pin.
     const pin = 13;
-    let lastPinUpdate = now();
-
-    rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
+    let lastPinUpdate = 0;
 
     const onPinUpdate = () => {
+
+      // pinState 1 = released (gets fired just once)
+      // pinState 0 = pushed (gets fired a lot)
       const pinState = rpio.read(pin);
 
-      // !0 means pin has been released -> no action;
-      if (pinState !== 0) {
+      if (pinState === 1) {
         return;
       }
 
-      if (lastPinUpdate + 50 > now()) {
+      const now = getNow();
+
+      if (lastPinUpdate + 50 > now) {
+        lastPinUpdate = now;
         return;
       }
 
-      lastPinUpdate = now();
+      lastPinUpdate = now;
 
       if (this.status.isRunning) {
-        this.stopAnimation();
+        this.stop();
       } else {
-        this.startAnimation();
+        this.start();
       }
     };
 
-
+    // Configure and poll pin
+    rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
     rpio.poll(pin, onPinUpdate, rpio.POLL_BOTH);
   }
 
