@@ -30,6 +30,22 @@ const Controls = (props) => (
     >
       Stop
     </button>
+    <button
+      type="button"
+      disabled={props.serverBusy || props.animationRunning}
+      className="controls__button  controls__button-flip"
+      onClick={() => props.flipImage('v')}
+    >
+      ⇅ Vertical Flip
+    </button>
+    <button
+      type="button"
+      disabled={props.serverBusy || props.animationRunning}
+      className="controls__button  controls__button-flip"
+      onClick={() => props.flipImage('h')}
+    >
+      ⇄ Horizontal Flip
+    </button>
     <RangeSliderInput
       title={`${(props.startDelay / 1000).toFixed(1)}s start delay`}
       min={0}
@@ -82,6 +98,7 @@ Controls.propTypes = {
   sendLoop: PropTypes.func.isRequired,
   sendText: PropTypes.func.isRequired,
   sendFps: PropTypes.func.isRequired,
+  flipImage: PropTypes.func.isRequired,
   sendRandom: PropTypes.func.isRequired,
 };
 

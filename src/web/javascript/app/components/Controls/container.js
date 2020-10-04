@@ -49,6 +49,12 @@ const mapDispatchToProps = (dispatch) => ({
       payload: fps,
     });
   },
+  flipImage: (direction) => {
+    dispatch({
+      type: 'FLIP_IMAGE',
+      payload: direction,
+    });
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);
