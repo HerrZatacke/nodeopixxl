@@ -3,6 +3,7 @@ import sendImageFromFileInput from './middleware/sendImageFromFileInput';
 import sendText from './middleware/sendText';
 import flipImage from './middleware/flipImage';
 import sendAction from './middleware/sendAction';
+import sendColor from './middleware/sendColor';
 
 const middleware = (store) => {
 
@@ -19,6 +20,9 @@ const middleware = (store) => {
         break;
       case 'SEND_TEXT':
         sendText(socket, store.dispatch, action.payload);
+        break;
+      case 'SEND_COLOR':
+        sendColor(socket, store.dispatch, action.payload);
         break;
       case 'FLIP_IMAGE':
         flipImage(socket, store.dispatch, store.getState().image, action.payload);

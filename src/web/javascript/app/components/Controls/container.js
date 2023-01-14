@@ -43,6 +43,12 @@ const mapDispatchToProps = (dispatch) => ({
       payload: window.prompt('Text?'),
     });
   },
+  sendColor: (color) => {
+    dispatch({
+      type: 'SEND_COLOR',
+      payload: color,
+    });
+  },
   sendFps: (fps) => {
     dispatch({
       type: 'SEND_FPS',

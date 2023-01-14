@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
 import PropTypes from 'prop-types';
 import FileSelect from '../FileSelect';
@@ -5,6 +6,38 @@ import RangeSliderInput from '../RangeSliderInput';
 
 const Controls = (props) => (
   <div className="controls">
+    <button
+      type="button"
+      disabled={props.serverBusy || props.animationRunning}
+      className="controls__button controls__button--red"
+      onClick={() => props.sendColor('#f00')}
+    >
+      { '🔴 Red' }
+    </button>
+    <button
+      type="button"
+      disabled={props.serverBusy || props.animationRunning}
+      className="controls__button controls__button--green"
+      onClick={() => props.sendColor('#0f0')}
+    >
+      { '🟢 Green' }
+    </button>
+    <button
+      type="button"
+      disabled={props.serverBusy || props.animationRunning}
+      className="controls__button controls__button--blue"
+      onClick={() => props.sendColor('#00f')}
+    >
+      { '🔵 Blue' }
+    </button>
+    <button
+      type="button"
+      disabled={props.serverBusy || props.animationRunning}
+      className="controls__button controls__button--white"
+      onClick={() => props.sendColor('#fff')}
+    >
+      { '⚪ Weiss' }
+    </button>
     <FileSelect />
     <button
       type="button"
@@ -100,6 +133,7 @@ Controls.propTypes = {
   sendFps: PropTypes.func.isRequired,
   flipImage: PropTypes.func.isRequired,
   sendRandom: PropTypes.func.isRequired,
+  sendColor: PropTypes.func.isRequired,
 };
 
 Controls.defaultProps = {
