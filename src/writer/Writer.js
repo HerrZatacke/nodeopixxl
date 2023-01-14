@@ -69,7 +69,7 @@ class Writer {
 
   initGPIO() {
     // eslint-disable-next-line global-require,import/no-unresolved
-    const rpio = require('rpio');
+    const rpio = require('rpio'); // ToDo: Replace maybe with https://www.npmjs.com/package/onoff
 
     // pin 13 (GPIO-27) is opposite to a ground pin.
     const pin = 13;
